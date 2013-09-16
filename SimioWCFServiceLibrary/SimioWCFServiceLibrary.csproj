@@ -37,57 +37,57 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EncryptionClassLibrary">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\EncryptionClassLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\EncryptionClassLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\LumenWorks.Framework.IO.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\LumenWorks.Framework.IO.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NDepend.Helpers.FileDirectoryPath">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\NDepend.Helpers.FileDirectoryPath.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\NDepend.Helpers.FileDirectoryPath.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ParallelExtensionsExtras">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\ParallelExtensionsExtras.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\ParallelExtensionsExtras.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceModelEx">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\ServiceModelEx.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\ServiceModelEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimioAPI, Version=5.81.9562.21177, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\SimioAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\SimioAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimioAPI.Extensions, Version=5.81.9562.21177, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\SimioAPI.Extensions.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\SimioAPI.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimioDLL, Version=5.81.9562.21177, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio\SimioDLL.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\SimioDLL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimioEnums, Version=5.81.9562.21177, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\SimioEnums.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\SimioEnums.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimioReplicationRunnerContracts">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\SimioReplicationRunnerContracts.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\SimioReplicationRunnerContracts.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimioTypes">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Simio Replication Runner\SimioTypes.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\Senior Design\SimioDLLs\SimioTypes.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -106,10 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Models\ED-v1.spfx">
+    <None Include="ED-v1.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Models\ED-v2.spfx">
+    <None Include="ED-v2.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
