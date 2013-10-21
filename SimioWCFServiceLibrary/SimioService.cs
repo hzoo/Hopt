@@ -98,9 +98,7 @@ namespace WCFSimioNamespace
 
             IModel model = project.Models["Model"];
 
-
             IExperiment experiment = model.Experiments["Experiment1"];
-
 
             // Add event handler for ScenarioEnded
             experiment.ScenarioEnded += new EventHandler<ScenarioEndedEventArgs>(experiment_ScenarioEnded);
@@ -126,7 +124,6 @@ namespace WCFSimioNamespace
                 int i = 0;
                 do
                 {
-
                     i++;
                 }
                 while (!(_completed));
