@@ -8,6 +8,7 @@ using System.Diagnostics;
 using SimioAPI;
 using System.Web;
 
+// I can commit stuff and its awesome
 namespace WCFSimioNamespace
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
