@@ -105,11 +105,13 @@
     <Compile Include="SimioService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="ED-v1.spfx">
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ED-v5-opt2.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ED-v2.spfx">
+    <None Include="ED-v7.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

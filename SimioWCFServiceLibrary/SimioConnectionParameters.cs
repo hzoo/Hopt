@@ -10,7 +10,10 @@ namespace WCFSimioNamespace
     public class SimioConnectionParametersClass
     {
         string _results = "";
-        string _modelpathandname = ""; //"SimioWCFServiceLibrary3\\SimioWCFServiceLibrary\\ED-v1.spfx";
+        string _start = "";
+        string _end = "";
+
+        //string _modelpathandname = ""; //"SimioWCFServiceLibrary3\\SimioWCFServiceLibrary\\ED-v1.spfx";
 
         [DataMember]
         public string Results
@@ -19,11 +22,22 @@ namespace WCFSimioNamespace
             set { _results = value; }
         }
         [DataMember]
-        public string ModelPathAndName
+        public string Start
         {
-            get { return _modelpathandname; }
-            set { _modelpathandname = value; }
+            get { return _start; }
+            set { _start = value; }
         }
-
+        [DataMember]
+        public string The_End
+        {
+            get { return _end; }
+            set { _end = value; }
+        }
+        //[DataMember]
+        //public string ModelPathAndName
+        //{
+        //    get { return _modelpathandname; }
+        //    set { _modelpathandname = value; }
+        //}
     }
 }
