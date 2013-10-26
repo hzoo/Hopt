@@ -27,7 +27,6 @@ namespace SignalRSelfHost
     {
         public void Configuration(IAppBuilder app)
         {
-            Simio s = new Simio();
             app.Map("/signalr", map =>
             {
                 // Setup the cors middleware to run before SignalR.
@@ -53,6 +52,8 @@ namespace SignalRSelfHost
     }
     public class ChatHub : Hub
     {
+        Simio s = new Simio();
+
         public void Send(string name, string message)
         {
             Clients.All.addMessage(name, message);
@@ -67,7 +68,7 @@ namespace SignalRSelfHost
         {
             System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());
             Responses r = s.StartExperiment(c);
-            //Clients.All.getResponses(r);
+            Clients.All.getResponses(r);
         }
     }
 }
