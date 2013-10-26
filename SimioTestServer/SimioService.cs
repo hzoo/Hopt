@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Diagnostics;
 using SimioAPI;
 using System.Web;
+using System.Threading;
 
 // I can commit stuff and its awesome
 namespace WCFSimioNamespace
@@ -93,7 +94,7 @@ namespace WCFSimioNamespace
 
             // Open project
             string[] warnings;
-            string strfilepathname = "ED-v5-opt2.spfx";
+            string strfilepathname = "ED-v10-henry.spfx";
 
             project = SimioProjectFactory.LoadProject(strfilepathname, out warnings);
 
@@ -126,6 +127,8 @@ namespace WCFSimioNamespace
                 do
                 {
                     i++;
+                    System.Diagnostics.Debug.WriteLine("Experiment Running");
+                    Thread.Sleep(100);
                 }
                 while (!(_completed));
 
