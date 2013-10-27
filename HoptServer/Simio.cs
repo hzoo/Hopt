@@ -87,7 +87,7 @@ namespace SignalRSelfHost
             //    j++;
             //}
             //while (!(_completed));
-            return new Responses("hi");
+            return new Responses("hi",5.0);
         }
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
