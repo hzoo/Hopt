@@ -54,19 +54,14 @@ namespace SignalRSelfHost
     {
         Simio s = new Simio();
 
-        public void Send(string name, string message)
-        {
-            Clients.All.addMessage(name, message);
-        }
-
         public void GreetAll(string message)
         {
-            Clients.All.acceptGreet("Message: " + message + "! The time is " + DateTime.Now.ToString());
+            Clients.All.getResponses("Message: " + message + "! The time is " + DateTime.Now.ToString());
         }
 
         public void RunConfig(Configuration c)
         {
-            System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());
+            System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());s
             Responses r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
