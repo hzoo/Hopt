@@ -61,7 +61,7 @@ namespace SignalRSelfHost
 
         public void RunConfig(Configuration c)
         {
-            System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());s
+            System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());
             Responses r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
