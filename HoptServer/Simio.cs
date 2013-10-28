@@ -14,7 +14,7 @@ namespace SignalRSelfHost
         IExperiment currentExperiment;
         Double _runTime;
         Boolean _completed = false;
-        Responses currentResponses;
+        List<Response> currentResponses = new List<Response>();
 
         public Simio()
         {
@@ -22,7 +22,7 @@ namespace SignalRSelfHost
             SetProject("ED-v10-henry.spfx", "Model", "Experiment1");
         }
 
-        public Responses StartExperiment(Configuration c)
+        public List<Response> StartExperiment(Configuration c)
         {
             if (currentExperiment.IsBusy)
                 return null;
@@ -81,13 +81,7 @@ namespace SignalRSelfHost
             {
                 System.Diagnostics.Debug.WriteLine("Error || " + ex.Message);
             }
-            //int j = 0;
-            //do
-            //{
-            //    j++;
-            //}
-            //while (!(_completed));
-            return new Responses("hi",5.0);
+            return currentResponses;
         }
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
@@ -115,10 +109,12 @@ namespace SignalRSelfHost
                 double responseValue = 0.0;
                 if (e.Scenario.GetResponseValue(response, ref responseValue))
                 {
-                    //e.Scenario.Name
-                    //response.Name
-                    //responseValue.ToString()
+                    //e.Scenario.Name - 001
+                    //response.Name - AvgTimeInSystem
+                    //responseValue.ToString() - Value
                     System.Diagnostics.Debug.WriteLine(e.Scenario.Name + " " + response.Name + " " + responseValue.ToString());
+                    Response r = new Response(response.Name, responseValue);
+                    currentResponses.Add(r);
                 }
             }
             _completed = true;

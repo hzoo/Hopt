@@ -4,6 +4,7 @@ using Microsoft.Owin.Hosting;
 using Owin;
 using Microsoft.Owin.Cors;
 using SimioAPI;
+using System.Collections.Generic;
 
 namespace SignalRSelfHost
 {
@@ -62,7 +63,7 @@ namespace SignalRSelfHost
         public void RunConfig(Configuration c)
         {
             System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());
-            Responses r = s.StartExperiment(c);
+            List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
     }

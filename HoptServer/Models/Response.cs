@@ -5,12 +5,12 @@ using System.Text;
 
 namespace SignalRSelfHost
 {
-    public class Responses
+    public class Response
     {
         public String name  { get; set; }
         public double value { get; set; }
 
-        public Responses(string name, double value)
+        public Response(string name, double value)
         {
             this.name = name;
             this.value = value;
