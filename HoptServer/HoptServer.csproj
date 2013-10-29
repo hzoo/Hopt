@@ -113,6 +113,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\RoomType.cs" />
+    <Compile Include="Models\ReplicationResponse.cs" />
     <Compile Include="Simio.cs" />
   </ItemGroup>
   <ItemGroup>

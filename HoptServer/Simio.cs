@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using SimioAPI;
 using System.IO;
+using HoptServer;
 
-namespace SignalRSelfHost
+namespace HoptServer
 {
     public class Simio
     {
@@ -113,6 +114,8 @@ namespace SignalRSelfHost
                     //response.Name - AvgTimeInSystem
                     //responseValue.ToString() - Value
                     System.Diagnostics.Debug.WriteLine(e.Scenario.Name + " " + response.Name + " " + responseValue.ToString());
+                    
+                    //only if we want to send back individual responses
                     Response r = new Response(response.Name, responseValue);
                     currentResponses.Add(r);
                 }

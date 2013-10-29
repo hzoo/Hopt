@@ -5,9 +5,8 @@ using System.Text;
 
 namespace HoptServer
 {
-    public class RoomType
+    public class ReplicationResponse
     {
-        public String name { get; set; }
-        public int num { get; set; }
+
     }
 }

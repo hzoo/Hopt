@@ -6,7 +6,7 @@ using Microsoft.Owin.Cors;
 using SimioAPI;
 using System.Collections.Generic;
 
-namespace SignalRSelfHost
+namespace HoptServer
 {
     class Program
     {
@@ -41,7 +41,7 @@ namespace SignalRSelfHost
                     // You can enable JSONP by uncommenting line below.
                     // JSONP requests are insecure but some older browsers (and some
                     // versions of IE) require JSONP to work cross domain
-                    // EnableJSONP = true
+                    EnableJSONP = true
                 };
 
                 // Run the SignalR pipeline. We're not using MapSignalR
