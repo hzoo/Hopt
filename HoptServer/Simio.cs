@@ -20,7 +20,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-v10-henry.spfx", "Model", "Experiment1");
+            SetProject("ED-v11.spfx", "Model", "Experiment1");
         }
 
         public List<Response> StartExperiment(Configuration c)
@@ -33,7 +33,7 @@ namespace HoptServer
             IRunSetup setup = currentExperiment.RunSetup;
             setup.StartingTime = new DateTime(2013, 10, 01); //not important?
             //setup.WarmupPeriod = TimeSpan.FromHours(8.0);
-            setup.EndingTime = setup.StartingTime + TimeSpan.FromDays(c.DaysToRun);
+            setup.EndingTime = setup.StartingTime + TimeSpan.FromDays(c.daysToRun);
             System.Diagnostics.Debug.WriteLine("Starting time: " + setup.StartingTime);
             System.Diagnostics.Debug.WriteLine("Warmup time: " + setup.WarmupPeriod); 
             System.Diagnostics.Debug.WriteLine("Ending time: " + setup.EndingTime);
@@ -41,7 +41,7 @@ namespace HoptServer
             //set number of replications
             //foreach (IScenario scenario in currentExperiment.Scenarios)
             //    scenario.ReplicationsRequired = c.NumberOfReps;
-            currentExperiment.Scenarios[0].ReplicationsRequired = c.NumberOfReps;
+            currentExperiment.Scenarios[0].ReplicationsRequired = c.numberOfReps;
             System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count); 
             currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
             currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
@@ -50,11 +50,16 @@ namespace HoptServer
             System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count);
             System.Diagnostics.Debug.WriteLine("Number of reps: " + currentExperiment.Scenarios[0].ReplicationsRequired);
 
-            for (int i = 0; i < c.Rooms.Length; i++) {
-                string num = "";
-                currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.Rooms[i].num.ToString());
-                currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                System.Diagnostics.Debug.WriteLine("Control " + i + ": " + num);
+            for (int i = 0; i < c.rooms.Length; i++)
+            {
+                if (c.rooms[i].included == true)
+                {
+                    string num = "";
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
+                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                    System.Diagnostics.Debug.WriteLine("Control " + i + ": " + num);
+                }
+                //else
             }
 
             //listeners

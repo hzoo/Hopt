@@ -8,16 +8,19 @@ namespace HoptServer
 {
     public class Configuration
     {
-        public int DaysToRun { get; set; }
-        public int NumberOfReps { get; set; }
-        public RoomType[] Rooms { get; set; }
+        public int daysToRun { get; set; }
+        public int numberOfReps { get; set; }
+        public RoomType[] rooms { get; set; }
 
         public override string ToString()
         {
             string s = "";
-            foreach (RoomType room in Rooms)
+            foreach (RoomType room in rooms)
             {
-                s += room.num + ",";
+                if (room.included == true)
+                {
+                    s += room.num + ",";
+                }
             }
             return s;
         }

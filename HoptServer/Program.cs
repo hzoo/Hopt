@@ -16,11 +16,27 @@ namespace HoptServer
             // use http://*:8080 to bind to all addresses. 
             // See http://msdn.microsoft.com/en-us/library/system.net.httplistener.aspx 
             // for more information.
-            string url = "http://localhost:8001";
-            using (WebApp.Start<Startup>(url))
+            
+            //find open port
+            int port = 8001;
+            Boolean openPortNotFound = true;
+            while (openPortNotFound)
             {
-                Console.WriteLine("Server running on {0}", url);
-                Console.ReadLine();
+                try
+                {
+                    string url = "http://localhost:" + port.ToString();
+                    using (WebApp.Start<Startup>(url))
+                    {
+                        Console.WriteLine("Server running on {0}", url);
+                        Console.ReadLine();
+                        openPortNotFound = false;
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Port " + port + " Closed");
+                    port++;
+                }
             }
         }
     }
