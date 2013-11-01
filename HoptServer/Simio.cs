@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SimioAPI;
 using System.IO;
+using System.Data.SQLite;
 
 namespace SignalRSelfHost
 {
@@ -21,6 +22,17 @@ namespace SignalRSelfHost
             //initialize
             SetProject("ED-v10-henry.spfx", "Model", "Experiment1");
         }
+
+        public void insertConfiguration(Configuration c)
+        {
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            SQLiteCommand command = new SQLiteCommand();
+            command.CommandText = "INSERT INTO TEST (ExamRooms, TraumaRooms, FastTrackRooms) VALUES (?, ? ,?)";
+            command.Parameters.Add("param1",c.Rooms.
+        }
+
+
 
         public List<Response> StartExperiment(Configuration c)
         {
