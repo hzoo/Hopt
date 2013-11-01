@@ -115,11 +115,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\RoomType.cs" />
+    <Compile Include="Models\ReplicationResponse.cs" />
     <Compile Include="Simio.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ED-v10-henry.spfx">
+    <None Include="ED-v11.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

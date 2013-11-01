@@ -6,7 +6,7 @@ using Microsoft.Owin.Cors;
 using SimioAPI;
 using System.Collections.Generic;
 
-namespace SignalRSelfHost
+namespace HoptServer
 {
     class Program
     {
@@ -16,11 +16,27 @@ namespace SignalRSelfHost
             // use http://*:8080 to bind to all addresses. 
             // See http://msdn.microsoft.com/en-us/library/system.net.httplistener.aspx 
             // for more information.
-            string url = "http://localhost:8001";
-            using (WebApp.Start<Startup>(url))
+            
+            //find open port
+            int port = 8001;
+            Boolean openPortNotFound = true;
+            while (openPortNotFound)
             {
-                Console.WriteLine("Server running on {0}", url);
-                Console.ReadLine();
+                try
+                {
+                    string url = "http://localhost:" + port.ToString();
+                    using (WebApp.Start<Startup>(url))
+                    {
+                        Console.WriteLine("Server running on {0}", url);
+                        Console.ReadLine();
+                        openPortNotFound = false;
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Port " + port + " Closed");
+                    port++;
+                }
             }
         }
     }
@@ -41,7 +57,7 @@ namespace SignalRSelfHost
                     // You can enable JSONP by uncommenting line below.
                     // JSONP requests are insecure but some older browsers (and some
                     // versions of IE) require JSONP to work cross domain
-                    // EnableJSONP = true
+                    EnableJSONP = true
                 };
 
                 // Run the SignalR pipeline. We're not using MapSignalR

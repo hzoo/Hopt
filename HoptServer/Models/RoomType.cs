@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SignalRSelfHost
+namespace HoptServer
 {
     public class RoomType
     {
         public String name { get; set; }
         public int num { get; set; }
+        public Boolean included { get; set; }
     }
 }
