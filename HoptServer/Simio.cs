@@ -22,15 +22,72 @@ namespace HoptServer
         {
             //initialize
             SetProject("ED-v11.spfx", "Model", "Experiment1");
+            createTables();
         }
+
+        public void createTables()
+        {
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            String sql = "Create table if not exists Test2 (MainED int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int)";
+            SQLiteCommand command = new SQLiteCommand(sql, conn);
+            command.ExecuteNonQuery();
+            sql = "Create table if not exists Results (MainED int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
+            sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, TruamaPeopleInSystem real, FastTrackPeopleInSystem real, MainEDPeopleInSystem real, ";
+            sql += "TraumaUtilization real, MainEDUtilization real, FastTrackUtilization real)";
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
 
         public void insertConfiguration(Configuration c)
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            SQLiteCommand command = new SQLiteCommand();
-            command.CommandText = "INSERT INTO TEST (ExamRooms, TraumaRooms, FastTrackRooms) VALUES (?, ? ,?)";
-            command.Parameters.Add("param1",c.Rooms.
+            SQLiteCommand cmd = new SQLiteCommand("select * from test2", conn);
+            var dr = cmd.ExecuteReader();
+            for (var i = 0; i < dr.FieldCount; i++)
+            {
+                Console.WriteLine(dr.GetName(i));
+            }
+            String sql = "Insert into Test2 (MainED, Trauma, FastTrack, RapidAdmission, Behavioral, Observation) Values ";
+            sql += "(@MainED, @Trauma, @FastTrack, @RapidAdmission, @Behavorial, @Observation)";
+            SQLiteCommand command = new SQLiteCommand(sql,conn);
+            foreach (RoomType room in c.rooms)
+            {
+                String value = "@" + room.name;
+                if(room.included)
+                    command.Parameters.AddWithValue(value,room.num);
+                else
+                    command.Parameters.AddWithValue(value,DBNull.Value);
+            }
+            foreach (SQLiteParameter param in command.Parameters)
+            {
+                Console.WriteLine(param.ParameterName + param.Value);
+            }
+            command.ExecuteNonQuery();
+            conn.Close();
+            printAllConfigs();
+        }
+
+        public void printAllConfigs()
+        {
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            SQLiteCommand cmd = new SQLiteCommand("select * from test2", conn);
+            SQLiteDataReader dr = cmd.ExecuteReader();
+            while(dr.Read())
+            {
+                Console.Write("MainEd:" + dr["MainED"].ToString());
+                Console.Write(" Trauma:" + dr["Trauma"].ToString());
+                Console.Write(" FastTrack:" + dr["FastTrack"].ToString());
+                Console.Write(" RapidAdmission:" + dr["RapidAdmission"].ToString());
+                Console.Write(" Behavioral:" + dr["Behavioral"].ToString());
+                Console.Write(" Observation:" + dr["Observation"].ToString());
+                Console.WriteLine();
+                Console.WriteLine();
+
+            }
         }
 
 
@@ -73,6 +130,8 @@ namespace HoptServer
             }
                 //else
             }
+
+            insertConfiguration(c);
 
             //listeners
             currentExperiment.ScenarioEnded += new EventHandler<ScenarioEndedEventArgs>(experiment_ScenarioEnded);
