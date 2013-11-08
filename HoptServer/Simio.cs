@@ -39,17 +39,46 @@ namespace HoptServer
             conn.Close();
         }
 
+        public void insertResults(Configuration c, List<Response> responses)
+        {
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            String sql = "Insert into Results (MainED, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
+            sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, TruamaPeopleInSystem, FastTrackPeopleInSystem, MainEDPeopleInSystem, ";
+            sql += "TraumaUtilization, MainEDUtilization, FastTrackUtilization) Values ";
+            sql += "(@MainED, @Trauma, @FastTrack, @RapidAdmission, @Behavorial, @Observation)";
+            sql += "@TimeInSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, @TruamaPeopleInSystem, @FastTrackPeopleInSystem, @MainEDPeopleInSystem, "
+            sql += "@TraumaUtilization, @MainEDUtilization, @FastTrackUtilization)";
+            SQLiteCommand command = new SQLiteCommand(sql,conn);
+            foreach (RoomType room in c.rooms)
+            {
+                String value = "@" + room.name;
+                if(room.included)
+                    command.Parameters.AddWithValue(value,room.num);
+                else
+                    command.Parameters.AddWithValue(value,DBNull.Value);
+            }
+            foreach (Response r in responses)
+            {
+                String value = "@" + r.name;
+                command.Parameters.AddWithValue(value,r.value);
+            }
+            command.ExecuteNonQuery();
+            conn.Close();
+            printAllConfigs();
+        }
+
 
         public void insertConfiguration(Configuration c)
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            SQLiteCommand cmd = new SQLiteCommand("select * from test2", conn);
-            var dr = cmd.ExecuteReader();
-            for (var i = 0; i < dr.FieldCount; i++)
-            {
-                Console.WriteLine(dr.GetName(i));
-            }
+            //SQLiteCommand cmd = new SQLiteCommand("select * from test2", conn);
+            //var dr = cmd.ExecuteReader();
+            //for (var i = 0; i < dr.FieldCount; i++)
+            //{
+            //    Console.WriteLine(dr.GetName(i));
+            //}
             String sql = "Insert into Test2 (MainED, Trauma, FastTrack, RapidAdmission, Behavioral, Observation) Values ";
             sql += "(@MainED, @Trauma, @FastTrack, @RapidAdmission, @Behavorial, @Observation)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
@@ -74,7 +103,7 @@ namespace HoptServer
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            SQLiteCommand cmd = new SQLiteCommand("select * from test2", conn);
+            SQLiteCommand cmd = new SQLiteCommand("select * from Results", conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             while(dr.Read())
             {
