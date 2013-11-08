@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="ngBoilerplate" ng-controller="AppCtrl">
+  <head>
+    <title ng-bind="pageTitle"></title>
+
+    <!-- social media tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@joshdmiller">
+    <meta name="twitter:title" content="ngBoilerplate">
+    <meta name="twitter:description" content="Non-Trivial AngularJS Made Easy: Everything you need to kickstart AngularJS projects: a best-practice directory structure, an intelligent build system, and the best web design libraries around.">
+    <meta name="twitter:creator" content="@joshdmiller">
+    <meta name="twitter:image:src" content="https://a248.e.akamai.net/assets.github.com/images/modules/logos_page/Octocat.png?1366128846">
+    <meta property="og:title" content="ngBoilerplate" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://bit.ly/ngBoilerplate" />
+    <meta property="og:image" content="https://a248.e.akamai.net/assets.github.com/images/modules/logos_page/Octocat.png?1366128846" />
+    <meta property="og:description" content="Non-Trivial AngularJS Made Easy: Everything you need to kickstart AngularJS projects: a best-practice directory structure, an intelligent build system, and the best web design libraries around.">
+
+    <!-- font awesome from BootstrapCDN -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <!-- compiled CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/ng-grid/ng-grid.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/ng-table/ng-table.css" />
+    <link rel="stylesheet" type="text/css" href="assets/Designr-0.0.1.css" />
+
+    <!-- assets: jquery -->
+    <!-- // <script src="assets/jquery-1.10.2.js"></script> -->
+
+    <!-- compiled JavaScript -->
+    <script type="text/javascript" src="assets/Designr-0.0.1.js"></script>
+
+    <!-- signalR -->
+    <!-- // <script src="http://localhost:8001/signalr/hubs"></script> -->
+    <script>document.write('<script src="http://'
+    + (location.host || 'localhost').split(':')[0]
+    + ':8001/signalr/hubs"></'
+    + 'script>')</script>
+
+  </head>
+
+  <body ng-class="{home: stateIsHome}">
+
+    <div>
+        <div class="navbar navbar-default navbar-fixed-top bs-docs-nav" role="navigation">
+
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <!--  ng-click="isCollapsed = !isCollapsed"> -->
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="home" ng-class="{ active: $state.includes('home') }">
+              <span ng-bind="name"></span> - <small>v0.0.1</small>
+            </a>
+          </div>
+
+          <div class="collapse navbar-collapse navbar-ex1-collapse"><!--  collapse="isCollapsed"> -->
+            <ul class="nav navbar-nav nav-justified">
+               <!--<li ui-sref="home" ng-class="{ active: $state.includes('home') }">
+                <a href="#/home">
+                  <i class="icon-home"></i>
+                  Home
+                </a>
+              </li> -->
+              <li ui-sref="inputs" ng-class="{ active: $state.includes('inputs') }">
+                <a href="#/inputs">
+                  <i class="icon-table"></i>
+                  Setup Inputs
+                </a>
+              </li>
+              <li ui-sref="config" ng-class="{ active: $state.includes('config') }">
+                <a href="#/config">
+                  <i class="icon-play"></i>
+                  Run a Configuration
+                </a>
+              </li>
+              <li class="disabled">
+                <a>
+                  <i class="icon-repeat"></i>
+                  Optimization (disabled)
+                </a>
+              </li>
+              <li class="disabled">
+                <a>
+                  <i class="icon-repeat"></i>
+                  Tradeoffs (disabled)
+                </a>
+              </li>
+            </ul>
+        </div>
+        </div> <!-- navbar -->
+    </div> <!-- class="container" -->
+
+    <div ui-view="main"></div>
+
+    <script>document.write('<script src="http://'
+    + (location.host || 'localhost').split(':')[0]
+    + ':35729/livereload.js?snipver=1"></'
+    + 'script>')</script>
+  </body>
+</html>
