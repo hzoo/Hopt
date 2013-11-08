@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HoptServer.Models;
 
 namespace HoptServer
 {
@@ -10,6 +11,9 @@ namespace HoptServer
     {
         public int daysToRun { get; set; }
         public int numberOfReps { get; set; }
+        public Response arrivals { get; set; }
+        public Response[] acuityInfo { get; set; }
+        public ServiceInfo[] serviceTimes { get; set; }
         public RoomType[] rooms { get; set; }
 
         public override string ToString()

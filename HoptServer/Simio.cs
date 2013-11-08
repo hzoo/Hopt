@@ -21,7 +21,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-v11.spfx", "Model", "Experiment1");
+            SetProject("ED.spfx", "Model", "Experiment1"); //v13
             createTables();
         }
 
@@ -29,6 +29,7 @@ namespace HoptServer
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
+
             String sql = "Create table if not exists Test2 (MainED int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int)";
             SQLiteCommand command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
@@ -51,7 +52,7 @@ namespace HoptServer
                 Console.WriteLine(dr.GetName(i));
             }
             String sql = "Insert into Test2 (MainED, Trauma, FastTrack, RapidAdmission, Behavioral, Observation) Values ";
-            sql += "(@MainED, @Trauma, @FastTrack, @RapidAdmission, @Behavorial, @Observation)";
+            sql += "(@MainED, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             {
@@ -59,7 +60,7 @@ namespace HoptServer
                 if(room.included)
                     command.Parameters.AddWithValue(value,room.num);
                 else
-                    command.Parameters.AddWithValue(value,DBNull.Value);
+                    command.Parameters.AddWithValue(value, 0);//DBNull.Value);
             }
             foreach (SQLiteParameter param in command.Parameters)
             {
@@ -111,14 +112,72 @@ namespace HoptServer
             //foreach (IScenario scenario in currentExperiment.Scenarios)
             //    scenario.ReplicationsRequired = c.NumberOfReps;
             currentExperiment.Scenarios[0].ReplicationsRequired = c.numberOfReps;
-            System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count); 
-            currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
-            currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
-            currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
-            currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
+            System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count);
+            //use only 1 scenario
+            while (currentExperiment.Scenarios.Count > 1)
+            {
+                currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
+            }
             System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count);
             System.Diagnostics.Debug.WriteLine("Number of reps: " + currentExperiment.Scenarios[0].ReplicationsRequired);
 
+            //change hospital values
+            //arrivals
+
+
+            //service
+            for (int i = 0; i < c.serviceTimes.Length; i++)
+            {
+                if (c.serviceTimes[i].name == "Exam Room" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value);
+                }
+                else if (c.serviceTimes[i].name == "Wait Room" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["WaitRoom"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["WaitRoom"].Properties["ProcessingTime"].Value);
+                }
+                else if (c.serviceTimes[i].name == "Trauma" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value);
+                }
+                else if (c.serviceTimes[i].name == "Fast Track" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value);
+                }
+                else if (c.serviceTimes[i].name == "Rapid Admission" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["RapidAdmission"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmission"].Properties["ProcessingTime"].Value);
+                }
+                else if (c.serviceTimes[i].name == "Behavioral" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
+                }
+                else if (c.serviceTimes[i].name == "Observational" && c.serviceTimes[i].included == true)
+                {
+                    currentModel.Facility.IntelligentObjects["Observational"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Observational"].Properties["ProcessingTime"].Value);
+                }
+            }
+
+            //acuities
+            currentModel.Tables[0].Rows[0].Properties["Probability"].Value = c.acuityInfo[0].value.ToString();
+            currentModel.Tables[0].Rows[1].Properties["Probability"].Value = c.acuityInfo[1].value.ToString();
+            currentModel.Tables[0].Rows[2].Properties["Probability"].Value = c.acuityInfo[2].value.ToString();
+            currentModel.Tables[0].Rows[3].Properties["Probability"].Value = c.acuityInfo[3].value.ToString();
+            currentModel.Tables[0].Rows[4].Properties["Probability"].Value = c.acuityInfo[4].value.ToString();
+            System.Diagnostics.Debug.WriteLine("Acuity 1 = " + (c.acuityInfo[0].value * 100) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 2 = " + (c.acuityInfo[1].value * 100) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 3 = " + (c.acuityInfo[2].value * 100) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 4 = " + (c.acuityInfo[3].value * 100) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 5 = " + (c.acuityInfo[4].value * 100) + "%");
+
+            //change control values (the actual configuration)
             for (int i = 0; i < c.rooms.Length; i++)
             {
                 if (c.rooms[i].included == true)
