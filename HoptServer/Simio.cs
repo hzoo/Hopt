@@ -33,10 +33,12 @@ namespace HoptServer
             String sql = "Create table if not exists Test2 (MainED int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int)";
             SQLiteCommand command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
+
             sql = "Create table if not exists Results (MainED int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
-            sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, TruamaPeopleInSystem real, FastTrackPeopleInSystem real, MainEDPeopleInSystem real, ";
-            sql += "TraumaUtilization real, MainEDUtilization real, FastTrackUtilization real)";
+            sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, TraumaPeopleInSystem real, FastTrackPeopleInSystem real, ExamRoomPeopleInSystem real, ";
+            sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real)";
             command.ExecuteNonQuery();
+
             conn.Close();
         }
 
@@ -45,11 +47,11 @@ namespace HoptServer
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
             String sql = "Insert into Results (MainED, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
-            sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, TruamaPeopleInSystem, FastTrackPeopleInSystem, MainEDPeopleInSystem, ";
-            sql += "TraumaUtilization, MainEDUtilization, FastTrackUtilization) Values ";
+            sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, TraumaPeopleInSystem, FastTrackPeopleInSystem, ExamRoomPeopleInSystem, ";
+            sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization) Values ";
             sql += "(@MainED, @Trauma, @FastTrack, @RapidAdmission, @Behavorial, @Observation)";
-            sql += "@TimeInSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, @TruamaPeopleInSystem, @FastTrackPeopleInSystem, @MainEDPeopleInSystem, "
-            sql += "@TraumaUtilization, @MainEDUtilization, @FastTrackUtilization)";
+            sql += "@TimeInSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, @TraumaPeopleInSystem, @FastTrackPeopleInSystem, @ExamRoomPeopleInSystem, ";
+            sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             {
@@ -97,7 +99,7 @@ namespace HoptServer
             }
             command.ExecuteNonQuery();
             conn.Close();
-            printAllConfigs();
+            //printAllConfigs();
         }
 
         public void printAllConfigs()
