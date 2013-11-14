@@ -11,7 +11,8 @@ namespace HoptServer
     {
         public int daysToRun { get; set; }
         public int numberOfReps { get; set; }
-        public Response arrivals { get; set; }
+        public double startupTime { get; set; }
+        public Response[] arrivals { get; set; }
         public Response[] acuityInfo { get; set; }
         public ServiceInfo[] serviceTimes { get; set; }
         public RoomType[] rooms { get; set; }
