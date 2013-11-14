@@ -133,8 +133,8 @@ namespace HoptServer
             // Specify run times.
             IRunSetup setup = currentExperiment.RunSetup;
             setup.StartingTime = new DateTime(2013, 10, 01); //not important?
-            setup.WarmupPeriod = TimeSpan.FromHours(c.startupTime);
-            setup.EndingTime = setup.StartingTime + TimeSpan.FromDays(c.daysToRun);
+            setup.WarmupPeriod = TimeSpan.FromHours(c.startupTime.value);
+            setup.EndingTime = setup.StartingTime + TimeSpan.FromDays(c.daysToRun.value);
             System.Diagnostics.Debug.WriteLine("Starting time: " + setup.StartingTime);
             System.Diagnostics.Debug.WriteLine("Warmup time: " + setup.WarmupPeriod); 
             System.Diagnostics.Debug.WriteLine("Ending time: " + setup.EndingTime);
@@ -142,7 +142,7 @@ namespace HoptServer
             //set number of replications
             //foreach (IScenario scenario in currentExperiment.Scenarios)
             //    scenario.ReplicationsRequired = c.NumberOfReps;
-            currentExperiment.Scenarios[0].ReplicationsRequired = c.numberOfReps;
+            currentExperiment.Scenarios[0].ReplicationsRequired = c.numberOfReps.value;
             System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count);
             //use only 1 scenario
             while (currentExperiment.Scenarios.Count > 1)

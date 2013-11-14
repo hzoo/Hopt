@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\ResponseInt.cs" />
     <Compile Include="Models\ResponseString.cs" />
     <Compile Include="Models\ServiceInfo.cs" />
     <Compile Include="Program.cs" />
