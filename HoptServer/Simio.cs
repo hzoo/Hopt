@@ -154,24 +154,30 @@ namespace HoptServer
 
             //change hospital values
             //arrivals
-
-            //change RateTable.RateScaleFactor
             int annualArrivals;
             if (c.arrivals[0].value >= 0)
                 annualArrivals = Convert.ToInt32(c.arrivals[0].value);
             else
                 annualArrivals = 100000; // default
+
+            //change RateTable.RateScaleFactor
             //1.0019 is the sum of the base rate table (the base rate table is all in percents, and it adds up to a little more than 100%)
-            currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (annualArrivals/(365*1.0019)).ToString();
-            System.Diagnostics.Debug.WriteLine("Rate Scale Factor: " + currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
-            
+            if (c.rateTable.value == "average")
+            {
+                currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (annualArrivals / (365 * 1.0019)).ToString();
+            }
             //change RateTable.RateScaleFactor for peak day
-            //double peakFactor;
-            //if (c.arrivals[1].value >= 0 && c.arrivals[1].value <= 1)
-            //    peakFactor = 12.0/c.arrivals[1].value;
-            //else
-            //    peakFactor = 1.2; //default
-            //currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor*c.arrivals[0].value / (365 * 1.0019)).ToString();
+            else if (c.rateTable.value == "peak")
+            {
+                double peakFactor;
+                if (c.arrivals[1].value >= 0 && c.arrivals[1].value <= 1)
+                    peakFactor = 12.0 / c.arrivals[1].value;
+                else
+                    peakFactor = 1.2; //default
+                currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
+            }
+            System.Diagnostics.Debug.WriteLine("Running " + c.rateTable.value + " days");
+            System.Diagnostics.Debug.WriteLine("Rate Scale Factor: " + currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
 
             //service
             for (int i = 0; i < c.serviceTimes.Length; i++)
