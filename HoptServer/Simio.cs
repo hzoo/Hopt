@@ -198,32 +198,32 @@ namespace HoptServer
                 }
                 else if (c.serviceTimes[i].name == "Rapid Admission" && c.serviceTimes[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["RapidAdmission"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmission"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value);
                 }
                 else if (c.serviceTimes[i].name == "Behavioral" && c.serviceTimes[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Behavorial"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavorial"].Properties["ProcessingTime"].Value);
                 }
                 else if (c.serviceTimes[i].name == "Observational" && c.serviceTimes[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Observational"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Observational"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value);
                 }
             }
 
             //acuities
-            currentModel.Tables[0].Rows[0].Properties["Probability"].Value = c.acuityInfo[0].value.ToString();
-            currentModel.Tables[0].Rows[1].Properties["Probability"].Value = c.acuityInfo[1].value.ToString();
-            currentModel.Tables[0].Rows[2].Properties["Probability"].Value = c.acuityInfo[2].value.ToString();
-            currentModel.Tables[0].Rows[3].Properties["Probability"].Value = c.acuityInfo[3].value.ToString();
-            currentModel.Tables[0].Rows[4].Properties["Probability"].Value = c.acuityInfo[4].value.ToString();
-            System.Diagnostics.Debug.WriteLine("Acuity 1 = " + (c.acuityInfo[0].value * 100) + "%");
-            System.Diagnostics.Debug.WriteLine("Acuity 2 = " + (c.acuityInfo[1].value * 100) + "%");
-            System.Diagnostics.Debug.WriteLine("Acuity 3 = " + (c.acuityInfo[2].value * 100) + "%");
-            System.Diagnostics.Debug.WriteLine("Acuity 4 = " + (c.acuityInfo[3].value * 100) + "%");
-            System.Diagnostics.Debug.WriteLine("Acuity 5 = " + (c.acuityInfo[4].value * 100) + "%");
+            currentModel.Tables[0].Rows[0].Properties["Probability"].Value = (c.acuityInfo[0].value/100).ToString();
+            currentModel.Tables[0].Rows[1].Properties["Probability"].Value = (c.acuityInfo[1].value/100).ToString();
+            currentModel.Tables[0].Rows[2].Properties["Probability"].Value = (c.acuityInfo[2].value/100).ToString();
+            currentModel.Tables[0].Rows[3].Properties["Probability"].Value = (c.acuityInfo[3].value/100).ToString();
+            currentModel.Tables[0].Rows[4].Properties["Probability"].Value = (c.acuityInfo[4].value/100).ToString();
+            System.Diagnostics.Debug.WriteLine("Acuity 1 = " + (c.acuityInfo[0].value) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 2 = " + (c.acuityInfo[1].value) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 3 = " + (c.acuityInfo[2].value) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 4 = " + (c.acuityInfo[3].value) + "%");
+            System.Diagnostics.Debug.WriteLine("Acuity 5 = " + (c.acuityInfo[4].value) + "%");
 
             //change control values (the actual configuration)
             for (int i = 0; i < c.rooms.Length; i++)
