@@ -78,7 +78,6 @@ namespace HoptServer
 
         public void RunConfig(Configuration c)
         {
-            System.Diagnostics.Debug.WriteLine("HI: " + c.ToString());
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
