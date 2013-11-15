@@ -278,7 +278,7 @@ namespace HoptServer
             {
                 System.Diagnostics.Debug.WriteLine("Error || " + ex.Message);
             }
-            insertResults(c, currentResponses);
+            //insertResults(c, currentResponses);
             return currentResponses;
         }
 
