@@ -9,9 +9,10 @@ namespace HoptServer
 {
     public class Configuration
     {
-        public int daysToRun { get; set; }
-        public int numberOfReps { get; set; }
-        public double startupTime { get; set; }
+        public ResponseInt daysToRun { get; set; }
+        public ResponseInt numberOfReps { get; set; }
+        public Response startupTime { get; set; }
+        public ResponseString rateTable { get; set; }
         public Response[] arrivals { get; set; }
         public Response[] acuityInfo { get; set; }
         public ServiceInfo[] serviceTimes { get; set; }
