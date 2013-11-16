@@ -21,7 +21,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED.spfx", "Model", "Experiment1"); //v18
+            SetProject("ED-V19-opt.spfx", "Model", "Experiment1"); //v18
             createTables();
         }
 
@@ -35,8 +35,8 @@ namespace HoptServer
             command.ExecuteNonQuery();
 
             sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
-            sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, TraumaPeopleInSystem real, FastTrackPeopleInSystem real, ExamRoomPeopleInSystem real, ";
-            sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real)";
+            sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
+            sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, Behavioral Utilization)";
             command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
 
