@@ -21,7 +21,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-v17.spfx", "Model", "Experiment1"); //v17
+            SetProject("ED.spfx", "Model", "Experiment1"); //v18
             createTables();
         }
 
