@@ -121,9 +121,6 @@
     <Compile Include="ResponseInt.cs" />
     <Compile Include="ResponseString.cs" />
     <Compile Include="Simio.cs" />
-    <Compile Include="StockTicker\Stock.cs" />
-    <Compile Include="StockTicker\StockTicker.cs" />
-    <Compile Include="StockTicker\StockTickerHub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
