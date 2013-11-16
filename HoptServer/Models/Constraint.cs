@@ -15,7 +15,18 @@ namespace HoptServer.Models
 
         public String createSQL()
         {
-            return "Hi!";
+            String sql = responseName;
+            if(lowerBound >= 0 && upperBound >= 0)
+                sql += " >= " + lowerBound + " and " + responseName  + " <= " + upperBound;
+            else if(lowerBound >= 0)
+                sql += " >= " + lowerBound;
+            else if(upperBound >= 0)
+                sql += " <= " + upperBound;
+            else
+                sql = null;
+
+            return sql;
+                
         }
 
     }

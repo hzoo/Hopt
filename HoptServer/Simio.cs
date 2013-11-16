@@ -55,7 +55,7 @@ namespace HoptServer
             //}
             String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
             sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, TraumaPeopleInSystem, FastTrackPeopleInSystem, ExamRoomPeopleInSystem, ";
-            sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization) Values ";
+            sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization, RapidAdmissionUtilization, ) Values ";
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, @TraumaPeopleInSystem, @FastTrackPeopleInSystem, @ExamRoomPeopleInSystem, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization)";
