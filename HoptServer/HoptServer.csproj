@@ -112,14 +112,14 @@
   <ItemGroup>
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Constraint.cs" />
+    <Compile Include="Models\ResponseInt.cs" />
+    <Compile Include="Models\ResponseString.cs" />
     <Compile Include="Models\ServiceInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\RoomType.cs" />
     <Compile Include="Models\ReplicationResponse.cs" />
-    <Compile Include="ResponseInt.cs" />
-    <Compile Include="ResponseString.cs" />
     <Compile Include="Simio.cs" />
     <Compile Include="SimioOpt.cs" />
   </ItemGroup>
