@@ -21,7 +21,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-V19-opt.spfx", "Model", "Experiment1"); //v18
+            SetProject("ED-V19-opt.spfx", "Model", "Experiment1"); //v19
             createTables();
         }
 
@@ -36,7 +36,8 @@ namespace HoptServer
 
             sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
-            sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, Behavioral Utilization)";
+            sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
+            sql += "Acuity1TimeinSystem real, Acuity2TimeinSystem real, Acuity3TimeinSystem real, Acuity4TimeinSystem real, Acuity5TimeinSystem real)";
             command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
 
@@ -54,11 +55,13 @@ namespace HoptServer
             //    Console.WriteLine(dr.GetName(i));
             //}
             String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
-            sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, TraumaPeopleInSystem, FastTrackPeopleInSystem, ExamRoomPeopleInSystem, ";
-            sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization, RapidAdmissionUtilization, ) Values ";
+            sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, ";
+            sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization, RapidAdmissionUnitUtilization, BehavioralUtilization, ObservationUtilization, ";
+            sql += "Acuity1TimeinSystem, Acuity2TimeinSystem, Acuity3TimeinSystem, Acuity4TimeinSystem, Acuity5TimeinSystem) Values ";
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
-            sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, @TraumaPeopleInSystem, @FastTrackPeopleInSystem, @ExamRoomPeopleInSystem, ";
-            sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization)";
+            sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
+            sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
+            sql += "@Acuity1TimeInSystem, @Acuity2TimeInSystem, @Acuity3TimeInSystem, @Acuity4TimeInSystem, @Acuity5TimeInSystem)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             {
@@ -131,7 +134,12 @@ namespace HoptServer
 
         public void resetResults()
         {
-
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            String sql = "drop table if exists Results";
+            SQLiteCommand command = new SQLiteCommand(sql, conn);
+            command.ExecuteNonQuery();
+            conn.Close();
         }
 
         public List<Response> StartExperiment(Configuration c)
