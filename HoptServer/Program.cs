@@ -82,20 +82,20 @@ namespace HoptServer
             Clients.All.getResponses(r);
         }
     }
-    public class SimioOptHub : Hub
-    {
-        private readonly SimioOpt _simio;
+    //public class SimioOptHub : Hub
+    //{
+    //    private readonly SimioOpt _simio;
 
-        //public SimioOptHub() : this(SimioOpt.Instance) { }
+    //    //public SimioOptHub() : this(SimioOpt.Instance) { }
 
-        public SimioOptHub(SimioOpt simio)
-        {
-            _simio = simio;
-        }
+    //    public SimioOptHub(SimioOpt simio)
+    //    {
+    //        _simio = simio;
+    //    }
 
-        //public IEnumerable<Stock> GetAllStocks()
-        //{
-        //    return _simio.GetAllStocks();
-        //}
-    }
+    //    //public IEnumerable<Stock> GetAllStocks()
+    //    //{
+    //    //    return _simio.GetAllStocks();
+    //    //}
+    //}
 }
