@@ -21,7 +21,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-V19-opt.spfx", "Model", "Experiment1"); //v19
+            SetProject("ED-v19-opt.spfx", "Model", "Experiment1"); //v19
             createTables();
         }
 
@@ -227,8 +227,8 @@ namespace HoptServer
                 }
                 else if (c.serviceTimes[i].name == "Behavioral" && c.serviceTimes[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Behavorial"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavorial"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
                 }
                 else if (c.serviceTimes[i].name == "Observation" && c.serviceTimes[i].included == true)
                 {
