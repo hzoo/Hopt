@@ -189,7 +189,7 @@ namespace HoptServer
             {
                 double peakFactor;
                 if (c.arrivals[1].value >= 0 && c.arrivals[1].value <= 1)
-                    peakFactor = 12.0 / c.arrivals[1].value;
+                    peakFactor = 12.0 * c.arrivals[1].value / 100;
                 else
                     peakFactor = 1.2; //default
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
