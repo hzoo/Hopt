@@ -37,10 +37,9 @@ namespace HoptServer
             sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
             sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
-            sql += "Acuity1TimeinSystem real, Acuity2TimeinSystem real, Acuity3TimeinSystem real, Acuity4TimeinSystem real, Acuity5TimeinSystem real, LWBS real)";
+            sql += "Acuity1TimeinSystem real, Acuity2TimeinSystem real, Acuity3TimeinSystem real, Acuity4TimeinSystem real, Acuity5TimeinSystem real, LWBS real, Cost real)";
             command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
-
             conn.Close();
         }
 
@@ -57,14 +56,14 @@ namespace HoptServer
             String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
             sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, ";
             sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization, RapidAdmissionUnitUtilization, BehavioralUtilization, ObservationUtilization, ";
-            sql += "Acuity1TimeinSystem, Acuity2TimeinSystem, Acuity3TimeinSystem, Acuity4TimeinSystem, Acuity5TimeinSystem, LWBS) Values ";
+            sql += "Acuity1TimeinSystem, Acuity2TimeinSystem, Acuity3TimeinSystem, Acuity4TimeinSystem, Acuity5TimeinSystem, LWBS, Cost) Values ";
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
-            sql += "@Acuity1TimeInSystem, @Acuity2TimeInSystem, @Acuity3TimeInSystem, @Acuity4TimeInSystem, @Acuity5TimeInSystem, @LWBS)";
+            sql += "@Acuity1TimeInSystem, @Acuity2TimeInSystem, @Acuity3TimeInSystem, @Acuity4TimeInSystem, @Acuity5TimeInSystem, @LWBS, -1)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
-            {
+            { 
                 String value = "@" + room.name.Replace(" ","");
                 if(room.included)
                     command.Parameters.AddWithValue(value,room.num);
@@ -289,7 +288,7 @@ namespace HoptServer
             {
                 System.Diagnostics.Debug.WriteLine("Error || " + ex.Message);
             }
-            //insertResults(c, currentResponses);
+            insertResults(c, currentResponses);
             return currentResponses;
         }
 
