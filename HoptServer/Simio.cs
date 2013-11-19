@@ -295,23 +295,22 @@ namespace HoptServer
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Run Completed");
+            System.Diagnostics.Debug.WriteLine("Run Completed: " + e.TotalRunTime + "s");
         }
 
         void experiment_RunProgressChanged(object sender, RunProgressChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Run Progress Changed");
+            System.Diagnostics.Debug.WriteLine("Run Progress Changed: " + e.ProgressPercentage);
         }
 
         void experiment_ReplicationEnded(object sender, ReplicationEndedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Replication Ended");
+            System.Diagnostics.Debug.WriteLine("#" + e.ReplicationNumber + " Replication Ended: " + e.ActualRuntimeInSeconds + "s");
         }
 
         void experiment_ScenarioEnded(object sender, ScenarioEndedEventArgs e)
         {
             IExperiment experiment = (IExperiment)sender;
-
             // get response value
             foreach (IExperimentResponse response in experiment.Responses)
             {
@@ -328,6 +327,15 @@ namespace HoptServer
                     currentResponses.Add(r);
                 }
             }
+
+            //foreach (IScenarioResult result in e.Results)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(result.DataItem + " " + result.DataSource + " " + result.ToString());
+
+            //    //only if we want to send back individual responses
+            //    //Response r = new Response(response.Name, responseValue);
+            //    //currentResponses.Add(r);
+            //}
             _completed = true;
             System.Diagnostics.Debug.WriteLine("Scenario Ended");
         }

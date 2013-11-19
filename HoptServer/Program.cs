@@ -81,6 +81,30 @@ namespace HoptServer
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
+
+        public void ReturnNextConfig(Configuration c, Double previousCost)
+        {
+            List<Response> r = s.StartExperiment(c);
+            Clients.All.getResponses(r);
+        }
+    }
+    public class OptHub : Hub
+    {
+        Simio s = new Simio();
+
+        public void RunConfig(Configuration c)
+        {
+            System.Diagnostics.Debug.WriteLine("RunConfig");
+            List<Response> r = s.StartExperiment(c);
+            Clients.All.getResponses(r);
+        }
+        
+        public void ReturnNextConfig(Configuration c, Double previousCost)
+        {
+            System.Diagnostics.Debug.WriteLine("ReturnNextConfig");
+            List<Response> r = s.StartExperiment(c);
+            Clients.All.getResponses(r);
+        }
     }
     //public class SimioOptHub : Hub
     //{
