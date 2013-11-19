@@ -21,7 +21,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-V19-opt.spfx", "Model", "Experiment1"); //v19
+            SetProject("ED-v19-opt.spfx", "Model", "Experiment1"); //v19
             createTables();
         }
 
@@ -188,7 +188,7 @@ namespace HoptServer
             {
                 double peakFactor;
                 if (c.arrivals[1].value >= 0 && c.arrivals[1].value <= 1)
-                    peakFactor = 12.0 / c.arrivals[1].value;
+                    peakFactor = 12.0 * c.arrivals[1].value / 100;
                 else
                     peakFactor = 1.2; //default
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
@@ -226,8 +226,8 @@ namespace HoptServer
                 }
                 else if (c.serviceTimes[i].name == "Behavioral" && c.serviceTimes[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Behavorial"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavorial"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
                 }
                 else if (c.serviceTimes[i].name == "Observation" && c.serviceTimes[i].included == true)
                 {
@@ -294,23 +294,22 @@ namespace HoptServer
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Run Completed");
+            System.Diagnostics.Debug.WriteLine("Run Completed: " + e.TotalRunTime + "s");
         }
 
         void experiment_RunProgressChanged(object sender, RunProgressChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Run Progress Changed");
+            System.Diagnostics.Debug.WriteLine("Run Progress Changed: " + e.ProgressPercentage);
         }
 
         void experiment_ReplicationEnded(object sender, ReplicationEndedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Replication Ended");
+            System.Diagnostics.Debug.WriteLine("#" + e.ReplicationNumber + " Replication Ended: " + e.ActualRuntimeInSeconds + "s");
         }
 
         void experiment_ScenarioEnded(object sender, ScenarioEndedEventArgs e)
         {
             IExperiment experiment = (IExperiment)sender;
-
             // get response value
             foreach (IExperimentResponse response in experiment.Responses)
             {
@@ -327,6 +326,15 @@ namespace HoptServer
                     currentResponses.Add(r);
                 }
             }
+
+            //foreach (IScenarioResult result in e.Results)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(result.DataItem + " " + result.DataSource + " " + result.ToString());
+
+            //    //only if we want to send back individual responses
+            //    //Response r = new Response(response.Name, responseValue);
+            //    //currentResponses.Add(r);
+            //}
             _completed = true;
             System.Diagnostics.Debug.WriteLine("Scenario Ended");
         }
