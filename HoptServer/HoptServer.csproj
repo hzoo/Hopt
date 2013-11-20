@@ -111,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ConfigResult.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Constraint.cs" />
     <Compile Include="Models\ResponseInt.cs" />
