@@ -30,11 +30,11 @@ namespace HoptServer
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
 
-            String sql = "Create table if not exists Test2 (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int)";
+            String sql = "Create table if not exists Test2 (ExamRoom int, Trauma int, FastTrack int, RapidAdmissionUnit int, Behavioral int, Observation int)";
             SQLiteCommand command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
 
-            sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
+            sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmissionUnit int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
             sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
             sql += "Acuity1TimeinSystem real, Acuity2TimeinSystem real, Acuity3TimeinSystem real, Acuity4TimeinSystem real, Acuity5TimeinSystem real, LWBS real, Cost real)";
@@ -53,14 +53,14 @@ namespace HoptServer
             //{
             //    Console.WriteLine(dr.GetName(i));
             //}
-            String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
+            String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmissionUnit, Behavioral, Observation, ";
             sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, ";
             sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization, RapidAdmissionUnitUtilization, BehavioralUtilization, ObservationUtilization, ";
-            sql += "Acuity1TimeinSystem, Acuity2TimeinSystem, Acuity3TimeinSystem, Acuity4TimeinSystem, Acuity5TimeinSystem, LWBS, Cost) Values ";
-            sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
+            sql += "LWBS, Cost) Values ";
+            sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmissionUnit, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
-            sql += "@Acuity1TimeInSystem, @Acuity2TimeInSystem, @Acuity3TimeInSystem, @Acuity4TimeInSystem, @Acuity5TimeInSystem, @LWBS, -1)";
+            sql += "@LWBS, -1)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             { 
@@ -77,7 +77,7 @@ namespace HoptServer
             }
             command.ExecuteNonQuery();
             conn.Close();
-            printAllConfigs();
+            printAllResults();
         }
 
 
@@ -111,11 +111,11 @@ namespace HoptServer
             //printAllConfigs();
         }
 
-        public void printAllConfigs()
+        public void printAllResults()
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            SQLiteCommand cmd = new SQLiteCommand("select * from Results", conn);
+            SQLiteCommand cmd = new SQLiteCommand("select * from Results order by cost", conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             while(dr.Read())
             {
@@ -125,10 +125,43 @@ namespace HoptServer
                 Console.Write(" RapidAdmission:" + dr["RapidAdmission"].ToString());
                 Console.Write(" Behavioral:" + dr["Behavioral"].ToString());
                 Console.Write(" Observation:" + dr["Observation"].ToString());
+                Console.Write(" LWBS:" + dr["LWBS"].ToString());
+                Console.Write(" Cost:" + dr["Cost"].ToString());
                 Console.WriteLine();
                 Console.WriteLine();
 
             }
+        }
+
+        public void queryResults()
+        {
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            SQLiteCommand cmd = new SQLiteCommand("select * from Results order by cost", conn);
+            SQLiteDataReader dr = cmd.ExecuteReader();
+            while(dr.Read())
+            {
+                int examRoom = Convert.ToInt32(dr["ExamRoom"]);
+                int trauma = Convert.ToInt32(dr["Trauma"]);
+                int fastTrack = Convert.ToInt32(dr["FastTrack");
+                int rapidAdmission = Convert.ToInt32(dr["RapidAdmissionUnit"]);
+                int behavioral = Convert.ToInt32(dr["Behavioral"]);
+                int observation = Convert.ToInt32(dr["Observation"]);
+                double timeinsystem = Convert.ToDouble(dr["TimeInSystem"]);
+                double avgwaitingtime = Convert.ToDouble(dr["AvgWaitingTime"]);
+                double avgnumberinwaitingroom = Convert.ToDouble(dr["AvgNumberinWaitingRoom"]);
+                double traumau = Convert.ToDouble(dr["TraumaUtilization"]);
+                double examroomu = Convert.ToDouble(dr["ExamRoomUtilization"]);
+                double fastttracku = Convert.ToDouble(dr["FastTrackUtilization"]);
+                double rapidadmissionu = Convert.ToDouble(dr["RapidAdmissionUnitUtilization"]);
+                double behavioru = Convert.ToDouble(dr["BehaviorUtilization"]);
+                double observationu = Convert.ToDouble(dr["ObservationUtilization"]);
+                double LWBS = Convert.ToDouble(dr["LWBS"]);
+                double cost = Convert.ToDouble(dr["Cost"]);
+
+            }
+            
+
         }
 
         public void resetResults()
