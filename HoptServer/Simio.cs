@@ -143,7 +143,7 @@ namespace HoptServer
             {
                 int examRoom = Convert.ToInt32(dr["ExamRoom"]);
                 int trauma = Convert.ToInt32(dr["Trauma"]);
-                int fastTrack = Convert.ToInt32(dr["FastTrack");
+                int fastTrack = Convert.ToInt32(dr["FastTrack"]);
                 int rapidAdmission = Convert.ToInt32(dr["RapidAdmissionUnit"]);
                 int behavioral = Convert.ToInt32(dr["Behavioral"]);
                 int observation = Convert.ToInt32(dr["Observation"]);
@@ -294,7 +294,7 @@ namespace HoptServer
                 //else
             }
 
-            insertConfiguration(c);
+            //insertConfiguration(c);
 
             //listeners
             currentExperiment.ScenarioEnded += new EventHandler<ScenarioEndedEventArgs>(experiment_ScenarioEnded);
