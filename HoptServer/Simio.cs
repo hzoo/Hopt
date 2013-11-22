@@ -297,8 +297,14 @@ namespace HoptServer
                     currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
                 currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
                 System.Diagnostics.Debug.WriteLine("Control " + i + ": " + num);
-            }
-                //else
+                }
+                else if (c.rooms[i].included == false && (c.rooms[i].name == "Rapid Admission" || c.rooms[i].name == "Behavioral" || c.rooms[i].name == "Observation"))
+                {
+                    string num = "";
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], "0");
+                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                    System.Diagnostics.Debug.WriteLine("Control " + i + ": " + num);
+                }
             }
 
             //insertConfiguration(c);

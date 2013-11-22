@@ -23,7 +23,7 @@ angular.module( 'ngBoilerplate.config', [
         proxy: null,
         initialize: function (responseCallback, connectionCallback, port, hub) {
             if (this.proxy === null) {
-              console.log(connectionCallback,port,hub);
+              // console.log(connectionCallback,port,hub);
               //Getting the connection object
               if (port === '8001') {
                 connection = $.hubConnection('http://localhost:' + port);
