@@ -37,7 +37,7 @@ namespace HoptServer
             sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
             sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
-            sql += "LWBS real, Cost real)";
+            sql += "LWBS real, InitialCost real, AnnualCost real,  TotalCost real)";
             command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
             conn.Close();
@@ -60,7 +60,7 @@ namespace HoptServer
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
-            sql += "@LWBS, @Cost)";
+            sql += "@LWBS, @InitialCost, @AnnualCost, @TotalCost)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             { 
@@ -77,7 +77,9 @@ namespace HoptServer
                 Console.WriteLine(value);
                 command.Parameters.AddWithValue(value,r.value);
             }
-            command.Parameters.AddWithValue("@Cost", -1.0);
+            command.Parameters.AddWithValue("@InitialCost", -1.0);
+            command.Parameters.AddWithValue("@AnnualCost", -1.0);
+            command.Parameters.AddWithValue("@TotalCost", -1.0);
             Console.WriteLine(command.Parameters.Count);
             command.ExecuteNonQuery();
             conn.Close();
@@ -130,7 +132,7 @@ namespace HoptServer
                 Console.Write(" Behavioral:" + dr["Behavioral"].ToString());
                 Console.Write(" Observation:" + dr["Observation"].ToString());
                 Console.Write(" LWBS:" + dr["LWBS"].ToString());
-                Console.Write(" Cost:" + dr["Cost"].ToString());
+                Console.Write(" Cost:" + dr["TotalCost"].ToString());
                 Console.WriteLine();
                 Console.WriteLine();
 
@@ -398,6 +400,21 @@ namespace HoptServer
             double initial = calc.initialCost(c.costInfo, c.rooms);
             double annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo);
             double total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead);
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            string sql = "Update Results set InitialCost = " + initial + ", AnnualCost= " + annual + ", Total= " + total;
+            sql += " where ";
+            for (int i = 0; i < c.rooms.Length; i++)
+            {
+                if(i < 5)
+                    sql += c.rooms[i].name + " = " + c.rooms[i].num + " and ";
+                else
+                    sql += c.rooms[i].name + " = " + c.rooms[i].num;
+            }
+            SQLiteCommand command = new SQLiteCommand(sql, conn);
+            command.ExecuteNonQuery();
+            
+
         }
 
         public void SetProject(string project, string model, string experiment)
