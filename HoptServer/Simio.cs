@@ -369,7 +369,7 @@ namespace HoptServer
                 }
             }
 
-            //calculateCosts();
+            //calculateCosts(c);
 
             //foreach (IScenarioResult result in e.Results)
             //{
@@ -383,9 +383,17 @@ namespace HoptServer
             System.Diagnostics.Debug.WriteLine("Scenario Ended");
         }
 
-        private void calculateCosts()
+        private void calculateCosts(Configuration c)
         {
-            throw new NotImplementedException();
+            double interestRate = 0.05;
+            double growthRate = 0.04;
+            int yearsToCompletion = 5;
+            int yearsAhead = 10;
+
+            HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
+            double initial = calc.initialCost(c.costInfo, c.rooms);
+            double annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo);
+            double total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead);
         }
 
         public void SetProject(string project, string model, string experiment)
