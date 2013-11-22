@@ -62,8 +62,8 @@ module.exports = {
    */
   vendor_files: {
     js: [
-      'vendor/jquery/jquery-1.10.2.js',
-      'vendor/jquery-signalr/jquery.signalR.js',
+      'vendor/jquery/jquery.js',
+      'src/assets/jquery-signalr/jquery.signalR.js',
       'vendor/bootstrap/js/transition.js',
       'vendor/bootstrap/js/collapse.js',
       'vendor/angular/angular.js',
