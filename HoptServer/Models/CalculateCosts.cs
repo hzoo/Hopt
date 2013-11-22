@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace HoptServer.Models
 {
@@ -65,6 +66,35 @@ namespace HoptServer.Models
             }
             return value;
         }
+
+        public double[] getUtilizationAndLWBS(RoomType[] rooms) 
+        {
+            double[] values = new double[7];
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            String sql = "select * from Results where ";
+            for (int i = 0; i < 6; i++)
+            {
+                if(i < 5)
+                    sql += rooms[i].name + " = " + rooms[i].num + " and ";
+                else
+                    sql += rooms[i].name + " = " + rooms[i].num;
+            }
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            SQLiteDataReader dr = cmd.ExecuteReader();
+            while(dr.Read())
+            {
+                values[0] = Convert.ToDouble(dr["ExamRoomUtilization"]);
+                values[1] = Convert.ToDouble(dr["TraumaUtilization"]); 
+                values[2] = Convert.ToDouble(dr["FastTrackUtilization"]);
+                values[3] = Convert.ToDouble(dr["RapidAdmissionUnitUtilization"]);
+                values[4] = Convert.ToDouble(dr["BehaviorUtilization"]);
+                values[5] = Convert.ToDouble(dr["ObservationUtilization"]);
+                values[6] = Convert.ToDouble(dr["LWBS"]);
+            }
+            return values;
+
+        }   
         //TODO: revenue by acuity
         //TODO: lwbs (from Simio)
         public double lwbsCost() {
