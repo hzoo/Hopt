@@ -1,0 +1,110 @@
+//override
+.input-group-addon {
+  width: inherit;
+}
+.bs-sidenav {
+margin-top: 30px;
+margin-bottom: 30px;
+padding-top: 10px;
+padding-bottom: 10px;
+text-shadow: 0 1px 0 #fff;
+background-color: #f7f5fa;
+border-radius: 5px;
+}
+
+//center text
+td {
+    text-align: center;
+}
+
+//center inputs
+.col-centered {
+    margin: 0 auto;
+    float: none;
+    text-align: center;
+}
+
+//remove pagination from inputs (ng-table)
+.bs-example > div[ng-include="templates.pagination"] {
+    display: none;
+}
+
+//sidebar
+@media (min-width: 992px) {
+  .bs-sidebar .nav > .active > ul {
+    display: block;
+  }
+  // Widen the fixed sidebar
+  .bs-sidebar.affix,
+  .bs-sidebar.affix-bottom {
+    width: 136px;
+  }
+  // Undo the static from mobile first approach
+  .bs-sidebar.affix {
+    position: fixed;
+    -webkit-transform:translateY(80px);
+       -moz-transform:translateY(80px);
+        -ms-transform:translateY(80px);
+         -o-transform:translateY(80px);
+            transform:translateY(80px);
+  }
+  // Undo the static from mobile first approach
+  .bs-sidebar.affix-bottom {
+    position: absolute;
+  }
+  .bs-sidebar.affix-bottom .bs-sidenav,
+  .bs-sidebar.affix .bs-sidenav {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 991px) {
+    .affix {
+        position: relative;
+    }
+}
+
+/*
+ * Callouts
+ *
+ * Not quite alerts, but custom and helpful notes for folks reading the docs.
+ * Requires a base and modifier class.
+ */
+
+/* Common styles for all types */
+.bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Variations */
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #eed3d7;
+}
+.bs-callout-danger h4 {
+  color: #b94a48;
+}
+.bs-callout-warning {
+  background-color: #faf8f0;
+  border-color: #faebcc;
+}
+.bs-callout-warning h4 {
+  color: #c09853;
+}
+.bs-callout-info {
+  background-color: #f4f8fa;
+  border-color: #bce8f1;
+}
+.bs-callout-info h4 {
+  color: #3a87ad;
+}

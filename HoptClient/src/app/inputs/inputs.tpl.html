@@ -1,0 +1,314 @@
+<div>
+  <div class="col-md-2" role="complementary">
+    <div class="bs-sidebar affix">
+      <ul class="nav nav-pills nav-stacked bs-sidenav">
+  <!--       <li>
+          <a href="#dropdowns">Dropdowns<
+          <ul class="nav">
+            <li><a href="#dropdowns-example">Example</a></li>
+            <li><a href="#dropdowns-alignment">Alignment options</a></li>
+            <li><a href="#dropdowns-headers">Headers</a></li>
+            <li><a href="#dropdowns-disabled">Disabled menu items</a></li>
+          </ul>
+        </li> -->
+        <li ng-repeat="item in page.sidebarInputs" spy="{{item.id}}" ng-click="select(item)" ng-class="{active: isActive(item)}">
+          <a scroll-to="{{item.id}}">{{item.name}}</a>
+        </li>
+      </ul>
+<!--       <div>
+        <a class="btn btn-primary">Save Information</a>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-10" role="main">
+    <!-- {{hospitalData}} -->
+    <h1 class="page-header">
+      Inputs
+      <small>Hospital specific data and constraints.</small>
+    </h1>
+
+    <h3 ng-repeat-start="item in page.sidebarInputs" id="{{item.id}}">
+          {{item.name}}
+    </h3>
+
+    <div ng-if="$index == 0">
+
+      <form class="form-horizontal" role="form">
+        <div ng-repeat="type in hospitalData.clientInfo" class="form-group">
+          <label class="col-lg-2 control-label">{{type.name}}</label>
+          <div class="col-lg-2">
+            <div class="input-group">
+              <input class="form-control col-centered" ng-model="type.value" placeholder="" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div ng-if="$index == 1">
+
+      <!-- <div class="bs-callout bs-callout-info">
+            <h4>Arrivals</h4>
+            <p>Badges won't self collapse in Internet Explorer 8 because it lacks support for the <code>:empty</code> selector.</p>
+      </div> -->
+
+      <div class="bs-callout bs-callout-info">
+            <h4>Arrivals</h4>
+            <p>Arrivals are modeled using a 24-hr rate table.</p>
+            <p>Each hour in a day has a set number of arrivals that will occur in that time interval according to an exponential distribution. </p>
+            <p>There is a predetermined base # of arrivals for each hour that is scaled by the annual number of visits inputted.</p>
+            <p>The number of arrivals from 12 AM - 1 AM could be: <code>baseArrivalForThatHour*annualVisits/(365*baseArrivalsInADay)</code></p>
+            <p>The number of arrivals from 12 AM - 1 AM could be: <code ng-bind-template="56*{{hospitalData.arrivalInfo[0].value}}/(365*1402) = {{56 * (hospitalData.arrivalInfo[0].value) / ( 365*1402 ) | number:0}}"></code></p>
+             <h4>Peak Arrivals %</h4>
+            <p>The peak month arrivals as a % of the annual arrivals.</p>
+            <p>Example: 10% would mean a peak month = 10% of the annual arrivals while an average month would still be 1/12 of the annual arrivals. Thus a peak month would be 12/10 = 1.2x the arrivals of an average month.</p>
+      </div>
+
+      <form class="form-horizontal" role="form">
+        <div ng-repeat="type in hospitalData.arrivalInfo" class="form-group">
+          <label class="col-lg-2 control-label">{{type.name}}</label>
+          <div class="col-lg-2">
+            <div class="input-group">
+              <input class="col-centered form-control" ng-model="type.value" placeholder="" />
+              <span ng-if="type.name=='Annual Visits'" class="col-xs-1 col-centered input-group-addon">visits</span>
+              <span ng-if="type.name=='% of Annual Visits for the Peak Month'" class="col-xs-1 col-centered input-group-addon">%</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div ng-if="$index == 2">
+
+      <div class="bs-callout bs-callout-info">
+            <p>Assumption: 5 acuity levels.</p>
+      </div>
+
+      <form class="form-horizontal" role="form">
+        <div ng-repeat="type in hospitalData.acuityInfo" class="form-group">
+          <label class="col-lg-2 control-label">{{type.name}}</label>
+          <div class="col-lg-2">
+            <div class="input-group">
+              <input type="text" class="form-control col-centered" ng-model="type.value" placeholder="" />
+              <span class="col-xs-1 col-centered input-group-addon">%</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div ng-if="$index == 3">
+
+      <div class="bs-callout bs-callout-info">
+            <h4>Model Assumptions</h4>
+            <p>Acuity 1 patients go to Trauma.</p>
+            <p>Acuity 2 patients go to Exam Room.</p>
+            <p>50% of Acuity 3 patients go to Exam Room.</p>
+            <p>50% of Acuity 3 patients go to Fast Track.</p>
+            <p>Acuity 4-5 patients go to Fast Track.</p>
+            <h4>Hospital Assumptions</h4>
+            <p>The Exam Room room type is always included.</p>
+            <p>If an primary room isn't included, patients go to an Exam Room instead.</p>
+            <p>If an secondary room isn't included, patients stay in the primary room they were in for treatment.*</p>
+            <h4>Service Times</h4>
+            <p>Pick between using difference service time distributions (using hours)</p>
+            <p>Triangular: <code>Random.Triangular(minimum, mode, maximum)</code>. Example: Random.Triangular(1,2,3)</p>
+            <p>Constant service time: <code>value</code>. Example: 1</p>
+            <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-xs" ng-click="changeServiceTimes('tri')">Triangular</button>
+                      <button type="button" class="btn btn-default btn-xs" ng-click="changeServiceTimes('uni')">Constant</button>
+            </div>
+      </div>
+
+      <div class="bs-example">
+        <table ng-table class="table table-hover">
+        <tr ng-repeat="type in hospitalData.serviceInfo">
+            <td data-title="'Room Type'">
+              <div class="col-centered">
+                {{type.name}}
+              </div>
+            </td>
+            <td data-title="'Room Service Time (Hrs)'" class="col-xs-4">
+              <div class="input-group col-centered">
+                <input class="col-centered" type="text" ng-model="type.averageRoomTime"/>
+                <span class="col-centered input-group-addon">hours</span>
+              </div>
+            </td>
+            <td data-title="'Included in Design?'">
+              <input ng-if="type.name=='Exam Room'" type="checkbox" ng-model="configuration.rooms[$index].included" disabled/>
+              <input ng-if="type.name!='Exam Room'" type="checkbox" ng-model="configuration.rooms[$index].included"/>
+            </td>
+        </tr>
+        </table>
+      </div>
+    </div>
+    <div ng-if="$index == 4">
+
+      <div class="bs-example">
+        <table ng-table class="table table-hover">
+        <tr ng-repeat="type in hospitalData.constraintInfo.rooms">
+            <td data-title="'Room Type'" class="col-xs-1">
+              <div class="col-centered">
+                {{type.name}}
+              </div>
+            </td>
+            <td data-title="'Average Wait Time (Hrs)'" class="col-xs-1">
+              <div class="input-group col-centered">
+                <input class="col-centered" type="text" ng-model="type.averageWaitTime"/>
+                <span class="col-centered input-group-addon">hours</span>
+              </div>
+            </td>
+            <td data-title="'Maximum # of Rooms'" class="col-xs-1">
+              <div class="input-group col-centered">
+                <input class="col-centered" type="text" ng-model="type.maximumNumberOfRooms"/>
+                <span class="col-centered input-group-addon">rooms</span>
+              </div>
+            </td>
+        </tr>
+        </table>
+      </div>
+
+    </div>
+    <div ng-if="$index == 5">
+      <div class="bs-example">
+
+      <div class="bs-callout bs-callout-info">
+        <p>Additional rooms could be for the purpose of adding onto the existing ED, renovating an existing ED, or renovating from another department to ED. </p>
+        <p>This tool assumes the hospital is renovating an existing ED for the purposes of construction, equipment, and utility cost.</p>
+        <p>Trauma rooms are assumed to have 1,200 sqft. The other room types are 800 sqft.</p>
+      </div>
+
+        <h4>Utility</h4>
+        <div class="bs-callout bs-callout-info">
+            <p>Additional rooms can be adding onto the existing ED, renovating existing ED, or renovating from another department to ED. </p>
+      </div>
+
+        <table ng-table class="table table-hover">
+          <form class="form-horizontal" role="form">
+            <label class="col-lg-2 control-label">{{hospitalData.costInfo.utility.name}}</label>
+            <div class="col-lg-2">
+              <div class="input-group">
+                <span class="col-xs-1 col-centered input-group-addon">$</span>
+                <input type="text" class="form-control col-centered" ng-model="hospitalData.costInfo.utility.value" placeholder="" />
+              </div>
+            </div>
+          </form>
+        </table>
+
+
+        <h4>Salary and Staffing Ratios</h4>
+
+        <div class="bs-callout bs-callout-info">
+            <p>Staffing cost is calculated by using a staff's annual salary, the number of staff, and the utilization of rooms the staff's work in. It is assumed the staff only work when there is a patient and the room is utilized since the simulation model doesn't model the staff themselves.</p>
+            <p>For the purposes of estimating the staffing cost, we assume there is always enough staffing to meet the arrival of the patients. The cost is calculated using the average utilization % of each type of room over the length of the simulation to determine when each staff is working. There is either zero or one patient in a room. A staff is working whenever there is a patient in a room.</p>
+      </div>
+
+        <table ng-table class="table table-hover">
+          <!-- {{hospitalData.costInfo.labor}} -->
+          <tr ng-repeat="type in hospitalData.costInfo.labor">
+              <td data-title="'Staff'">{{type.name}}</td>
+              <td data-title="'Annual Salary ($/year)'">
+                  <div class="input-group">
+                    <span class="col-xs-1 col-centered input-group-addon">$</span>
+                    <input class="col-xs-11 col-centered" type="text" ng-model="type.wage"/>
+                  </div>
+              </td>
+              <td data-title="'Exam Room (staff/room)'">
+                <div class="input-group">
+                  <span class="col-xs-1 col-centered  input-group-addon">1/</span>
+                  <input class="col-xs-11 col-centered" type="text" ng-model="type.rooms[0].value"/>
+                </div>
+              </td>
+              <td data-title="'Trauma (staff/room)'">
+                <div class="input-group">
+                  <!-- <span ng-show="type.name != 'Doctor'" class="col-xs-1 col-centered  input-group-addon">1/</span>
+                  <span ng-show="type.name == 'Doctor'" class="col-xs-1 col-centered  input-group-addon">0/</span> -->
+                  <span class="col-xs-1 col-centered  input-group-addon">1/</span>
+                  <input class="col-xs-11 col-centered" type="text" ng-model="type.rooms[1].value"/>
+                </div>
+              </td>
+              <td data-title="'Fast Track (staff/room)'">
+                <div class="input-group">
+                  <span class="col-xs-1 col-centered input-group-addon">1/</span>
+                  <input class="col-xs-11 col-centered" type="text" ng-model="type.rooms[2].value"/>
+                </div>
+              </td>
+              <td data-title="'Rapid Admission (staff/room)'">
+                <div class="input-group col-centered">
+                  <span ng-show="type.name != 'Doctor'" class="col-xs-1 col-centered input-group-addon">1/</span>
+                  <span ng-show="type.name == 'Doctor'" class="col-xs-1 col-centered input-group-addon">0 staff/room</span>
+                  <!-- <span class="col-xs-1 col-centered input-group-addon">1/</span> -->
+                  <input ng-show="type.name != 'Doctor'" class="col-xs-11 col-centered" type="text" ng-model="type.rooms[3].value"/>
+                </div>
+              </td>
+              <td data-title="'Behavioral (staff/room)'">
+                <div class="input-group col-centered">
+                  <span ng-show="type.name != 'Doctor'" class="col-xs-1 col-centered input-group-addon">1/</span>
+                  <span ng-show="type.name == 'Doctor'" class="col-xs-1 col-centered input-group-addon">0 staff/room</span>
+                  <!-- <span class="col-xs-1 col-centered  input-group-addon">1/</span> -->
+                  <input ng-show="type.name != 'Doctor'" class="col-xs-11 col-centered" type="text" ng-model="type.rooms[4].value"/>
+                </div>
+              </td>
+              <td data-title="'Observation (staff/room)'">
+                <div class="input-group col-centered">
+                  <span ng-show="type.name != 'Doctor'" class="col-xs-1 col-centered input-group-addon">1/</span>
+                  <span ng-show="type.name == 'Doctor'" class="col-xs-1 col-centered input-group-addon">0 staff/room</span>
+                  <!-- <span class="col-xs-1 col-centered  input-group-addon">1/</span> -->
+                  <input ng-show="type.name != 'Doctor'" class="col-xs-11 col-centered" type="text" ng-model="type.rooms[5].value"/>
+                </div>
+              </td>
+          </tr>
+        </table>
+
+        <div class="bs-callout bs-callout-info">
+            <p>There are increasing construction costs depending on if the hospital is renovating from another department, renovating an existing ED, or expanding the ED into a new space. To simplify having to figure out how many rooms are of which type, the construction cost used is the cost for renovating an existing ED.</p>
+      </div>
+
+        <h4>Construction</h4>
+        <table ng-table class="table table-hover">
+          <tr ng-repeat="type in hospitalData.costInfo.capital">
+              <td data-title="'Room Type'" class="col-xs-1">
+                <div class="input-group col-centered">
+                  {{type.name}}
+                </div>
+              </td>
+              <td data-title="'Equipment Cost ($)'" class="col-xs-1">
+                <div class="input-group col-centered">
+                  <span class="col-centered input-group-addon">$</span>
+                  <input class="col-centered" type="text" ng-model="type.equipment"/>
+                </div>
+              </td>
+              <td data-title="'Construction Cost ($)'" class="col-xs-1">
+                <div class="input-group col-centered">
+                  <span class="col-centered input-group-addon">$</span>
+                  <input class="col-centered" type="text" ng-model="type.construction"/>
+                </div>
+              </td>
+              <td data-title="'Size (sqft)'" class="col-xs-1">
+                <div class="input-group col-centered">
+                  <input class="col-centered" type="text" ng-model="type.sqft"/>
+                  <span class="col-centered input-group-addon">sqft</span>
+                </div>
+              </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+    <div ng-if="$index == 6">
+      <form class="form-horizontal" role="form">
+        <div ng-repeat="type in hospitalData.simulationInfo" class="form-group">
+          <label class="col-lg-2 control-label">{{type.name}}</label>
+          <div class="col-lg-2">
+            <div class="input-group">
+              <input class="form-control col-centered" ng-model="type.value" placeholder="" />
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+
+    <div ng-repeat-end>
+      <hr />
+    </div>
+
+  </div>
+</div>

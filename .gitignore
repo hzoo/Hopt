@@ -1,3 +1,11 @@
+#from hopt front end
+*.sw*
+*~
+build/
+bin/
+node_modules/
+vendor/
+
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Oo]bj/
 

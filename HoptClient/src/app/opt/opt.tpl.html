@@ -1,0 +1,143 @@
+
+
+<div class="container">
+  <h1 class="page-header">
+    {{hospitalData.clientInfo[0].value}}
+    <small>Location: {{hospitalData.clientInfo[1].value}}</small>
+  </h1>
+<!-- {{config}} -->
+  <div class="row">
+    <form class="form-horizontal col-lg-6" role="form">
+
+      <div class="form-group">
+        <div class="col-lg-12">
+          <label class="col-lg-4">{{hospitalData.simulationInfo.daysToSimulate.name}}</label>
+          <label class="col-lg-4">{{hospitalData.simulationInfo.numberOfReplications.name}}</label>
+          <label class="col-lg-4 ">{{hospitalData.simulationInfo.startupTime.name}}</label>
+          <div class="input-group col-lg-4">
+            <input type="text" class="form-control col-centered" ng-model="hospitalData.simulationInfo.daysToSimulate.value" placeholder="" />
+          </div>
+          <div class="input-group col-lg-4">
+            <input type="text" class="form-control col-centered" ng-model="hospitalData.simulationInfo.numberOfReplications.value" placeholder="" />
+          </div>
+          <div class="input-group col-lg-4">
+            <input type="text" class="form-control col-centered" ng-model="hospitalData.simulationInfo.startupTime.value" placeholder="" />
+        </div>
+        </div>
+      </div>
+
+    <label class="col-lg-3 col-centered"></label>
+    <label class="col-lg-4 col-centered">Existing</label>
+    <label class="col-lg-4 col-centered">New</label>
+    <div ng-repeat="room in configuration.rooms | filter: { included: true }" class="form-group">
+      <!-- {{room}} -->
+      <label class="col-lg-3 control-label">{{room.name}}</label>
+      <div class="col-lg-4">
+        <div class="input-group col-centered">
+          <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{$index}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="input-group col-centered">
+          <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{$index}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+        </div>
+      </div>
+    </div>
+
+<!--     <div class="form-group">
+      <label class="col-xs-1 control-label">Port #</label>
+        <div class="col-lg-offset-1 col-lg-2">
+            <input ng-model="misc.portNumber" placeholder="" />
+            <button type="submit" class="btn btn-default" ng-click="reInitialize()" >Reconnect</button>
+        </div>
+    </div> -->
+
+    <div class="form-group">
+      <div class="col-lg-3 col-lg-offset-3">
+      <input class="col-centered" type="radio" ng-model="hospitalData.simulationInfo.rateTable.value" value="average"> Run avg. days <br/>
+        <input class="col-centered" type="radio" ng-model="hospitalData.simulationInfo.rateTable.value" value="peak"> Run peak days<br/>
+      </div>
+      <div class="col-lg-5 col-lg-offset-1">
+        <button disabled ng-if="runOpt === true" type="submit" class="btn btn-primary col-lg-9" ng-click="sendMessage('RunConfig',config)" >Running...</button>
+        <button ng-if="runOpt === false" type="submit" class="btn btn-primary col-lg-9" ng-click="sendMessage('RunConfig',config)" >Run Opt</button>
+        <!-- <div ng-class="{spinner: misc.viewLoading}"></div> -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Port #</label>
+        <div class="col-lg-4">
+          <div class="input-group col-centered">
+            <input type="text" class="form-control col-centered" ng-model="hoptService.portNumber" placeholder="" />
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="input-group col-centered col-lg-12">
+            <button type="submit" class="btn btn-default" ng-click="reInitialize()" >Reconnect</button>
+          </div>
+        </div>
+    </div>
+
+      <div class="form-group">
+        <div class="col-lg-offset-8 col-lg-3">
+            <button ng-if="runOpt === true" type="submit" class="btn btn-primary" ng-click="stopOpt()" >Stop Opt</button>
+            <button disabled ng-if="runOpt === false" type="submit" class="btn btn-primary" ng-click="stopOpt()" >Stopped</button>
+          </div>
+      </div>
+
+  </form>
+
+  <div class="bs-callout bs-callout-info col-lg-6">
+    <p ng-repeat-start="response in misc.responses"></p>
+      <h4 class="col-lg-12" ng-if="$index == 0">Waiting Time (hrs)</h4>
+      <h4 class="col-lg-12" ng-if="$index == 2">Utilization (%)</h4>
+      <h4 class="col-lg-12" ng-if="$index == 8">Misc</h4>
+      <div class="col-lg-6" ng-bind-template="{{response.displayName}}"></div>
+      <div class="col-lg-3" ng-bind-template="{{fixBlank(response.value,'')}}"></div>
+      <div class="number col-lg-3" ng-class="{increase: response.diff > 0, decrease: response.diff < 0}" ng-bind-template="{{ fixDiff(response.diff)}}"></div>
+    <p ng-repeat-end></p>
+  </div>
+</div>
+
+<div class="bs-callout bs-callout-info row">
+    <p>
+    </p>
+     <h3 class="col-lg-6">Value at Start of Construction: </h3>
+      <h3 class="col-lg-6">{{fixBlank(cost.total(0.05,0.04,5),"$")}}</h3>
+    <p>
+    </p>
+      <h4 class="col-lg-6">Initial: </h4>
+      <h4 class="col-lg-6">{{fixBlank(cost.initial.total(),"$")}}</h4>
+    <p>
+    </p>
+      <div class="col-lg-6">Construction: </div>
+      <div class="col-lg-6">{{fixBlank(cost.initial.construction(),"$")}}</div>
+      <div class="col-lg-6">Equipment: </div>
+      <div class="col-lg-6">{{fixBlank(cost.initial.equipment(),"$")}}</div>
+    <p>
+    </p>
+      <h4 class="col-lg-6">Annual: </h4>
+      <h4 class="col-lg-6">{{fixBlank(cost.annual.total(),"$")}}</h4>
+    <p>
+    </p>
+      <div class="col-lg-6">Utility: </div>
+      <div class="col-lg-6">{{fixBlank(cost.annual.utility(),"$")}}</div>
+    <p>
+    </p>
+      <div class="col-lg-6">Staff: </div>
+      <div class="col-lg-6">{{fixBlank(cost.annual.staff(),"$")}}</div>
+    <p>
+    </p>
+      <div class="col-lg-6">LWBS: </div>
+      <div class="col-lg-6">{{fixBlank(cost.annual.lwbs(),"$")}}</div>
+  </div>
+
+  <div class="gridStyle clear-fix" ng-grid="gridOptions"></div>
+</div>
+
+
+<!-- <div class="container" ng-controller="SignalRAngularCtrl">
+    <input ng-model="message"/>
+    <input type="button" name="GreetAll" value="Greet All" ng-click="greetAll(message)" />
+    <span>{{text}}</span>
+</div> -->

@@ -1,0 +1,49 @@
+<div class="bs-masthead">
+  <div class="container">
+    <h1><i class="icon-hospital"></i> {{$parent.name}}</h1>
+
+    <p class="lead">
+      Everything you need to specify emergency department design constraints.
+    </p>
+  <!--   <p>
+      A generalized input form, beautiful performance measures, and an analysis of different configurations.
+    </p> -->
+
+    <div class="btn-group">
+  <!--     <a href="https://github.com/joshdmiller/ng-boilerplate#readme" class="btn btn-default btn-lg">
+        <i class="icon-book"></i>
+        Read the Docs
+      </a> -->
+      <span ui-sref="inputs" ng-class="{active:$uiRoute}">
+        <a class="btn btn-lg btn-outline-inverse">
+              <i class="icon-list-ol"></i>
+              Pick a Hospital
+        </a>
+      </span>
+    </div>
+
+    <div class="marketing">
+      <div class="row">
+        <div class="col-md-4">
+          <h4><i class="icon-pencil"></i> Set Inputs</h4>
+          <p>
+            Specify what makes a hospital different from another.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h4><i class="icon-play"></i> Run Configurations</h4>
+          <p>
+            Test the performance of a configuration of your choosing.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h4><i class="icon-retweet"></i> Run Optimizations</h4>
+          <p>
+            Click to obtain your optimal configuration.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

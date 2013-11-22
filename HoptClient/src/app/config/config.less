@@ -1,0 +1,50 @@
+.increase {
+    color: green;
+}
+
+.decrease {
+    color: red;
+}
+
+.number {
+}
+
+.number.increase-add,
+.number.increase-remove,
+.number.decrease-add,
+.number.decrease-remove {
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  -o-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+
+.number.increase-add,
+.number.increase-remove.increase-remove-active,
+.number.decrease-add,
+.number.decrease-remove.decrease-remove-active {
+    opacity: 0;
+}
+
+.number.increase,
+.number.increase-remove,
+.number.increase-add.increase-add-active,
+.number.decrease,
+.number.decrease-remove,
+.number.decrease-add.decrease-add-active {
+    opacity: 1;
+}
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 1100px;
+    height: 400px;
+}
+
+.control-label {
+    text-align: center;
+}
+
+.clear-fix {
+    clear: both
+}
