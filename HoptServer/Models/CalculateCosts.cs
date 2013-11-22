@@ -107,8 +107,8 @@ namespace HoptServer.Models
             return value;
         }
         //value at construction start
-        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, double yearsToCompletion) {
-            double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), 10)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
+        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, int yearsToCompletion, int yearsAhead) {
+            double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
             return initialCost(costInfo,rooms) + annuityOfAnnualCost;
         }
     }
