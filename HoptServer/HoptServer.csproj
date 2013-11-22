@@ -111,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CalculateCosts.cs" />
     <Compile Include="Models\CapitalCost.cs" />
     <Compile Include="Models\ConfigResult.cs" />
     <Compile Include="Models\Configuration.cs" />

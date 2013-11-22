@@ -367,6 +367,8 @@ namespace HoptServer
                 }
             }
 
+            //calculateCosts();
+
             //foreach (IScenarioResult result in e.Results)
             //{
             //    System.Diagnostics.Debug.WriteLine(result.DataItem + " " + result.DataSource + " " + result.ToString());
@@ -377,6 +379,11 @@ namespace HoptServer
             //}
             _completed = true;
             System.Diagnostics.Debug.WriteLine("Scenario Ended");
+        }
+
+        private void calculateCosts()
+        {
+            throw new NotImplementedException();
         }
 
         public void SetProject(string project, string model, string experiment)
