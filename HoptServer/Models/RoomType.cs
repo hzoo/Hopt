@@ -9,6 +9,7 @@ namespace HoptServer
     {
         public String name { get; set; }
         public int num { get; set; }
+        public int originalNum { get; set; }
         public Boolean included { get; set; }
     }
 }
