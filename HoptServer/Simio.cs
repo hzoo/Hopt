@@ -37,7 +37,7 @@ namespace HoptServer
             sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
             sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
-            sql += "LWBS real, Cost real)";
+            sql += "LWBS real, InitialCost real, AnnualCost real,  TotalCost real)";
             command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
             conn.Close();
@@ -60,7 +60,7 @@ namespace HoptServer
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
-            sql += "@LWBS, @Cost)";
+            sql += "@LWBS, @InitialCost, @AnnualCost, @TotalCost)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             { 
@@ -77,7 +77,9 @@ namespace HoptServer
                 Console.WriteLine(value);
                 command.Parameters.AddWithValue(value,r.value);
             }
-            command.Parameters.AddWithValue("@Cost", -1.0);
+            command.Parameters.AddWithValue("@InitialCost", -1.0);
+            command.Parameters.AddWithValue("@AnnualCost", -1.0);
+            command.Parameters.AddWithValue("@TotalCost", -1.0);
             Console.WriteLine(command.Parameters.Count);
             command.ExecuteNonQuery();
             conn.Close();
