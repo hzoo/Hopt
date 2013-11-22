@@ -24,7 +24,7 @@ namespace HoptServer
             {
                 try
                 {
-                    string url = "http://localhost:" + port.ToString();
+                    string url = "http://*:" + port.ToString();
                     using (WebApp.Start<Startup>(url))
                     {
                         Console.WriteLine("Server running on {0}", url);
@@ -70,11 +70,6 @@ namespace HoptServer
     public class ChatHub : Hub
     {
         Simio s = new Simio();
-
-        public void GreetAll(string message)
-        {
-            Clients.All.getResponses("Message: " + message + "! The time is " + DateTime.Now.ToString());
-        }
 
         public void RunConfig(Configuration c)
         {

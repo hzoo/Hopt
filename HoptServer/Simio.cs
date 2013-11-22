@@ -30,11 +30,11 @@ namespace HoptServer
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
 
-            String sql = "Create table if not exists Test2 (ExamRoom int, Trauma int, FastTrack int, RapidAdmissionUnit int, Behavioral int, Observation int)";
+            String sql = "Create table if not exists Test2 (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int)";
             SQLiteCommand command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
 
-            sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmissionUnit int, Behavioral int, Observation int, ";
+            sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
             sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
             sql += "Acuity1TimeinSystem real, Acuity2TimeinSystem real, Acuity3TimeinSystem real, Acuity4TimeinSystem real, Acuity5TimeinSystem real, LWBS real, Cost real)";
@@ -53,11 +53,11 @@ namespace HoptServer
             //{
             //    Console.WriteLine(dr.GetName(i));
             //}
-            String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmissionUnit, Behavioral, Observation, ";
+            String sql = "Insert into Results (ExamRoom, Trauma, FastTrack, RapidAdmission, Behavioral, Observation, ";
             sql += "TimeInSystem, AvgWaitingTime, AvgNumberinWaitingRoom, ";
             sql += "TraumaUtilization, ExamRoomUtilization, FastTrackUtilization, RapidAdmissionUnitUtilization, BehavioralUtilization, ObservationUtilization, ";
             sql += "LWBS, Cost) Values ";
-            sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmissionUnit, @Behavioral, @Observation, ";
+            sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
             sql += "@LWBS, -1)";
@@ -144,7 +144,7 @@ namespace HoptServer
                 int examRoom = Convert.ToInt32(dr["ExamRoom"]);
                 int trauma = Convert.ToInt32(dr["Trauma"]);
                 int fastTrack = Convert.ToInt32(dr["FastTrack"]);
-                int rapidAdmission = Convert.ToInt32(dr["RapidAdmissionUnit"]);
+                int rapidAdmission = Convert.ToInt32(dr["RapidAdmission"]);
                 int behavioral = Convert.ToInt32(dr["Behavioral"]);
                 int observation = Convert.ToInt32(dr["Observation"]);
                 double timeinsystem = Convert.ToDouble(dr["TimeInSystem"]);
@@ -205,8 +205,8 @@ namespace HoptServer
             //change hospital values
             //arrivals
             int annualArrivals;
-            if (c.arrivals[0].value >= 0)
-                annualArrivals = Convert.ToInt32(c.arrivals[0].value);
+            if (c.arrivalInfo[0].value >= 0)
+                annualArrivals = Convert.ToInt32(c.arrivalInfo[0].value);
             else
                 annualArrivals = 100000; // default
 
@@ -220,8 +220,8 @@ namespace HoptServer
             else if (c.rateTable.value == "peak")
             {
                 double peakFactor;
-                if (c.arrivals[1].value >= 0 && c.arrivals[1].value <= 1)
-                    peakFactor = 12.0 * c.arrivals[1].value / 100;
+                if (c.arrivalInfo[1].value >= 0 && c.arrivalInfo[1].value <= 1)
+                    peakFactor = 12.0 * c.arrivalInfo[1].value / 100;
                 else
                     peakFactor = 1.2; //default
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
@@ -230,42 +230,42 @@ namespace HoptServer
             System.Diagnostics.Debug.WriteLine("Rate Scale Factor: " + currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
 
             //service
-            for (int i = 0; i < c.serviceTimes.Length; i++)
+            for (int i = 0; i < c.serviceInfo.Length; i++)
             {
-                if (c.serviceTimes[i].name == "Exam Room" && c.serviceTimes[i].included == true)
+                if (c.serviceInfo[i].name == "Exam Room" && c.serviceInfo[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value);
                 }
                 //else if (c.serviceTimes[i].name == "Wait Room" && c.serviceTimes[i].included == true)
                 //{
                 //    currentModel.Facility.IntelligentObjects["WaitRoom"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
                 //    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["WaitRoom"].Properties["ProcessingTime"].Value);
                 //}
-                else if (c.serviceTimes[i].name == "Trauma" && c.serviceTimes[i].included == true)
+                else if (c.serviceInfo[i].name == "Trauma" && c.serviceInfo[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value);
                 }
-                else if (c.serviceTimes[i].name == "Fast Track" && c.serviceTimes[i].included == true)
+                else if (c.serviceInfo[i].name == "Fast Track" && c.serviceInfo[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value);
                 }
-                else if (c.serviceTimes[i].name == "Rapid Admission" && c.serviceTimes[i].included == true)
+                else if (c.serviceInfo[i].name == "Rapid Admission" && c.serviceInfo[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value);
                 }
-                else if (c.serviceTimes[i].name == "Behavioral" && c.serviceTimes[i].included == true)
+                else if (c.serviceInfo[i].name == "Behavioral" && c.serviceInfo[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
                 }
-                else if (c.serviceTimes[i].name == "Observation" && c.serviceTimes[i].included == true)
+                else if (c.serviceInfo[i].name == "Observation" && c.serviceInfo[i].included == true)
                 {
-                    currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value);
+                    currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value);
                 }
             }
 
@@ -321,7 +321,7 @@ namespace HoptServer
             {
                 System.Diagnostics.Debug.WriteLine("Error || " + ex.Message);
             }
-            insertResults(c, currentResponses);
+            //insertResults(c, currentResponses);
             return currentResponses;
         }
 

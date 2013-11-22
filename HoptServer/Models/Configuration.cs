@@ -13,9 +13,11 @@ namespace HoptServer
         public ResponseInt numberOfReps { get; set; }
         public Response startupTime { get; set; }
         public ResponseString rateTable { get; set; }
-        public Response[] arrivals { get; set; }
+        public Response[] arrivalInfo { get; set; }
         public Response[] acuityInfo { get; set; }
-        public ServiceInfo[] serviceTimes { get; set; }
+        public ServiceInfo[] serviceInfo { get; set; }
+        public ConstraintInfo constraintInfo { get; set; }
+        public CostInfo costInfo { get; set; }
         public RoomType[] rooms { get; set; }
 
         public override string ToString()

@@ -111,10 +111,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CapitalCost.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Constraint.cs" />
+    <Compile Include="Models\ConstraintInfo.cs" />
+    <Compile Include="Models\CostInfo.cs" />
+    <Compile Include="Models\LaborCost.cs" />
     <Compile Include="Models\ResponseInt.cs" />
     <Compile Include="Models\ResponseString.cs" />
+    <Compile Include="Models\RoomConstraint.cs" />
     <Compile Include="Models\ServiceInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
