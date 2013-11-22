@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\CapitalCost.cs" />
+    <Compile Include="Models\ConfigResult.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Constraint.cs" />
     <Compile Include="Models\ConstraintInfo.cs" />

@@ -37,7 +37,7 @@ namespace HoptServer
             sql = "Create table if not exists Results (ExamRoom int, Trauma int, FastTrack int, RapidAdmission int, Behavioral int, Observation int, ";
             sql += "TimeInSystem real, AvgWaitingTime real, AvgNumberinWaitingRoom real, ";
             sql += "TraumaUtilization real, ExamRoomUtilization real, FastTrackUtilization real, RapidAdmissionUnitUtilization real, BehavioralUtilization real, ObservationUtilization real, ";
-            sql += "Acuity1TimeinSystem real, Acuity2TimeinSystem real, Acuity3TimeinSystem real, Acuity4TimeinSystem real, Acuity5TimeinSystem real, LWBS real, Cost real)";
+            sql += "LWBS real, Cost real)";
             command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
             conn.Close();
@@ -60,11 +60,12 @@ namespace HoptServer
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation, ";
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
-            sql += "@LWBS, -1)";
+            sql += "@LWBS, @Cost)";
             SQLiteCommand command = new SQLiteCommand(sql,conn);
             foreach (RoomType room in c.rooms)
             { 
                 String value = "@" + room.name.Replace(" ","");
+                Console.WriteLine(value);
                 if(room.included)
                     command.Parameters.AddWithValue(value,room.num);
                 else
@@ -73,8 +74,11 @@ namespace HoptServer
             foreach (Response r in responses)
             {
                 String value = "@" + r.name.Replace(" ", "");
+                Console.WriteLine(value);
                 command.Parameters.AddWithValue(value,r.value);
             }
+            command.Parameters.AddWithValue("@Cost", -1.0);
+            Console.WriteLine(command.Parameters.Count);
             command.ExecuteNonQuery();
             conn.Close();
             printAllResults();
@@ -133,12 +137,13 @@ namespace HoptServer
             }
         }
 
-        public void queryResults()
+        public List<ConfigResult> queryResults()
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
             SQLiteCommand cmd = new SQLiteCommand("select * from Results order by cost", conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
+            List<ConfigResult> list = new List<ConfigResult>();
             while(dr.Read())
             {
                 int examRoom = Convert.ToInt32(dr["ExamRoom"]);
@@ -158,8 +163,10 @@ namespace HoptServer
                 double observationu = Convert.ToDouble(dr["ObservationUtilization"]);
                 double LWBS = Convert.ToDouble(dr["LWBS"]);
                 double cost = Convert.ToDouble(dr["Cost"]);
-
+                ConfigResult c = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, cost);
+                list.Add(c);
             }
+            return list;
             
 
         }
