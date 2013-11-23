@@ -22,7 +22,7 @@ angular.module( 'ngBoilerplate.opt', [
         initialize: function (responseCallback, connectionCallback, port, hub) {
             if (this.proxy === null) {
               //Getting the connection object
-              if (port === 8001) {
+              if (port === '8001') {
                 connection = $.hubConnection('http://localhost:' + port);
               } else {
                 connection = $.hubConnection('http://edtoolserver.ngrok.com');
@@ -209,22 +209,25 @@ angular.module( 'ngBoilerplate.opt', [
     // console.log(data);
     $scope.misc.viewLoading = false;
     var obj = {
-      TimeinSystem: '',
       AvgNumberinWaitingRoom: '',
+      AvgWaitingTime: '',
+      WaitingTimeForER: '',
+      WaitingTimeForTrauma: '',
+      WaitingTimeForFT: '',
       ExamRoomUtilization: '',
       TraumaUtilization: '',
       FastTrackUtilization: '',
-      RapidAdmissionUnitUtilization: '', //why unit?
-      BehavioralUtilization: '', //spelling
+      RapidAdmissionUnitUtilization: '',
+      BehavioralUtilization: '',
       ObservationUtilization: '',
-      AvgWaitingTime: '',
+      TotalTimeOfStay: '',
       LWBS: '',
-      TotalPeople: ''
+      TotalVisits: ''
     };
 
     angular.forEach(data, function(value, key) {
-      if (value.name == 'LWBS') {
-        obj[value.name] =  value.value;
+      if (value.name == 'LWBS' || value.name == 'TotalVisits') {
+        obj[value.name] = value.value;
       } else {
         obj[value.name] = $filter('number')(value.value, 2);
       }
@@ -234,11 +237,11 @@ angular.module( 'ngBoilerplate.opt', [
           if ($scope.misc.responses[j].value === '' || $scope.misc.responses[j].value === undefined) {
             $scope.misc.responses[j].diff = '';
           } else {
-            $scope.misc.responses[j].diff = $filter('number')(value.value - $scope.misc.responses[j].value, 3);
+            $scope.misc.responses[j].diff = value.value - $scope.misc.responses[j].value;
           }
 
-          $scope.misc.responses[j].value = $filter('number')(value.value, 2);
-      }
+          $scope.misc.responses[j].value = value.value;
+        }
       }
     });
 
@@ -280,21 +283,22 @@ angular.module( 'ngBoilerplate.opt', [
     $scope.runOpt = false;
   };
 
-  $scope.fixBlank = function(value,filter) {
+  $scope.fixBlank = function(value,filter,num) {
     if (value === '') {
       return '--';
     } else {
       if (value == "Calculated after running the simulation") { return value; }
       else if (filter == "$") { return $filter('currency')(value, '$'); }
+      else if (filter == "number") { return $filter('number')(value, num); }
       else { return value; }
     }
   };
 
   $scope.fixDiff = function(value) {
-    if (value === '' || value === "0.000" || value === "-0.000") {
+    if (value === '' || value === '0' || value === "0.000" || value === "-0.000") {
       return '--';
     } else {
-      return value;
+      return $filter('number')(value, 3);
     }
   };
 
@@ -317,20 +321,19 @@ angular.module( 'ngBoilerplate.opt', [
    * @param {object} message Data to send
    */
   $scope.sendMessage = function (method, message) {
+    if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].num = document.getElementById('room0').value; }
+    if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].num = document.getElementById('room1').value; }
+    if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].num = document.getElementById('room2').value; }
+    if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].num = document.getElementById('room3').value; }
+    if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].num = document.getElementById('room4').value; }
+    if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].num = document.getElementById('room5').value; }
 
-    $scope.configuration.rooms[0].num = document.getElementById('room0').value;
-    $scope.configuration.rooms[1].num = document.getElementById('room1').value;
-    $scope.configuration.rooms[2].num = document.getElementById('room2').value;
-    $scope.configuration.rooms[3].num = document.getElementById('room3').value;
-    $scope.configuration.rooms[4].num = document.getElementById('room4').value;
-    $scope.configuration.rooms[5].num = document.getElementById('room5').value;
-
-    $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value;
-    $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value;
-    $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value;
-    $scope.configuration.rooms[3].originalNum = document.getElementById('originalRoom3').value;
-    $scope.configuration.rooms[4].originalNum = document.getElementById('originalRoom4').value;
-    $scope.configuration.rooms[5].originalNum = document.getElementById('originalRoom5').value;
+    if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value; }
+    if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value; }
+    if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value; }
+    if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].originalNum = document.getElementById('originalRoom3').value; }
+    if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].originalNum = document.getElementById('originalRoom4').value; }
+    if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].originalNum = document.getElementById('originalRoom5').value; }
 
     // roomIterator = [0,0,0,0,0,0];
     // $scope.runOpt = true;

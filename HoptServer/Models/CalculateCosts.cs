@@ -82,7 +82,7 @@ namespace HoptServer.Models
                 else
                     sql += rooms[i].name.Replace(" ", "") + " = " + rooms[i].num;
             }
-            Console.Write(sql);
+            //Console.Write(sql);
             SQLiteCommand cmd = new SQLiteCommand(sql, conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             while(dr.Read())

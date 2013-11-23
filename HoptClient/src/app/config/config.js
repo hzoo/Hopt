@@ -162,6 +162,7 @@ angular.module( 'ngBoilerplate.config', [
     var value = 0;
     if ($scope.hoptService.responses[0]) {
       for (var i = 0; i < 5; i++) {
+        console.log($scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
        value += 365 * $scope.hospitalData.acuityInfo[i].value / 100 * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
       }
     } else {
@@ -213,22 +214,25 @@ angular.module( 'ngBoilerplate.config', [
     console.log(data);
     $scope.misc.viewLoading = false;
     var obj = {
-      TimeinSystem: '',
       AvgNumberinWaitingRoom: '',
+      AvgWaitingTime: '',
+      WaitingTimeForER: '',
+      WaitingTimeForTrauma: '',
+      WaitingTimeForFT: '',
       ExamRoomUtilization: '',
       TraumaUtilization: '',
       FastTrackUtilization: '',
-      RapidAdmissionUnitUtilization: '', //why unit?
-      BehavioralUtilization: '', //spelling
+      RapidAdmissionUnitUtilization: '',
+      BehavioralUtilization: '',
       ObservationUtilization: '',
-      AvgWaitingTime: '',
+      TotalTimeOfStay: '',
       LWBS: '',
-      TotalPeople: ''
+      TotalVisits: ''
     };
 
     angular.forEach(data, function(value, key) {
-      if (value.name == 'LWBS') {
-        obj[value.name] =  value.value;
+      if (value.name == 'LWBS' || value.name == 'TotalVisits') {
+        obj[value.name] = value.value;
       } else {
         obj[value.name] = $filter('number')(value.value, 2);
       }
@@ -238,10 +242,10 @@ angular.module( 'ngBoilerplate.config', [
           if ($scope.misc.responses[j].value === '' || $scope.misc.responses[j].value === undefined) {
             $scope.misc.responses[j].diff = '';
           } else {
-            $scope.misc.responses[j].diff = $filter('number')(value.value - $scope.misc.responses[j].value, 3);
+            $scope.misc.responses[j].diff = value.value - $scope.misc.responses[j].value;
           }
 
-          $scope.misc.responses[j].value = $filter('number')(value.value, 2);
+          $scope.misc.responses[j].value = value.value;
         }
       }
     });
@@ -267,21 +271,22 @@ angular.module( 'ngBoilerplate.config', [
 
   };
 
-  $scope.fixBlank = function(value,filter) {
+  $scope.fixBlank = function(value,filter,num) {
     if (value === '') {
       return '--';
     } else {
       if (value == "Calculated after running the simulation") { return value; }
       else if (filter == "$") { return $filter('currency')(value, '$'); }
+      else if (filter == "number") { return $filter('number')(value, num); }
       else { return value; }
     }
   };
 
   $scope.fixDiff = function(value) {
-    if (value === '' || value === "0.000" || value === "-0.000") {
+    if (value === '' || value === '0' || value === "0.000" || value === "-0.000") {
       return '--';
     } else {
-      return value;
+      return $filter('number')(value, 3);
     }
   };
 
@@ -303,19 +308,19 @@ angular.module( 'ngBoilerplate.config', [
    * @param {object} message Data to send
    */
   $scope.sendMessage = function (method, message) {
-    $scope.configuration.rooms[0].num = document.getElementById('room0').value;
-    $scope.configuration.rooms[1].num = document.getElementById('room1').value;
-    $scope.configuration.rooms[2].num = document.getElementById('room2').value;
-    $scope.configuration.rooms[3].num = document.getElementById('room3').value;
-    $scope.configuration.rooms[4].num = document.getElementById('room4').value;
-    $scope.configuration.rooms[5].num = document.getElementById('room5').value;
+    if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].num = document.getElementById('room0').value; }
+    if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].num = document.getElementById('room1').value; }
+    if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].num = document.getElementById('room2').value; }
+    if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].num = document.getElementById('room3').value; }
+    if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].num = document.getElementById('room4').value; }
+    if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].num = document.getElementById('room5').value; }
 
-    $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value;
-    $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value;
-    $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value;
-    $scope.configuration.rooms[3].originalNum = document.getElementById('originalRoom3').value;
-    $scope.configuration.rooms[4].originalNum = document.getElementById('originalRoom4').value;
-    $scope.configuration.rooms[5].originalNum = document.getElementById('originalRoom5').value;
+    if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value; }
+    if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value; }
+    if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value; }
+    if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].originalNum = document.getElementById('originalRoom3').value; }
+    if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].originalNum = document.getElementById('originalRoom4').value; }
+    if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].originalNum = document.getElementById('originalRoom5').value; }
 
     $scope.misc.runButton = 'Running...';
     $scope.misc.viewLoading = true;

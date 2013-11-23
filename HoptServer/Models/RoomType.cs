@@ -7,6 +7,7 @@ namespace HoptServer
 {
     public class RoomType
     {
+        public int id { get; set; }
         public String name { get; set; }
         public int num { get; set; }
         public int originalNum { get; set; }

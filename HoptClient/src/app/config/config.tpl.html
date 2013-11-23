@@ -32,12 +32,12 @@
       <label class="col-lg-3 control-label">{{room.name}}</label>
       <div class="col-lg-4">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{$index}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input type="text" class="form-control col-centered" value="{{room.originalNum}}" id="originalRoom{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
       <div class="col-lg-4">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" value="{{room.num}}"id="room{{$index}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input type="text" class="form-control col-centered" value="{{room.num}}" id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
     </div>
@@ -72,10 +72,10 @@
   <div class="bs-callout bs-callout-info col-lg-6">
     <p ng-repeat-start="response in misc.responses"></p>
       <h4 class="col-lg-12" ng-if="$index == 0">Waiting Time (hrs)</h4>
-      <h4 class="col-lg-12" ng-if="$index == 2">Utilization (%)</h4>
-      <h4 class="col-lg-12" ng-if="$index == 8">Misc</h4>
+      <h4 class="col-lg-12" ng-if="$index == 5">Utilization (%)</h4>
+      <h4 class="col-lg-12" ng-if="$index == 11">Misc</h4>
       <div class="col-lg-6" ng-bind-template="{{response.displayName}}"></div>
-      <div class="col-lg-3" ng-bind-template="{{fixBlank(response.value,'')}}"></div>
+      <div class="col-lg-3" ng-bind-template="{{fixBlank(response.value,'number',2)}}"></div>
       <div class="number col-lg-3" ng-class="{increase: response.diff > 0, decrease: response.diff < 0}" ng-bind-template="{{ fixDiff(response.diff)}}"></div>
     <p ng-repeat-end></p>
   </div>
@@ -85,33 +85,33 @@
     <p>
     </p>
      <h3 class="col-lg-6">Value at Start of Construction: </h3>
-      <h3 class="col-lg-6">{{fixBlank(cost.total(0.05,0.04,5),"$")}}</h3>
+      <h3 class="col-lg-6">{{fixBlank(cost.total(0.05,0.04,5),"$",0)}}</h3>
     <p>
     </p>
       <h4 class="col-lg-6">Initial: </h4>
-      <h4 class="col-lg-6">{{fixBlank(cost.initial.total(),"$")}}</h4>
+      <h4 class="col-lg-6">{{fixBlank(cost.initial.total(),"$",0)}}</h4>
     <p>
     </p>
       <div class="col-lg-6">Construction: </div>
-      <div class="col-lg-6">{{fixBlank(cost.initial.construction(),"$")}}</div>
+      <div class="col-lg-6">{{fixBlank(cost.initial.construction(),"$",0)}}</div>
       <div class="col-lg-6">Equipment: </div>
-      <div class="col-lg-6">{{fixBlank(cost.initial.equipment(),"$")}}</div>
+      <div class="col-lg-6">{{fixBlank(cost.initial.equipment(),"$",0)}}</div>
     <p>
     </p>
       <h4 class="col-lg-6">Annual: </h4>
-      <h4 class="col-lg-6">{{fixBlank(cost.annual.total(),"$")}}</h4>
+      <h4 class="col-lg-6">{{fixBlank(cost.annual.total(),"$",0)}}</h4>
     <p>
     </p>
       <div class="col-lg-6">Utility: </div>
-      <div class="col-lg-6">{{fixBlank(cost.annual.utility(),"$")}}</div>
+      <div class="col-lg-6">{{fixBlank(cost.annual.utility(),"$",0)}}</div>
     <p>
     </p>
       <div class="col-lg-6">Staff: </div>
-      <div class="col-lg-6">{{fixBlank(cost.annual.staff(),"$")}}</div>
+      <div class="col-lg-6">{{fixBlank(cost.annual.staff(),"$",0)}}</div>
     <p>
     </p>
       <div class="col-lg-6">LWBS: </div>
-      <div class="col-lg-6">{{fixBlank(cost.annual.lwbs(),"$")}}</div>
+      <div class="col-lg-6">{{fixBlank(cost.annual.lwbs(),"$",0)}}</div>
   </div>
 
   <div class="gridStyle clear-fix" ng-grid="gridOptions"></div>

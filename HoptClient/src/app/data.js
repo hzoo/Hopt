@@ -3,17 +3,20 @@ ngBoilerplate.service('HoptService', function HoptService() {
   hoptService.responses = [];
   hoptService.portNumber = "8001";
   hoptService.lastResponses = [
-      { displayName: "Average # Waiting", name: "AvgNumberinWaitingRoom", value: '', diff: '' },
-      { displayName: "Average Waiting Time", name: "AvgWaitingTime", value: '', diff: '' },
+      { displayName: "Avg.  # Waiting", name: "AvgNumberinWaitingRoom", value: '', diff: '' },
+      { displayName: "Avg. Waiting Time", name: "AvgWaitingTime", value: '', diff: '' },
+      { displayName: "Avg. Waiting Exam Room", name: "WaitingTimeForER", value: '', diff: '' },
+      { displayName: "Avg. Waiting Trauma", name: "WaitingTimeForTrauma", value: '', diff: '' },
+      { displayName: "Avg. Waiting Fast Track", name: "WaitingTimeForFT", value: '', diff: '' },
       { displayName: "Exam Room", name: "ExamRoomUtilization", value: '', diff: '' },
       { displayName: "Trauma", name: "TraumaUtilization", value: '', diff: '' },
       { displayName: "Fast Track", name: "FastTrackUtilization", value: '', diff: '' },
       { displayName: "Rapid Admission", name: "RapidAdmissionUnitUtilization", value: '', diff: '' }, //why unit?
       { displayName: "Behavioral", name: "BehavioralUtilization", value: '', diff: '' }, //spelling
       { displayName: "Observation", name: "ObservationUtilization", value: '', diff: '' },
-      { displayName: "Time in System", name: "TimeinSystem", value: '', diff: '' },
+      { displayName: "Time in System", name: "TotalTimeOfStay", value: '', diff: '' },
       { displayName: "LWBS", name: "LWBS", value: '', diff: '' },
-      { displayName: "Total People", name: "TotalPeople", value: '', diff: '' }
+      { displayName: "Total Visits", name: "TotalVisits", value: '', diff: '' }
     ];
   return {
      getHoptService: function() {
@@ -26,36 +29,42 @@ ngBoilerplate.service('Configuration', function Configuration() {
   var configuration = {};
   configuration.rooms = [
     {
+      id: 0,
       name: "Exam Room",
       num: 37,
       originalNum: 37,
       included: true
     },
     {
+      id: 1,
       name: "Trauma",
       num: 0,
       originalNum: 0,
       included: true
     },
     {
+      id: 2,
       name: "Fast Track",
       num: 8,
       originalNum: 8,
       included: true
     },
     {
+      id: 3,
       name: "Rapid Admission",
       num: 0,
       originalNum: 0,
       included: true
     },
     {
+      id: 4,
       name: "Behavioral",
       num: 14,
       originalNum: 14,
       included: true
     },
     {
+      id: 5,
       name: "Observation",
       num: 14,
       originalNum: 14,

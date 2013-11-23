@@ -91,17 +91,25 @@ namespace HoptServer
         {
             System.Diagnostics.Debug.WriteLine("Run Opt");
             s.LoadHospitalData(c); 
-            List<Response> r = s.RunOpt(c);
+            
+            int iterations = 0;
+            while (iterations < 3)
+            {
+                List<Response> r = s.RunOpt(c);
+                
+                iterations++;
+            }
+
+            //Clients.All.getResponses(r);
+        }
+
+        public void RunConfig(Configuration c)
+        {
+            System.Diagnostics.Debug.WriteLine("RunConfig");
+            List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
 
-        //public void RunConfig(Configuration c)
-        //{
-        //    System.Diagnostics.Debug.WriteLine("RunConfig");
-        //    List<Response> r = s.StartExperiment(c);
-        //    Clients.All.getResponses(r);
-        //}
-        
         //public void ReturnNextConfig(Configuration c, Double previousCost)
         //{
         //    System.Diagnostics.Debug.WriteLine("ReturnNextConfig");

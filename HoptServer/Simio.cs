@@ -25,7 +25,7 @@ namespace HoptServer
         public Simio()
         {
             //initialize
-            SetProject("ED-v19-opt.spfx", "Model", "Experiment1"); //v19
+            SetProject("ED.spfx", "Model", "Experiment1"); //v22
             createTables();
         }
 
@@ -388,7 +388,7 @@ namespace HoptServer
             //run simulation
             runSimulationAsync();
 
-            insertResults(c, currentResponses);
+            //insertResults(c, currentResponses);
             return currentResponses;
         }
 
