@@ -24,9 +24,11 @@ namespace HoptServer
         public double behavioru;
         public double observationu;
         public double LWBS;
-        public double cost;
+        public double initialCost;
+        public double annualCost;
+        public double totalCost;
 
-        public ConfigResult(int e, int t, int f, int r, int b, int o, double ti, double aw, double an, double tr, double ex, double fa, double ra, double be, double ob, double l, double c)
+        public ConfigResult(int e, int t, int f, int r, int b, int o, double ti, double aw, double an, double tr, double ex, double fa, double ra, double be, double ob, double l, double ic, double ac, double tc)
         {
             examRoom = e;
             trauma = t;
@@ -44,7 +46,9 @@ namespace HoptServer
             behavioru = be;
             observationu = ob;
             LWBS = l;
-            cost = c;
+            initialCost = ic;
+            annualCost = ac;
+            totalCost = tc;
         }
     
     }

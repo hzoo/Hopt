@@ -170,8 +170,10 @@ namespace HoptServer
                 double behavioru = Convert.ToDouble(dr["BehaviorUtilization"]);
                 double observationu = Convert.ToDouble(dr["ObservationUtilization"]);
                 double LWBS = Convert.ToDouble(dr["LWBS"]);
-                double cost = Convert.ToDouble(dr["Cost"]);
-                ConfigResult c = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, cost);
+                double initialCost = Convert.ToDouble(dr["InitialCost"]);
+                double annualCost = Convert.ToDouble(dr["AnnualCost"]);
+                double totalCost = Convert.ToDouble(dr["TotalCost"]);
+                ConfigResult c = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, initialCost, annualCost, totalCost);
                 list.Add(c);
             }
             return list;
