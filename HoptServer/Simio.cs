@@ -363,7 +363,7 @@ namespace HoptServer
             //run simulation
             runSimulationAsync();
 
-            //insertResults(c, currentResponses);
+            insertResults(c, currentResponses);
             return currentResponses;
         }
 
@@ -386,8 +386,14 @@ namespace HoptServer
             {
                 System.Diagnostics.Debug.WriteLine("Error || " + ex.Message);
             }
-            //insertResults(c, currentResponses);
-            return currentResponses;
+        }
+
+        public void addSimioEventListeners()
+        {
+             currentExperiment.ScenarioEnded += new EventHandler<ScenarioEndedEventArgs>(experiment_ScenarioEnded);
+             currentExperiment.RunCompleted += new EventHandler<RunCompletedEventArgs>(experiment_RunCompleted);
+             //currentExperiment.RunProgressChanged += new EventHandler<RunProgressChangedEventArgs>(experiment_RunProgressChanged);
+             currentExperiment.ReplicationEnded += new EventHandler<ReplicationEndedEventArgs>(experiment_ReplicationEnded);
         }
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
