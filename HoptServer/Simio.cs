@@ -149,7 +149,7 @@ namespace HoptServer
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            SQLiteCommand cmd = new SQLiteCommand("select * from Results order by cost", conn);
+            SQLiteCommand cmd = new SQLiteCommand("select * from Results order by TotalCost", conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             List<ConfigResult> list = new List<ConfigResult>();
             while(dr.Read())
