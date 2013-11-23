@@ -2,7 +2,24 @@
 ======
 
 ## Steps to Build/Run ##
-- Add this
+
+### Server
+- To just run: Open HoptServer\bin\Debug\HoptServer.exe 
+- To develop: Install Visual Studio, insatll .NET Framework 4.5
+
+### Client (Runs in browser)
+Install [Node.js](http://nodejs.org/) and then:
+
+```sh
+$ git clone git://github.com/eltacodeldiablo/gtsd13
+$ cd hopt
+$ sudo npm -g install grunt-cli karma bower
+$ npm install
+$ bower install
+$ grunt watch
+```
+
+to run: open HoptClient\build\index.html or HoptClient\bin\index.html after running grunt.
 
 ## Technologies Used ##
 
