@@ -232,9 +232,9 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     { name: "Acuity 5 %", value: 1.62, revenue: 100 }]; //revenue is fake 1.6
 
   hospitalData.simulationInfo = {
-    daysToSimulate: { name: "Days to Simulate", value: 14 },
+    daysToSimulate: { name: "Days to Simulate", value: 7 },
     numberOfReplications: { name: "# of Replications", value: 1 },
-    startupTime: { name: "Startup Time (hrs)", value: 168 },
+    startupTime: { name: "Startup Time (hrs)", value: 0 },
     rateTable: { name: "Rate Table to run", value: "average" }};
 
   //main ed is never excluded
