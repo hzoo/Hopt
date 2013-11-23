@@ -188,8 +188,8 @@ namespace HoptServer
                 double initialCost = Convert.ToDouble(dr["InitialCost"]);
                 double annualCost = Convert.ToDouble(dr["AnnualCost"]);
                 double totalCost = Convert.ToDouble(dr["TotalCost"]);
-                ConfigResult c = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, initialCost, annualCost, totalCost);
-                list.Add(c);
+                ConfigResult cr = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, initialCost, annualCost, totalCost);
+                list.Add(cr);
             }
             return list;
 
