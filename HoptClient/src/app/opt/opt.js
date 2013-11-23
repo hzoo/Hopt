@@ -12,7 +12,7 @@ angular.module( 'ngBoilerplate.opt', [
         templateUrl: 'opt/opt.tpl.html'
       }
     },
-    data:{ pageTitle: 'Optimization' }
+    data:{ pageTitle: 'Search' }
   });
 })
 
