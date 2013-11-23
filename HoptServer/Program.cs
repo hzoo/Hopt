@@ -97,6 +97,8 @@ namespace HoptServer
             {
                 List<Response> r = s.RunOpt(c);
                 
+
+
                 iterations++;
             }
 

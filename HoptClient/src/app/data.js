@@ -31,43 +31,43 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 0,
       name: "Exam Room",
-      num: 37,
-      originalNum: 37,
+      num: 33,
+      originalNum: 33,
       included: true
     },
     {
       id: 1,
       name: "Trauma",
-      num: 0,
-      originalNum: 0,
+      num: 1,
+      originalNum: 1,
       included: true
     },
     {
       id: 2,
       name: "Fast Track",
-      num: 8,
-      originalNum: 8,
+      num: 12,
+      originalNum: 12,
       included: true
     },
     {
       id: 3,
       name: "Rapid Admission",
-      num: 0,
-      originalNum: 0,
+      num: 1,
+      originalNum: 1,
       included: true
     },
     {
       id: 4,
       name: "Behavioral",
-      num: 14,
-      originalNum: 14,
+      num: 4,
+      originalNum: 4,
       included: true
     },
     {
       id: 5,
       name: "Observation",
-      num: 14,
-      originalNum: 14,
+      num: 6,
+      originalNum: 6,
       included: true
     }
   ];
@@ -134,12 +134,12 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     var defaultUtilityCost = 4; //$4/sq ft
 
     var defaultAverageRoomTime = [];
-    defaultAverageRoomTime[0] = "Random.Triangular(1.8,3.2,4.6)"; //this is actual total length of stay 6
+    defaultAverageRoomTime[0] = 1.82; //this is actual total length of stay 6
     defaultAverageRoomTime[1] = 2; //this is actual total length of stay 3
-    defaultAverageRoomTime[2] = 1.2; //this is actual total length of stay 5/6
-    defaultAverageRoomTime[3] = 2.8; //this is actual total length of stay 16
-    defaultAverageRoomTime[4] = 9.5; //this is actual total length of stay 24
-    defaultAverageRoomTime[5] = 5.6; //this is actual total length of stay 16
+    defaultAverageRoomTime[2] = 1.23; //this is actual total length of stay 5/6
+    defaultAverageRoomTime[3] = 2.78; //this is actual total length of stay 16
+    defaultAverageRoomTime[4] = 9.47; //this is actual total length of stay 24
+    defaultAverageRoomTime[5] = 8; //this is actual total length of stay 16
 
     var defaultWage = [];
     defaultWage[0] = 62060; //nurse
@@ -225,11 +225,11 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     { name: "LWBS Revenue", value: 100 }];
 
   hospitalData.acuityInfo = [
-    { name: "Acuity 1 %", value: 0.555, revenue: 100 }, //revenue is fake 0.52
-    { name: "Acuity 2 %", value: 10.214, revenue: 100 }, //revenue is fake 9.47
-    { name: "Acuity 3 %", value: 56.069, revenue: 100 }, //revenue is fake 58
-    { name: "Acuity 4 %", value: 30.535, revenue: 100 }, //revenue is fake 29.8
-    { name: "Acuity 5 %", value: 2.202, revenue: 100 }]; //revenue is fake 1.6
+    { name: "Acuity 1 %", value: 0.52, revenue: 100 }, //revenue is fake 0.52
+    { name: "Acuity 2 %", value: 9.53, revenue: 100 }, //revenue is fake 9.47
+    { name: "Acuity 3 %", value: 58.32, revenue: 100 }, //revenue is fake 58
+    { name: "Acuity 4 %", value: 30.01, revenue: 100 }, //revenue is fake 29.8
+    { name: "Acuity 5 %", value: 1.62, revenue: 100 }]; //revenue is fake 1.6
 
   hospitalData.simulationInfo = {
     daysToSimulate: { name: "Days to Simulate", value: 14 },
