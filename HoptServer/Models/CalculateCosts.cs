@@ -78,10 +78,11 @@ namespace HoptServer.Models
             for (int i = 0; i < 6; i++)
             {
                 if(i < 5)
-                    sql += rooms[i].name + " = " + rooms[i].num + " and ";
+                    sql += rooms[i].name.Replace(" ", "") + " = " + rooms[i].num + " and ";
                 else
-                    sql += rooms[i].name + " = " + rooms[i].num;
+                    sql += rooms[i].name.Replace(" ", "") + " = " + rooms[i].num;
             }
+            Console.Write(sql);
             SQLiteCommand cmd = new SQLiteCommand(sql, conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             while(dr.Read())
@@ -90,7 +91,7 @@ namespace HoptServer.Models
                 values[1] = Convert.ToDouble(dr["TraumaUtilization"]);
                 values[2] = Convert.ToDouble(dr["FastTrackUtilization"]);
                 values[3] = Convert.ToDouble(dr["RapidAdmissionUnitUtilization"]);
-                values[4] = Convert.ToDouble(dr["BehaviorUtilization"]);
+                values[4] = Convert.ToDouble(dr["BehavioralUtilization"]);
                 values[5] = Convert.ToDouble(dr["ObservationUtilization"]);
                 values[6] = Convert.ToDouble(dr["LWBS"]);
             }
