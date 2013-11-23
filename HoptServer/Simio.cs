@@ -16,6 +16,7 @@ namespace HoptServer
         IExperiment currentExperiment;
         Double _runTime;
         Boolean _completed = false;
+        Configuration _c;
         List<Response> currentResponses = new List<Response>();
 
         public Simio()
@@ -188,6 +189,8 @@ namespace HoptServer
             if (currentExperiment.IsBusy)
                 return null;
             currentExperiment.Reset();
+
+            _c = c;
 
             // Specify run times.
             IRunSetup setup = currentExperiment.RunSetup;
@@ -375,7 +378,7 @@ namespace HoptServer
                 }
             }
 
-            //calculateCosts(c);
+            calculateCosts(_c);
 
             //foreach (IScenarioResult result in e.Results)
             //{
@@ -413,8 +416,6 @@ namespace HoptServer
             }
             SQLiteCommand command = new SQLiteCommand(sql, conn);
             command.ExecuteNonQuery();
-            
-
         }
 
         public void SetProject(string project, string model, string experiment)
