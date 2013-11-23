@@ -4,8 +4,9 @@
 ## Steps to Build/Run ##
 
 ### Server
+- *Server will not run without Simio installed.*
 - To just run: Open HoptServer\bin\Debug\HoptServer.exe 
-- To develop: Install Visual Studio, insatll .NET Framework 4.5
+- To develop: Install Visual Studio, install .NET Framework 4.5
 
 ### Client (Runs in browser)
 Install [Node.js](http://nodejs.org/) and then:
