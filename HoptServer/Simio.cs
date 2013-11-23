@@ -311,8 +311,26 @@ namespace HoptServer
             foreach (IScenario scenario in currentExperiment.Scenarios)
             {
                 scenario.ReplicationsRequired = reps;
-                }
             }
+        }
+
+        public Boolean wasConfigRun(Configuration c)
+        {
+            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            conn.Open();
+            String sql = "select count(*) from Results where ";
+            for (int i = 0; i < 6; i++)
+            {
+                if (i < 5)
+                    sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num + " and ";
+                else
+                    sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num;
+            }
+            Console.Write(sql);
+            SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+            int rowCount = Convert.ToInt32(cmd.ExecuteScalar());
+            return (rowCount == 1);
+        }
 
         public List<Response> StartExperiment(Configuration c)
         {
