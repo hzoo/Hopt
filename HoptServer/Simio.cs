@@ -188,15 +188,15 @@ namespace HoptServer
             IRunSetup setup = currentExperiment.RunSetup;
             setup.StartingTime = new DateTime(2013, 10, 01); //not important?
             setup.WarmupPeriod = TimeSpan.FromHours(startupTime);
-            System.Diagnostics.Debug.WriteLine("Starting time: " + setup.StartingTime);
-            System.Diagnostics.Debug.WriteLine("Warmup time: " + setup.WarmupPeriod);
+            System.Diagnostics.Debug.WriteLine("Starting time: {0,-10}",setup.StartingTime);
+            System.Diagnostics.Debug.WriteLine("Warmup time  : {0,-10} days",setup.WarmupPeriod);
         }
 
         public void setRunLengthInDays(double daysToRun)
         {
             IRunSetup setup = currentExperiment.RunSetup;
             setup.EndingTime = setup.StartingTime + TimeSpan.FromDays(daysToRun);
-            System.Diagnostics.Debug.WriteLine("Ending time: " + setup.EndingTime);
+            System.Diagnostics.Debug.WriteLine("Ending time  : {0,-10}",setup.EndingTime);
         }
 
         public void setServiceTimes(Configuration c)
@@ -216,27 +216,27 @@ namespace HoptServer
                 else if (c.serviceInfo[i].name == "Trauma" && c.serviceInfo[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value);
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value + " hours");
                 }
                 else if (c.serviceInfo[i].name == "Fast Track" && c.serviceInfo[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value);
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value + " hours");
                 }
                 else if (c.serviceInfo[i].name == "Rapid Admission" && c.serviceInfo[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value);
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value + " hours");
                 }
                 else if (c.serviceInfo[i].name == "Behavioral" && c.serviceInfo[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value);
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value + " hours");
                 }
                 else if (c.serviceInfo[i].name == "Observation" && c.serviceInfo[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
-                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value);
+                    System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value + " hours");
                 }
             }
         }
@@ -259,26 +259,29 @@ namespace HoptServer
 
         public void setNumberOfReplicationsforScenario(int scenario, int numberOfReps) {
             currentExperiment.Scenarios[scenario].ReplicationsRequired = numberOfReps;
-            System.Diagnostics.Debug.WriteLine("# of reps for scenario " + scenario + " : " + currentExperiment.Scenarios[scenario].ReplicationsRequired);
+            System.Diagnostics.Debug.WriteLine("Scen {0} reps  : {1,-10}", scenario,currentExperiment.Scenarios[scenario].ReplicationsRequired);
         }
         private void removeAllButOneScenario()
         {
-            System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count);
+            System.Diagnostics.Debug.WriteLine("Scenarios    : {0,-10}", currentExperiment.Scenarios.Count);
             //use only 1 scenario
             while (currentExperiment.Scenarios.Count > 1)
             {
                 currentExperiment.Scenarios.Remove(currentExperiment.Scenarios[1]);
             }
-            System.Diagnostics.Debug.WriteLine("Number of scenarios: " + currentExperiment.Scenarios.Count);
+            System.Diagnostics.Debug.WriteLine("Scenarios    : {0,-10}", currentExperiment.Scenarios.Count);
         }
 
         public void setArrivals(string type, int annualArrivals, double peakPercentageofYear)
         {
+            System.Diagnostics.Debug.WriteLine("Ann. arrivals: {0,-10}", annualArrivals);
+
             //change RateTable.RateScaleFactor
             //1.0019 is the sum of the base rate table (the base rate table is all in percents, and it adds up to a little more than 100%)
             if (type == "average")
             {
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (annualArrivals / (365 * 1.0019)).ToString();
+                System.Diagnostics.Debug.WriteLine("RSF - average: {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
             //change RateTable.RateScaleFactor for peak day
             else if (type== "peak")
@@ -290,8 +293,9 @@ namespace HoptServer
                     peakFactor = 1.2; //default
                 //rate scale factor
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
+                System.Diagnostics.Debug.WriteLine("Peak % of yr : {0,-10}",peakPercentageofYear);
+                System.Diagnostics.Debug.WriteLine("RSF - peak   : {0,-20}",currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
-            System.Diagnostics.Debug.WriteLine("Rate Scale Factor (" + type + "): " + currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
         }
 
         public void setNumberOfReplicationsforAllScenarios(int reps)
@@ -340,14 +344,14 @@ namespace HoptServer
                     string num = "";
                     currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
                     currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                    System.Diagnostics.Debug.WriteLine("Control " + i + ": " + num);
+                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
                 }
                 else if (c.rooms[i].included == false && (c.rooms[i].name == "Rapid Admission" || c.rooms[i].name == "Behavioral" || c.rooms[i].name == "Observation"))
                 {
                     string num = "";
                     currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], "0");
                     currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                    System.Diagnostics.Debug.WriteLine("Control " + i + ": " + num);
+                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
                 }
             }
 
@@ -417,7 +421,7 @@ namespace HoptServer
                     //e.Scenario.Name - 001
                     //response.Name - AvgTimeInSystem
                     //responseValue.ToString() - Value
-                    System.Diagnostics.Debug.WriteLine(e.Scenario.Name + " " + response.Name + " " + responseValue.ToString());
+                    System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}",e.Scenario.Name,response.Name,responseValue.ToString());
 
                     //only if we want to send back individual responses
                     Response r = new Response(response.Name, responseValue);
@@ -450,6 +454,10 @@ namespace HoptServer
             double initial = calc.initialCost(c.costInfo, c.rooms);
             double annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo);
             double total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead);
+            System.Diagnostics.Debug.WriteLine("Fixed Cost: " + initial);
+            System.Diagnostics.Debug.WriteLine("Variable Cost: " + annual);
+            System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + total);
+
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
             string sql = "Update Results set InitialCost = " + initial + ", AnnualCost= " + annual + ", Total= " + total;
