@@ -16,6 +16,10 @@ namespace HoptServer
         IExperiment currentExperiment;
         Boolean _completed = false;
         Configuration _c;
+        double _initial;
+        double _annual;
+        double _total;
+        double[] _responses;
         List<Response> currentResponses = new List<Response>();
 
         public Simio()
@@ -518,16 +522,18 @@ namespace HoptServer
             int yearsAhead = 10;
 
             HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
-            double initial = calc.initialCost(c.costInfo, c.rooms);
-            double annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo);
-            double total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead);
-            System.Diagnostics.Debug.WriteLine("Fixed Cost: " + initial);
-            System.Diagnostics.Debug.WriteLine("Variable Cost: " + annual);
-            System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + total);
+            _initial = calc.initialCost(c.costInfo, c.rooms);
+            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo);
+            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead);
+            _responses = calc.getUtilizationAndLWBS(c.rooms);
+
+            System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
+            System.Diagnostics.Debug.WriteLine("Variable Cost: " + _annual);
+            System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + _total);
 
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            string sql = "Update Results set InitialCost = " + initial + ", AnnualCost = " + annual + ", TotalCost = " + total;
+            string sql = "Update Results set InitialCost = " + _initial + ", AnnualCost = " + _annual + ", TotalCost = " + _total;
             sql += " where ";
             for (int i = 0; i < c.rooms.Length; i++)
             {
