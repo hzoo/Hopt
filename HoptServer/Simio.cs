@@ -145,11 +145,26 @@ namespace HoptServer
             }
         }
 
-        public List<ConfigResult> queryResults()
+        public List<ConfigResult> queryResults(Configuration c = null)
         {
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
-            SQLiteCommand cmd = new SQLiteCommand("select * from Results order by TotalCost", conn);
+            SQLiteCommand cmd;
+            if(c == null)
+                cmd = new SQLiteCommand("select * from Results order by TotalCost", conn);
+            else
+            {
+                String sql = "select * from Results where ";
+                for (int i = 0; i < 6; i++)
+                {
+                    if (i < 5)
+                        sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num + " and ";
+                    else
+                        sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num;
+                }
+                cmd = new SQLiteCommand(sql, conn);
+
+            }
             SQLiteDataReader dr = cmd.ExecuteReader();
             List<ConfigResult> list = new List<ConfigResult>();
             while (dr.Read())
