@@ -65,21 +65,21 @@ namespace HoptServer
             sql += "@TimeinSystem, @AvgWaitingTime, @AvgNumberinWaitingRoom, ";
             sql += "@TraumaUtilization, @ExamRoomUtilization, @FastTrackUtilization, @RapidAdmissionUnitUtilization, @BehavioralUtilization, @ObservationUtilization, ";
             sql += "@LWBS, @InitialCost, @AnnualCost, @TotalCost)";
-            SQLiteCommand command = new SQLiteCommand(sql,conn);
+            SQLiteCommand command = new SQLiteCommand(sql, conn);
             foreach (RoomType room in c.rooms)
-            { 
-                String value = "@" + room.name.Replace(" ","");
+            {
+                String value = "@" + room.name.Replace(" ", "");
                 Console.WriteLine(value);
-                if(room.included)
-                    command.Parameters.AddWithValue(value,room.num);
+                if (room.included)
+                    command.Parameters.AddWithValue(value, room.num);
                 else
-                    command.Parameters.AddWithValue(value,DBNull.Value);
+                    command.Parameters.AddWithValue(value, DBNull.Value);
             }
             foreach (Response r in responses)
             {
                 String value = "@" + r.name.Replace(" ", "");
                 Console.WriteLine(value);
-                command.Parameters.AddWithValue(value,r.value);
+                command.Parameters.AddWithValue(value, r.value);
             }
             command.Parameters.AddWithValue("@InitialCost", -1.0);
             command.Parameters.AddWithValue("@AnnualCost", -1.0);
@@ -103,12 +103,12 @@ namespace HoptServer
             //}
             String sql = "Insert into Test2 (ExamRoom, Trauma, FastTrack, RapidAdmission, Behavioral, Observation) Values ";
             sql += "(@ExamRoom, @Trauma, @FastTrack, @RapidAdmission, @Behavioral, @Observation)";
-            SQLiteCommand command = new SQLiteCommand(sql,conn);
+            SQLiteCommand command = new SQLiteCommand(sql, conn);
             foreach (RoomType room in c.rooms)
             {
-                String value = "@" + room.name.Replace(" ","");
-                if(room.included)
-                    command.Parameters.AddWithValue(value,room.num);
+                String value = "@" + room.name.Replace(" ", "");
+                if (room.included)
+                    command.Parameters.AddWithValue(value, room.num);
                 else
                     command.Parameters.AddWithValue(value, 0);//DBNull.Value);
             }
@@ -127,7 +127,7 @@ namespace HoptServer
             conn.Open();
             SQLiteCommand cmd = new SQLiteCommand("select * from Results order by TotalCost", conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
-            while(dr.Read())
+            while (dr.Read())
             {
                 Console.Write("ExamRoom:" + dr["ExamRoom"].ToString());
                 Console.Write(" Trauma:" + dr["Trauma"].ToString());
@@ -152,7 +152,7 @@ namespace HoptServer
             SQLiteCommand cmd = new SQLiteCommand("select * from Results order by TotalCost", conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             List<ConfigResult> list = new List<ConfigResult>();
-            while(dr.Read())
+            while (dr.Read())
             {
                 int examRoom = Convert.ToInt32(dr["ExamRoom"]);
                 int trauma = Convert.ToInt32(dr["Trauma"]);
@@ -177,7 +177,7 @@ namespace HoptServer
                 list.Add(c);
             }
             return list;
-            
+
 
         }
 
@@ -196,16 +196,16 @@ namespace HoptServer
             IRunSetup setup = currentExperiment.RunSetup;
             setup.StartingTime = new DateTime(2013, 10, 01); //not important?
             setup.WarmupPeriod = TimeSpan.FromHours(startupTime);
-            System.Diagnostics.Debug.WriteLine("Starting time: {0,-10}",setup.StartingTime);
-            System.Diagnostics.Debug.WriteLine("Warmup time  : {0,-10} days",setup.WarmupPeriod);
-            }
+            System.Diagnostics.Debug.WriteLine("Starting time: {0,-10}", setup.StartingTime);
+            System.Diagnostics.Debug.WriteLine("Warmup time  : {0,-10} days", setup.WarmupPeriod);
+        }
 
         public void setRunLengthInDays(double daysToRun)
-            {
+        {
             IRunSetup setup = currentExperiment.RunSetup;
             setup.EndingTime = setup.StartingTime + TimeSpan.FromDays(daysToRun);
-            System.Diagnostics.Debug.WriteLine("Ending time  : {0,-10}",setup.EndingTime);
-            }
+            System.Diagnostics.Debug.WriteLine("Ending time  : {0,-10}", setup.EndingTime);
+        }
 
         public void setServiceTimes(Configuration c)
         {
@@ -248,10 +248,10 @@ namespace HoptServer
                 }
             }
         }
-        
+
         public void setAcuityPercentages(int acuity, double value)
         {
-            currentModel.Tables[0].Rows[acuity-1].Properties["Probability"].Value = (value / 100).ToString();
+            currentModel.Tables[0].Rows[acuity - 1].Properties["Probability"].Value = (value / 100).ToString();
             System.Diagnostics.Debug.WriteLine("Acuity " + acuity + " = " + (value) + "%");
             //currentModel.Tables[0].Rows[0].Properties["Probability"].Value = (c.acuityInfo[0].value / 100).ToString();
             //currentModel.Tables[0].Rows[1].Properties["Probability"].Value = (c.acuityInfo[1].value / 100).ToString();
@@ -265,9 +265,10 @@ namespace HoptServer
             //System.Diagnostics.Debug.WriteLine("Acuity 5 = " + (c.acuityInfo[4].value) + "%");
         }
 
-        public void setNumberOfReplicationsforScenario(int scenario, int numberOfReps) {
+        public void setNumberOfReplicationsforScenario(int scenario, int numberOfReps)
+        {
             currentExperiment.Scenarios[scenario].ReplicationsRequired = numberOfReps;
-            System.Diagnostics.Debug.WriteLine("Scen {0} reps  : {1,-10}", scenario,currentExperiment.Scenarios[scenario].ReplicationsRequired);
+            System.Diagnostics.Debug.WriteLine("Scen {0} reps  : {1,-10}", scenario, currentExperiment.Scenarios[scenario].ReplicationsRequired);
         }
         private void removeAllButOneScenario()
         {
@@ -292,7 +293,7 @@ namespace HoptServer
                 System.Diagnostics.Debug.WriteLine("RSF - average: {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
             //change RateTable.RateScaleFactor for peak day
-            else if (type== "peak")
+            else if (type == "peak")
             {
                 double peakFactor;
                 if (peakPercentageofYear >= 0 && peakPercentageofYear <= 1)
@@ -301,8 +302,8 @@ namespace HoptServer
                     peakFactor = 1.2; //default
                 //rate scale factor
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
-                System.Diagnostics.Debug.WriteLine("Peak % of yr : {0,-10}",peakPercentageofYear);
-                System.Diagnostics.Debug.WriteLine("RSF - peak   : {0,-20}",currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
+                System.Diagnostics.Debug.WriteLine("Peak % of yr : {0,-10}", peakPercentageofYear);
+                System.Diagnostics.Debug.WriteLine("RSF - peak   : {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
         }
 
@@ -350,7 +351,7 @@ namespace HoptServer
             removeAllButOneScenario();
             //if multiple scenarios
             //setNumberOfReplicationsforAllScenarios(c.numberOfReps.value);
-            
+
             //change hospital values (type, annualArrivals, %ofyear)
             setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);
 
@@ -367,9 +368,9 @@ namespace HoptServer
             {
                 if (c.rooms[i].included == true)
                 {
-                string num = "";
+                    string num = "";
                     currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
-                currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
                     System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
                 }
                 else if (c.rooms[i].included == false && (c.rooms[i].name == "Rapid Admission" || c.rooms[i].name == "Behavioral" || c.rooms[i].name == "Observation"))
@@ -482,10 +483,10 @@ namespace HoptServer
 
         public void addSimioEventListeners()
         {
-             currentExperiment.ScenarioEnded += new EventHandler<ScenarioEndedEventArgs>(experiment_ScenarioEnded);
-             currentExperiment.RunCompleted += new EventHandler<RunCompletedEventArgs>(experiment_RunCompleted);
-             //currentExperiment.RunProgressChanged += new EventHandler<RunProgressChangedEventArgs>(experiment_RunProgressChanged);
-             currentExperiment.ReplicationEnded += new EventHandler<ReplicationEndedEventArgs>(experiment_ReplicationEnded);
+            currentExperiment.ScenarioEnded += new EventHandler<ScenarioEndedEventArgs>(experiment_ScenarioEnded);
+            currentExperiment.RunCompleted += new EventHandler<RunCompletedEventArgs>(experiment_RunCompleted);
+            //currentExperiment.RunProgressChanged += new EventHandler<RunProgressChangedEventArgs>(experiment_RunProgressChanged);
+            currentExperiment.ReplicationEnded += new EventHandler<ReplicationEndedEventArgs>(experiment_ReplicationEnded);
         }
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
@@ -515,7 +516,7 @@ namespace HoptServer
                     //e.Scenario.Name - 001
                     //response.Name - AvgTimeInSystem
                     //responseValue.ToString() - Value
-                    System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}",e.Scenario.Name,response.Name,responseValue.ToString());
+                    System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}", e.Scenario.Name, response.Name, responseValue.ToString());
 
                     //only if we want to send back individual responses
                     Response r = new Response(response.Name, responseValue);
@@ -560,7 +561,7 @@ namespace HoptServer
             sql += " where ";
             for (int i = 0; i < c.rooms.Length; i++)
             {
-                if(i < 5)
+                if (i < 5)
                     sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num + " and ";
                 else
                     sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num;
@@ -609,6 +610,26 @@ namespace HoptServer
         public void SetExperiment(string experiment)
         {
             currentExperiment = currentModel.Experiments[experiment];
+        }
+
+        public double getInitialCost()
+        {
+            return _initial;
+        }
+
+        public double getAnnualCost()
+        {
+            return _annual;
+        }
+
+        public double getTotalCost()
+        {
+            return _total;
+        }
+
+        public double[] getResponses()
+        {
+            return _responses;
         }
     }
 }
