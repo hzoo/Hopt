@@ -445,6 +445,9 @@ namespace HoptServer
             //save config as private
             _c = c;
 
+            //change hospital values (type, annualArrivals, %ofyear)
+            setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);
+
             //change control values (the actual configuration)
             for (int i = 0; i < c.rooms.Length; i++)
             {
