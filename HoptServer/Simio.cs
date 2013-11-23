@@ -365,6 +365,71 @@ namespace HoptServer
             return currentResponses;
         }
 
+        public void LoadHospitalData(Configuration c)
+        {
+            //save config as private
+            _c = c;
+
+            //Specify run times
+            setWarmUpTimeInHours(c.startupTime.value);
+            setRunLengthInDays(c.daysToRun.value);
+
+            //set number of replications for the one scenario
+            setNumberOfReplicationsforScenario(0, c.numberOfReps.value);
+            removeAllButOneScenario();
+            //if multiple scenarios
+            //setNumberOfReplicationsforAllScenarios(c.numberOfReps.value);
+
+            //change hospital values (type, annualArrivals, %ofyear)
+            setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);
+
+            setServiceTimes(c);
+
+            setAcuityPercentages(1, c.acuityInfo[0].value);
+            setAcuityPercentages(2, c.acuityInfo[1].value);
+            setAcuityPercentages(3, c.acuityInfo[2].value);
+            setAcuityPercentages(4, c.acuityInfo[3].value);
+            setAcuityPercentages(5, c.acuityInfo[4].value);
+
+            //listeners (run completed, scenario, completed, etc)
+            addSimioEventListeners();
+        }
+
+        public List<Response> RunOpt(Configuration c)
+        {
+            if (currentExperiment.IsBusy)
+                return null;
+            currentExperiment.Reset();
+
+            //save config as private
+            _c = c;
+
+            //change control values (the actual configuration)
+            for (int i = 0; i < c.rooms.Length; i++)
+            {
+                if (c.rooms[i].included == true)
+                {
+                    string num = "";
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
+                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
+                }
+                else if (c.rooms[i].included == false && (c.rooms[i].name == "Rapid Admission" || c.rooms[i].name == "Behavioral" || c.rooms[i].name == "Observation"))
+                {
+                    string num = "";
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], "0");
+                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
+                }
+            }
+
+            //run simulation
+            runSimulationAsync();
+
+            //insertResults(c, currentResponses);
+            return currentResponses;
+        }
+
         public void runSimulationAsync()
         {
             System.Diagnostics.Debug.WriteLine("Start Run");
