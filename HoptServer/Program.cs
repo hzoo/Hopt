@@ -89,10 +89,10 @@ namespace HoptServer
     {
         Simio s = new Simio();
 
-        public void findRoomConstraintsForRoomType(Constraint cs, Configuration c, ConfigResult cr)
+        public void findRoomConstraintsForRoomType(Constraint cs, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
         {
             // Check Utilization
-            cs.responseName = "ExamRoom";
+            cs.responseName = name;
             // If less than 50%, don't even both trying to add
             if (cr.examroomu < 50)
             {
@@ -105,9 +105,9 @@ namespace HoptServer
                 // looping until util 50%
                 for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
                 {
-                    Configuration c2 = c;
+                    c2 = c;
                     c2.rooms[0].num = i;
-                    ConfigResult cr2 = s.RunOpt(c2);
+                    cr2 = s.RunOpt(c2);
                     if (cr2.examroomu < 50)
                     {
                         cs.upperBound = i;
@@ -131,6 +131,8 @@ namespace HoptServer
             // Run given config to begin with
             ConfigResult cr = s.RunOpt(c);
             // Check Utilization
+            Configuration c2 = new Configuration();
+            ConfigResult cr2 = new ConfigResult();
 
             //cs[0].responseName = "ExamRoom";
             //// If less than 50%, don't even both trying to add
@@ -156,12 +158,12 @@ namespace HoptServer
             //    }
             //}
 
-            findRoomConstraintsForRoomType(cs[0], c, cr);
-            findRoomConstraintsForRoomType(cs[1], c, cr);
-            findRoomConstraintsForRoomType(cs[2], c, cr);
-            findRoomConstraintsForRoomType(cs[3], c, cr);
-            findRoomConstraintsForRoomType(cs[4], c, cr);
-            findRoomConstraintsForRoomType(cs[5], c, cr);
+            findRoomConstraintsForRoomType(cs[0], "ExamRoom", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[1], "Trauma", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[2], "FastTrack", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[3], "Rapid Admission", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[4], "Behavioral", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[5], "Observation", c, cr, c2, cr2);
         }
             
         //    int iterations = 0;
