@@ -97,7 +97,7 @@ namespace HoptServer
             {
                 cs[i] = new Constraint();
             }
-
+            
             // Run given config to begin with
             List<ConfigResult> r = s.RunOpt(c);
             ConfigResult cr = r[0];
@@ -137,11 +137,11 @@ namespace HoptServer
             int iterations = 0;
             while (iterations < 3)
             {
-                List<ConfigResult> r = s.RunOpt(c);
+                ConfigResult cr = s.RunOpt(c);
                 //check waiting time (primary (exam, fast track, trauma) - secondary (rapid admission, observation, behavioral)
 
                 //check utilization
-                if (r[0].value > 85) // need to find the right index by hardcode in simio or using a for loop
+                if (cr.examroomu > 80) // need to find the right index by hardcode in simio or using a for loop
                 {
                     c.rooms[0].num = c.rooms[0].num + 1;
                 }
