@@ -92,6 +92,47 @@ namespace HoptServer
             System.Diagnostics.Debug.WriteLine("Run Opt");
             s.chooseModel(c);
             s.LoadHospitalData(c);
+            Constraint[] cs = new Constraint[6];
+            for(int i = 0; i < 6; i++)
+            {
+                cs[i] = new Constraint();
+            }
+            
+            // Run given config to begin with
+            List<ConfigResult> r = s.RunOpt(c);
+            ConfigResult cr = r[0];
+            // Check Utilization
+            cs[0].responseName = "ExamRoom";
+            // If less than 50%, don't even both trying to add
+            if (cr.examroomu < 50)
+            {
+                cs[0].lowerBound = c.rooms[0].num;
+                cs[0].upperBound = c.rooms[0].num;
+            }
+            else
+            {
+                cs[0].lowerBound = c.rooms[0].num;
+                // looping until util 50%
+                for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
+                {
+                    Configuration c2 = c;
+                    c2.rooms[0].num = i;
+                    List<ConfigResult> r2 = s.RunOpt(c2);
+                    ConfigResult cr2 = r2[0];
+                    if (cr2.examroomu < 50)
+                    {
+                        cs[0].upperBound = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+ 
+
+                
+                
+
             
             int iterations = 0;
             while (iterations < 3)
