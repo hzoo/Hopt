@@ -5,6 +5,7 @@ using Owin;
 using Microsoft.Owin.Cors;
 using SimioAPI;
 using System.Collections.Generic;
+using HoptServer.Models;
 
 namespace HoptServer
 {
@@ -99,8 +100,7 @@ namespace HoptServer
             }
             
             // Run given config to begin with
-            List<ConfigResult> r = s.RunOpt(c);
-            ConfigResult cr = r[0];
+            ConfigResult cr = s.RunOpt(c);
             // Check Utilization
             cs[0].responseName = "ExamRoom";
             // If less than 50%, don't even both trying to add
@@ -117,8 +117,7 @@ namespace HoptServer
                 {
                     Configuration c2 = c;
                     c2.rooms[0].num = i;
-                    List<ConfigResult> r2 = s.RunOpt(c2);
-                    ConfigResult cr2 = r2[0];
+                    ConfigResult cr2 = s.RunOpt(c2);
                     if (cr2.examroomu < 50)
                     {
                         cs[0].upperBound = i;
@@ -127,30 +126,24 @@ namespace HoptServer
                 }
             }
         }
-
- 
-
-                
-                
-
             
-            int iterations = 0;
-            while (iterations < 3)
-            {
-                ConfigResult cr = s.RunOpt(c);
-                //check waiting time (primary (exam, fast track, trauma) - secondary (rapid admission, observation, behavioral)
+        //    int iterations = 0;
+        //    while (iterations < 3)
+        //    {
+        //        ConfigResult cr = s.RunOpt(c);
+        //        //check waiting time (primary (exam, fast track, trauma) - secondary (rapid admission, observation, behavioral)
 
-                //check utilization
-                if (cr.examroomu > 80) // need to find the right index by hardcode in simio or using a for loop
-                {
-                    c.rooms[0].num = c.rooms[0].num + 1;
-                }
+        //        //check utilization
+        //        if (cr.examroomu > 80) // need to find the right index by hardcode in simio or using a for loop
+        //        {
+        //            c.rooms[0].num = c.rooms[0].num + 1;
+        //        }
 
-                iterations++;
-            }
+        //        iterations++;
+        //    }
 
-            //Clients.All.getResponses(r);
-        }
+        //    //Clients.All.getResponses(r);
+        //}
 
         public void RunConfig(Configuration c)
         {
