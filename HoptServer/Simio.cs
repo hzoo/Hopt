@@ -398,7 +398,7 @@ namespace HoptServer
             setAcuityPercentages(4, c.acuityInfo[3].value);
             setAcuityPercentages(5, c.acuityInfo[4].value);
 
-
+            
             //change control values (the actual configuration)
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
@@ -488,7 +488,7 @@ namespace HoptServer
             //run simulation
             runSimulationAsync();
 
-            //insertResults(c, currentResponses);
+            insertResults(c, currentResponses);
             return _cr;
         }
 
