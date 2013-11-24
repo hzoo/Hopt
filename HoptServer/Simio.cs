@@ -22,10 +22,23 @@ namespace HoptServer
         double[] _responses;
         List<Response> currentResponses = new List<Response>();
 
-        public Simio()
+        public Simio(Configuration c)
         {
             //initialize
-            SetProject("ED.spfx", "Model", "Experiment1"); //v22
+            for (int i = 0; i < c.rooms.Length; i++)
+            {
+                if (c.rooms[i].name == "Trauma")
+                {
+                    if (c.rooms[i].included == false)// || (c.rooms[i].included == true && c.rooms[i].num == 0))
+                    {
+                        SetProject("ED-NoTrauma.spfx", "Model", "Experiment1"); //v23
+                        break;
+                    } else {
+                        SetProject("ED.spfx", "Model", "Experiment1"); //v23
+                        break;
+                    }
+                }
+            }
             createTables();
         }
 
@@ -226,7 +239,7 @@ namespace HoptServer
         {
             for (int i = 0; i < c.serviceInfo.Length; i++)
             {
-                if (c.serviceInfo[i].name == "Exam Room" && c.serviceInfo[i].included == true)
+                if (c.serviceInfo[i].name == "Exam Room" && c.rooms[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
                     System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["ExamRoom"].Properties["ProcessingTime"].Value);
@@ -236,27 +249,27 @@ namespace HoptServer
                 //    currentModel.Facility.IntelligentObjects["WaitRoom"].Properties["ProcessingTime"].Value = c.serviceTimes[i].averageRoomTime.ToString();
                 //    System.Diagnostics.Debug.WriteLine(c.serviceTimes[i].name + " " + currentModel.Facility.IntelligentObjects["WaitRoom"].Properties["ProcessingTime"].Value);
                 //}
-                else if (c.serviceInfo[i].name == "Trauma" && c.serviceInfo[i].included == true)
+                else if (c.serviceInfo[i].name == "Trauma" && c.rooms[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
                     System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Trauma"].Properties["ProcessingTime"].Value + " hours");
                 }
-                else if (c.serviceInfo[i].name == "Fast Track" && c.serviceInfo[i].included == true)
+                else if (c.serviceInfo[i].name == "Fast Track" && c.rooms[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
                     System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["FastTrack"].Properties["ProcessingTime"].Value + " hours");
                 }
-                else if (c.serviceInfo[i].name == "Rapid Admission" && c.serviceInfo[i].included == true)
+                else if (c.serviceInfo[i].name == "Rapid Admission" && c.rooms[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
                     System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["RapidAdmissionUnit"].Properties["ProcessingTime"].Value + " hours");
                 }
-                else if (c.serviceInfo[i].name == "Behavioral" && c.serviceInfo[i].included == true)
+                else if (c.serviceInfo[i].name == "Behavioral" && c.rooms[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
                     System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Behavioral"].Properties["ProcessingTime"].Value + " hours");
                 }
-                else if (c.serviceInfo[i].name == "Observation" && c.serviceInfo[i].included == true)
+                else if (c.serviceInfo[i].name == "Observation" && c.rooms[i].included == true)
                 {
                     currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value = c.serviceInfo[i].averageRoomTime.ToString();
                     System.Diagnostics.Debug.WriteLine(c.serviceInfo[i].name + " " + currentModel.Facility.IntelligentObjects["Observation"].Properties["ProcessingTime"].Value + " hours");
@@ -378,22 +391,21 @@ namespace HoptServer
             setAcuityPercentages(4, c.acuityInfo[3].value);
             setAcuityPercentages(5, c.acuityInfo[4].value);
 
+            
             //change control values (the actual configuration)
-            for (int i = 0; i < c.rooms.Length; i++)
+            var start = 0;
+            for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
-                if (c.rooms[i].included == true)
+                for (int j = start; j < c.rooms.Length; j++)
                 {
-                    string num = "";
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
-                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
-                }
-                else if (c.rooms[i].included == false && (c.rooms[i].name == "Rapid Admission" || c.rooms[i].name == "Behavioral" || c.rooms[i].name == "Observation"))
-                {
-                    string num = "";
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], "0");
-                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
+                    if (c.rooms[j].included == true)
+                    {
+                        string num = "";
+                        currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
+                        start++;
+                        break;
+                    }
                 }
             }
 
@@ -450,21 +462,19 @@ namespace HoptServer
             setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);
 
             //change control values (the actual configuration)
-            for (int i = 0; i < c.rooms.Length; i++)
+            var start = 0;
+            for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
-                if (c.rooms[i].included == true)
+                for (int j = start; j < c.rooms.Length; j++)
                 {
-                    string num = "";
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[i].num.ToString());
-                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
-                }
-                else if (c.rooms[i].included == false && (c.rooms[i].name == "Rapid Admission" || c.rooms[i].name == "Behavioral" || c.rooms[i].name == "Observation"))
-                {
-                    string num = "";
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], "0");
-                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[i].name, num);
+                    if (c.rooms[j].included == true)
+                    {
+                        string num = "";
+                        currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
+                        start++;
+                        break;
+                    }
                 }
             }
 

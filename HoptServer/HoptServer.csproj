@@ -136,6 +136,9 @@
     <None Include="ED-v19-opt.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ED-NoTrauma.spfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ED.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

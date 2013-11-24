@@ -69,10 +69,9 @@ namespace HoptServer
     }
     public class ChatHub : Hub
     {
-        Simio s = new Simio();
-
         public void RunConfig(Configuration c)
         {
+            Simio s = new Simio(c);
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
@@ -85,19 +84,24 @@ namespace HoptServer
     }
     public class OptHub : Hub
     {
-        Simio s = new Simio();
-
+        
         public void RunOpt(Configuration c)
         {
             System.Diagnostics.Debug.WriteLine("Run Opt");
-            s.LoadHospitalData(c); 
+            Simio s = new Simio(c);
+            s.LoadHospitalData(c);
             
             int iterations = 0;
             while (iterations < 3)
             {
                 List<Response> r = s.RunOpt(c);
-                
+                //check waiting time (primary (exam, fast track, trauma) - secondary (rapid admission, observation, behavioral)
 
+                //check utilization
+                if (r[0].value > 85) // need to find the right index by hardcode in simio or using a for loop
+                {
+                    c.rooms[0].num = c.rooms[0].num + 1;
+                }
 
                 iterations++;
             }
@@ -107,6 +111,7 @@ namespace HoptServer
 
         public void RunConfig(Configuration c)
         {
+            Simio s = new Simio(c);
             System.Diagnostics.Debug.WriteLine("RunConfig");
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
