@@ -88,6 +88,35 @@ namespace HoptServer
     public class OptHub : Hub
     {
         Simio s = new Simio();
+
+        public void findRoomConstraintsForRoomType(Constraint cs, Configuration c, ConfigResult cr)
+        {
+            // Check Utilization
+            cs.responseName = "ExamRoom";
+            // If less than 50%, don't even both trying to add
+            if (cr.examroomu < 50)
+            {
+                cs.lowerBound = c.rooms[0].num;
+                cs.upperBound = c.rooms[0].num;
+            }
+            else
+            {
+                cs.lowerBound = c.rooms[0].num;
+                // looping until util 50%
+                for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
+                {
+                    Configuration c2 = c;
+                    c2.rooms[0].num = i;
+                    ConfigResult cr2 = s.RunOpt(c2);
+                    if (cr2.examroomu < 50)
+                    {
+                        cs.upperBound = i;
+                        break;
+                    }
+                }
+            }
+        }
+
         public void RunOpt(Configuration c)
         {
             System.Diagnostics.Debug.WriteLine("Run Opt");
@@ -102,29 +131,37 @@ namespace HoptServer
             // Run given config to begin with
             ConfigResult cr = s.RunOpt(c);
             // Check Utilization
-            cs[0].responseName = "ExamRoom";
-            // If less than 50%, don't even both trying to add
-            if (cr.examroomu < 50)
-            {
-                cs[0].lowerBound = c.rooms[0].num;
-                cs[0].upperBound = c.rooms[0].num;
-            }
-            else
-            {
-                cs[0].lowerBound = c.rooms[0].num;
-                // looping until util 50%
-                for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
-                {
-                    Configuration c2 = c;
-                    c2.rooms[0].num = i;
-                    ConfigResult cr2 = s.RunOpt(c2);
-                    if (cr2.examroomu < 50)
-                    {
-                        cs[0].upperBound = i;
-                        break;
-                    }
-                }
-            }
+
+            //cs[0].responseName = "ExamRoom";
+            //// If less than 50%, don't even both trying to add
+            //if (cr.examroomu < 50)
+            //{
+            //    cs[0].lowerBound = c.rooms[0].num;
+            //    cs[0].upperBound = c.rooms[0].num;
+            //}
+            //else
+            //{
+            //    cs[0].lowerBound = c.rooms[0].num;
+            //    // looping until util 50%
+            //    for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
+            //    {
+            //        Configuration c2 = c;
+            //        c2.rooms[0].num = i;
+            //        ConfigResult cr2 = s.RunOpt(c2);
+            //        if (cr2.examroomu < 50)
+            //        {
+            //            cs[0].upperBound = i;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            findRoomConstraintsForRoomType(cs[0], c, cr);
+            findRoomConstraintsForRoomType(cs[1], c, cr);
+            findRoomConstraintsForRoomType(cs[2], c, cr);
+            findRoomConstraintsForRoomType(cs[3], c, cr);
+            findRoomConstraintsForRoomType(cs[4], c, cr);
+            findRoomConstraintsForRoomType(cs[5], c, cr);
         }
             
         //    int iterations = 0;
