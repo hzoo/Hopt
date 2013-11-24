@@ -458,8 +458,8 @@ namespace HoptServer
 
         public ConfigResult RunOpt(Configuration c)
         {
-            if (wasConfigRun(c))
-                return queryResults(c);
+          //  if (wasConfigRun(c))
+          //      return queryResults(c);
             chooseModel(c);
             if (currentExperiment.IsBusy)
                 return null;
