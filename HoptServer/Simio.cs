@@ -411,7 +411,6 @@ namespace HoptServer
                 {
                     if (c.rooms[j].included == true)
                     {
-                        string num = "";
                         currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
                         System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
                         start++;
@@ -483,7 +482,6 @@ namespace HoptServer
                 {
                     if (c.rooms[j].included == true)
                     {
-                        string num = "";
                         currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
                         System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
                         start++;
@@ -492,10 +490,12 @@ namespace HoptServer
                 }
             }
 
+            addSimioEventListeners();
+
             //run simulation
             runSimulationAsync();
 
-            insertResults(c, currentResponses);
+            //insertResults(c, currentResponses);
             return _cr;
         }
 
@@ -565,7 +565,7 @@ namespace HoptServer
                     if (response.Name == "WaitingTimeForFT") { _cr.fasttrack_wt = responseValue; }
                     if (response.Name == "ExamRoomUtilization") { _cr.examroomu = responseValue; }
                     if (response.Name == "TraumaUtilization") { _cr.traumau = responseValue; }
-                    if (response.Name == "FastTrackUtilization") { _cr.fastttracku = responseValue; }
+                    if (response.Name == "FastTrackUtilization") { _cr.fasttracku = responseValue; }
                     if (response.Name == "RapidAdmissionUnitUtilization") { _cr.rapidadmissionu = responseValue; }
                     if (response.Name == "BehavioralUtilization") { _cr.behavioru = responseValue; }
                     if (response.Name == "ObservationUtilization") { _cr.observationu = responseValue; }

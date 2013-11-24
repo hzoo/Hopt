@@ -14,10 +14,10 @@ namespace HoptServer
         static void Main(string[] args)
         {
             // This will *ONLY* bind to localhost, if you want to bind to all addresses
-            // use http://*:8080 to bind to all addresses. 
-            // See http://msdn.microsoft.com/en-us/library/system.net.httplistener.aspx 
+            // use http://*:8080 to bind to all addresses.
+            // See http://msdn.microsoft.com/en-us/library/system.net.httplistener.aspx
             // for more information.
-            
+
             //find open port
             int port = 8001;
             Boolean openPortNotFound = true;
@@ -48,7 +48,7 @@ namespace HoptServer
             app.Map("/signalr", map =>
             {
                 // Setup the cors middleware to run before SignalR.
-                // By default this will allow all origins. You can 
+                // By default this will allow all origins. You can
                 // configure the set of origins and/or http verbs by
                 // providing a cors options with a different policy.
                 map.UseCors(CorsOptions.AllowAll);
@@ -89,12 +89,44 @@ namespace HoptServer
     {
         Simio s = new Simio();
 
+        public double getUtilizationForRoomType(string name, ConfigResult cr) {
+            double utilization = 0.0;
+            if (name == "examroomu")
+            {
+                utilization = cr.examroomu;
+            }
+            else if (name == "traumau")
+            {
+                utilization = cr.traumau;
+            }
+            else if (name == "fasttracku")
+            {
+                utilization = cr.fasttracku;
+            }
+            else if (name == "rapidadmissionu")
+            {
+                utilization = cr.rapidadmissionu;
+            }
+            else if (name == "observationu")
+            {
+                utilization = cr.observationu;
+            }
+            else if (name == "behavioru")
+            {
+                utilization = cr.behavioru;
+            }
+            return utilization;
+        }
+
         public void findRoomConstraintsForRoomType(Constraint cs, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
         {
             // Check Utilization
             cs.responseName = name;
             // If less than 50%, don't even both trying to add
-            if (cr.examroomu < 50)
+
+            double utilization = getUtilizationForRoomType(name, cr);
+
+            if (utilization < 50)
             {
                 cs.lowerBound = c.rooms[0].num;
                 cs.upperBound = c.rooms[0].num;
@@ -108,7 +140,8 @@ namespace HoptServer
                     c2 = c;
                     c2.rooms[0].num = i;
                     cr2 = s.RunOpt(c2);
-                    if (cr2.examroomu < 50)
+                    double utilization2 = getUtilizationForRoomType(name, cr2);
+                    if (utilization2 < 50)
                     {
                         cs.upperBound = i;
                         break;
@@ -127,7 +160,7 @@ namespace HoptServer
             {
                 cs[i] = new Constraint();
             }
-            
+
             // Run given config to begin with
             ConfigResult cr = s.RunOpt(c);
             // Check Utilization
@@ -158,14 +191,20 @@ namespace HoptServer
             //    }
             //}
 
-            findRoomConstraintsForRoomType(cs[0], "ExamRoom", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[1], "Trauma", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[2], "FastTrack", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[3], "Rapid Admission", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[4], "Behavioral", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[5], "Observation", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[0], "examroomu", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[1], "traumau", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[2], "fasttracku", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[3], "rapidadmissionu", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[4], "behavioru", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs[5], "observationu", c, cr, c2, cr2);
+            System.Diagnostics.Debug.WriteLine("ExamRoom: " + cs[0].lowerBound + "," + cs[0].upperBound);
+            System.Diagnostics.Debug.WriteLine("Trauma: " + cs[1].lowerBound + "," + cs[1].upperBound);
+            System.Diagnostics.Debug.WriteLine("FastTrack: " + cs[2].lowerBound + "," + cs[2].upperBound);
+            System.Diagnostics.Debug.WriteLine("Rapid Admission: " + cs[3].lowerBound + "," + cs[3].upperBound);
+            System.Diagnostics.Debug.WriteLine("Behvioral: " + cs[4].lowerBound + "," + cs[4].upperBound);
+            System.Diagnostics.Debug.WriteLine("Observation: " + cs[5].lowerBound + "," + cs[5].upperBound);
         }
-            
+
         //    int iterations = 0;
         //    while (iterations < 3)
         //    {

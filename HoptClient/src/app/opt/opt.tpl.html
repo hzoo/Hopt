@@ -58,8 +58,8 @@
         <input class="col-centered" type="radio" ng-model="hospitalData.simulationInfo.rateTable.value" value="peak"> Run peak days<br/>
       </div>
       <div class="col-lg-5 col-lg-offset-1">
-        <button disabled ng-if="runOpt === true" type="submit" class="btn btn-primary col-lg-9" ng-click="sendMessage('RunConfig',config)" >Running...</button>
-        <button ng-if="runOpt === false" type="submit" class="btn btn-primary col-lg-9" ng-click="sendMessage('RunConfig',config)" >Run Opt</button>
+        <button disabled ng-if="runOpt === true" type="submit" class="btn btn-primary col-lg-9" ng-click="sendMessage('RunOpt',config)" >Running...</button>
+        <button ng-if="runOpt === false" type="submit" class="btn btn-primary col-lg-9" ng-click="sendMessage('RunOpt',config)" >Run Opt</button>
         <!-- <div ng-class="{spinner: misc.viewLoading}"></div> -->
       </div>
     </div>

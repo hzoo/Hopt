@@ -19,7 +19,7 @@ namespace HoptServer
         public double avgnumberinwaitingroom;
         public double traumau;
         public double examroomu;
-        public double fastttracku;
+        public double fasttracku;
         public double rapidadmissionu;
         public double behavioru;
         public double observationu;
@@ -50,7 +50,7 @@ namespace HoptServer
             avgnumberinwaitingroom = an;
             traumau = tr;
             examroomu = ex;
-            fastttracku = fa;
+            fasttracku = fa;
             rapidadmissionu = ra;
             behavioru = be;
             observationu = ob;
