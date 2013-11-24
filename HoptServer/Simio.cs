@@ -21,6 +21,7 @@ namespace HoptServer
         double _total;
         double[] _responses;
         List<Response> currentResponses = new List<Response>();
+        ConfigResult _cr;
 
         public Simio()
         {
@@ -397,7 +398,7 @@ namespace HoptServer
             setAcuityPercentages(4, c.acuityInfo[3].value);
             setAcuityPercentages(5, c.acuityInfo[4].value);
 
-            
+
             //change control values (the actual configuration)
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
@@ -455,7 +456,7 @@ namespace HoptServer
             addSimioEventListeners();
         }
 
-        public List<Response> RunOpt(Configuration c)
+        public ConfigResult RunOpt(Configuration c)
         {
             if (currentExperiment.IsBusy)
                 return null;
@@ -488,7 +489,7 @@ namespace HoptServer
             runSimulationAsync();
 
             //insertResults(c, currentResponses);
-            return currentResponses;
+            return _cr;
         }
 
         public void runSimulationAsync()
@@ -549,6 +550,20 @@ namespace HoptServer
                     //responseValue.ToString() - Value
                     System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}", e.Scenario.Name, response.Name, responseValue.ToString());
 
+                    if (response.Name == "AvgNumberinWaitingRoom") { _cr.avgnumberinwaitingroom = responseValue; }
+                    if (response.Name == "AvgWaitingTime") { _cr.avgwaitingtime = responseValue; }
+                    if (response.Name == "WaitingTimeForER") { _cr.examroom_wt = responseValue; }
+                    if (response.Name == "WaitingTimeForTrauma") { _cr.trauma_wt = responseValue; }
+                    if (response.Name == "WaitingTimeForFT") { _cr.fasttrack_wt = responseValue; }
+                    if (response.Name == "ExamRoomUtilization") { _cr.examroomu = responseValue; }
+                    if (response.Name == "TraumaUtilization") { _cr.traumau = responseValue; }
+                    if (response.Name == "FastTrackUtilization") { _cr.fastttracku = responseValue; }
+                    if (response.Name == "RapidAdmissionUnitUtilization") { _cr.rapidadmissionu = responseValue; }
+                    if (response.Name == "BehavioralUtilization") { _cr.behavioru = responseValue; }
+                    if (response.Name == "ObservationUtilization") { _cr.observationu = responseValue; }
+                    if (response.Name == "TotalTimeOfStay") { _cr.timeinsystem = responseValue; }
+                    if (response.Name == "LWBS") { _cr.LWBS = responseValue; }
+                    if (response.Name == "TotalVisits") { _cr.totalVisits = responseValue; }
                     //only if we want to send back individual responses
                     Response r = new Response(response.Name, responseValue);
                     currentResponses.Add(r);

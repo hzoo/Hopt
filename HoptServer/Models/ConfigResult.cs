@@ -27,8 +27,17 @@ namespace HoptServer
         public double initialCost;
         public double annualCost;
         public double totalCost;
+        public double totalVisits;
+        public double examroom_wt;
+        public double trauma_wt;
+        public double fasttrack_wt;
 
-        public ConfigResult(int e, int t, int f, int r, int b, int o, double ti, double aw, double an, double tr, double ex, double fa, double ra, double be, double ob, double l, double ic, double ac, double tc)
+        public ConfigResult()
+        {
+
+        }
+
+        public ConfigResult(int e, int t, int f, int r, int b, int o, double ti, double aw, double an, double tr, double ex, double fa, double ra, double be, double ob, double l, double ic, double ac, double tc, int tv, double erwt, double twt, double ftwt)
         {
             examRoom = e;
             trauma = t;
@@ -49,6 +58,10 @@ namespace HoptServer
             initialCost = ic;
             annualCost = ac;
             totalCost = tc;
+            totalVisits = tv;
+            examroom_wt = erwt;
+            trauma_wt = twt;
+            fasttrack_wt = ftwt;
         }
     
     }
