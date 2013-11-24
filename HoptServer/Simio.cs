@@ -22,7 +22,12 @@ namespace HoptServer
         double[] _responses;
         List<Response> currentResponses = new List<Response>();
 
-        public Simio(Configuration c)
+        public Simio()
+        {
+            createTables();
+        }
+
+        public void chooseModel(Configuration c)
         {
             //initialize
             for (int i = 0; i < c.rooms.Length; i++)
@@ -33,13 +38,14 @@ namespace HoptServer
                     {
                         SetProject("ED-NoTrauma.spfx", "Model", "Experiment1"); //v23
                         break;
-                    } else {
+                    }
+                    else
+                    {
                         SetProject("ED.spfx", "Model", "Experiment1"); //v23
                         break;
                     }
                 }
             }
-            createTables();
         }
 
         public void createTables()
