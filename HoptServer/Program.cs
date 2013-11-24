@@ -118,32 +118,32 @@ namespace HoptServer
             return utilization;
         }
 
-        public void findRoomConstraintsForRoomType(Constraint cs, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
+        public void findRoomConstraintsForRoomType(Constraint[] cs, int num, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
         {
             // Check Utilization
-            cs.responseName = name;
+            cs[num].responseName = name;
             // If less than 50%, don't even both trying to add
 
             double utilization = getUtilizationForRoomType(name, cr);
-
+            System.Diagnostics.Debug.WriteLine(name + " " + utilization);
             if (utilization < 50)
             {
-                cs.lowerBound = c.rooms[0].num;
-                cs.upperBound = c.rooms[0].num;
+                cs[num].lowerBound = c.rooms[num].num;
+                cs[num].upperBound = c.rooms[num].num;
             }
             else
             {
-                cs.lowerBound = c.rooms[0].num;
+                cs[num].lowerBound = c.rooms[num].num;
                 // looping until util 50%
-                for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
+                for (int i = c.rooms[num].num + 4; i < 1000; i += 4)
                 {
                     c2 = c;
-                    c2.rooms[0].num = i;
+                    c2.rooms[num].num = i;
                     cr2 = s.RunOpt(c2);
                     double utilization2 = getUtilizationForRoomType(name, cr2);
                     if (utilization2 < 50)
                     {
-                        cs.upperBound = i;
+                        cs[num].upperBound = i;
                         break;
                     }
                 }
@@ -163,6 +163,13 @@ namespace HoptServer
 
             // Run given config to begin with
             ConfigResult cr = s.RunOpt(c);
+            System.Diagnostics.Debug.WriteLine(cr.examroomu);
+            System.Diagnostics.Debug.WriteLine(cr.traumau);
+            System.Diagnostics.Debug.WriteLine(cr.fasttracku);
+            System.Diagnostics.Debug.WriteLine(cr.rapidadmissionu);
+            System.Diagnostics.Debug.WriteLine(cr.observationu);
+            System.Diagnostics.Debug.WriteLine(cr.behavioru);
+
             // Check Utilization
             Configuration c2 = new Configuration();
             ConfigResult cr2 = new ConfigResult();
@@ -191,12 +198,12 @@ namespace HoptServer
             //    }
             //}
 
-            findRoomConstraintsForRoomType(cs[0], "examroomu", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[1], "traumau", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[2], "fasttracku", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[3], "rapidadmissionu", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[4], "behavioru", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs[5], "observationu", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs,0, "examroomu", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs,1, "traumau", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs,2, "fasttracku", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs,3, "rapidadmissionu", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs,4, "behavioru", c, cr, c2, cr2);
+            findRoomConstraintsForRoomType(cs,5, "observationu", c, cr, c2, cr2);
             System.Diagnostics.Debug.WriteLine("ExamRoom: " + cs[0].lowerBound + "," + cs[0].upperBound);
             System.Diagnostics.Debug.WriteLine("Trauma: " + cs[1].lowerBound + "," + cs[1].upperBound);
             System.Diagnostics.Debug.WriteLine("FastTrack: " + cs[2].lowerBound + "," + cs[2].upperBound);

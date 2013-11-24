@@ -547,6 +547,7 @@ namespace HoptServer
         {
             IExperiment experiment = (IExperiment)sender;
             // get response value
+            _cr = new ConfigResult();
             foreach (IExperimentResponse response in experiment.Responses)
             {
                 double responseValue = 0.0;
@@ -557,7 +558,6 @@ namespace HoptServer
                     //responseValue.ToString() - Value
                     System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}", e.Scenario.Name, response.Name, responseValue.ToString());
 
-                    _cr = new ConfigResult();
                     if (response.Name == "AvgNumberinWaitingRoom") { _cr.avgnumberinwaitingroom = responseValue; }
                     if (response.Name == "AvgWaitingTime") { _cr.avgwaitingtime = responseValue; }
                     if (response.Name == "WaitingTimeForER") { _cr.examroom_wt = responseValue; }
