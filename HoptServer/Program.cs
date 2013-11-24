@@ -137,10 +137,11 @@ namespace HoptServer
                 // looping until util 50%
                 for (int i = c.rooms[num].num + 4; i < 1000; i += 4)
                 {
-                    c2 = c;
+                    c2 = (Configuration) c.Clone();
                     c2.rooms[num].num = i;
                     cr2 = s.RunOpt(c2);
                     double utilization2 = getUtilizationForRoomType(name, cr2);
+                    System.Diagnostics.Debug.WriteLine(name + " " + utilization);
                     if (utilization2 < 50)
                     {
                         cs[num].upperBound = i;

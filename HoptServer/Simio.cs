@@ -37,12 +37,12 @@ namespace HoptServer
                 {
                     if (c.rooms[i].included == false)// || (c.rooms[i].included == true && c.rooms[i].num == 0))
                     {
-                        SetProject("ED-NoTrauma.spfx", "Model", "Experiment1"); //v23
+                        SetProject("ED-v23-NoTrauma.spfx", "Model", "Experiment1"); //v23
                         break;
                     }
                     else
                     {
-                        SetProject("ED.spfx", "Model", "Experiment1"); //v23
+                        SetProject("ED-v23.spfx", "Model", "Experiment1"); //v23
                         break;
                     }
                 }
@@ -432,7 +432,7 @@ namespace HoptServer
         public void LoadHospitalData(Configuration c)
         {
             //save config as private
-            _c = c;
+            _c = (Configuration)c.Clone();
 
             //Specify run times
             setWarmUpTimeInHours(c.startupTime.value);
@@ -469,7 +469,7 @@ namespace HoptServer
             currentExperiment.Reset();
 
             //save config as private
-            _c = c;
+            _c = (Configuration) c.Clone();
 
             //change hospital values (type, annualArrivals, %ofyear)
             setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);

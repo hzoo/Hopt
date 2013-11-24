@@ -139,8 +139,12 @@
     <None Include="ED-NoTrauma.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ED-v23-NoTrauma.spfx" />
-    <None Include="ED-v23.spfx" />
+    <None Include="ED-v23-NoTrauma.spfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ED-v23.spfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ED.spfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

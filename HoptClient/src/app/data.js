@@ -31,8 +31,8 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 0,
       name: "Exam Room",
-      num: 33,
-      originalNum: 33,
+      num: 37,
+      originalNum: 37,
       included: true
     },
     {
@@ -45,8 +45,8 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 2,
       name: "Fast Track",
-      num: 12,
-      originalNum: 12,
+      num: 8,
+      originalNum: 8,
       included: true
     },
     {
@@ -59,15 +59,15 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 4,
       name: "Behavioral",
-      num: 4,
-      originalNum: 4,
+      num: 14,
+      originalNum: 14,
       included: true
     },
     {
       id: 5,
       name: "Observation",
-      num: 6,
-      originalNum: 6,
+      num: 14,
+      originalNum: 14,
       included: true
     }
   ];
@@ -139,7 +139,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     defaultAverageRoomTime[2] = 1.23; //this is actual total length of stay 5/6
     defaultAverageRoomTime[3] = 2.78; //this is actual total length of stay 16
     defaultAverageRoomTime[4] = 9.47; //this is actual total length of stay 24
-    defaultAverageRoomTime[5] = 8; //this is actual total length of stay 16
+    defaultAverageRoomTime[5] = 5.6; //this is actual total length of stay 16
 
     var defaultWage = [];
     defaultWage[0] = 62060; //nurse
@@ -222,17 +222,17 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
   hospitalData.arrivalInfo = [
     { name: "Annual Visits", value: 134924 },
     { name: "% of Annual Visits for the Peak Month", value: 10 },
-    { name: "LWBS Revenue", value: 100 }];
+    { name: "LWBS Revenue", value: 3250 }];
 
   hospitalData.acuityInfo = [
-    { name: "Acuity 1 %", value: 0.52, revenue: 100 }, //revenue is fake 0.52
-    { name: "Acuity 2 %", value: 9.53, revenue: 100 }, //revenue is fake 9.47
-    { name: "Acuity 3 %", value: 58.32, revenue: 100 }, //revenue is fake 58
-    { name: "Acuity 4 %", value: 30.01, revenue: 100 }, //revenue is fake 29.8
-    { name: "Acuity 5 %", value: 1.62, revenue: 100 }]; //revenue is fake 1.6
+    { name: "Acuity 1 %", value: 0.55, revenue: 100 }, //revenue is fake 0.52
+    { name: "Acuity 2 %", value: 10.21, revenue: 100 }, //revenue is fake 9.47
+    { name: "Acuity 3 %", value: 56.07, revenue: 100 }, //revenue is fake 58
+    { name: "Acuity 4 %", value: 30.53, revenue: 100 }, //revenue is fake 29.8
+    { name: "Acuity 5 %", value: 2.2, revenue: 100 }]; //revenue is fake 1.6
 
   hospitalData.simulationInfo = {
-    daysToSimulate: { name: "Days to Simulate", value: 7 },
+    daysToSimulate: { name: "Days to Simulate", value: 1 },
     numberOfReplications: { name: "# of Replications", value: 1 },
     startupTime: { name: "Startup Time (hrs)", value: 0 },
     rateTable: { name: "Rate Table to run", value: "average" }};

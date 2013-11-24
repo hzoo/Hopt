@@ -7,7 +7,7 @@ using HoptServer.Models;
 
 namespace HoptServer
 {
-    public class Configuration
+    public class Configuration: ICloneable
     {
         public ResponseInt daysToRun { get; set; }
         public ResponseInt numberOfReps { get; set; }
@@ -31,6 +31,11 @@ namespace HoptServer
                 }
             }
             return s;
+        }
+        
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
