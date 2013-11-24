@@ -28,9 +28,9 @@ namespace HoptServer.Models
         {
             return constructionCost(costInfo, rooms) + equipmentCost(costInfo, rooms);
         }
-        public double annualCost(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo)
+        public double annualCost(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, ResponseInt daysToRun)
         {
-            return utilityCost(costInfo, rooms) + staffCost(costInfo, rooms, getUtilizationAndLWBS(rooms)) + lwbsCost(acuityInfo, arrivalInfo, getUtilizationAndLWBS(rooms));
+            return utilityCost(costInfo, rooms) + staffCost(costInfo, rooms, getUtilizationAndLWBS(rooms)) + lwbsCost(acuityInfo, arrivalInfo, getUtilizationAndLWBS(rooms),daysToRun);
         }
         public double utilityCost(CostInfo costInfo, RoomType[] rooms)
         {
@@ -100,16 +100,17 @@ namespace HoptServer.Models
         }
         //TODO: revenue by acuity
         //TODO: lwbs (from Simio)
-        public double lwbsCost(Response[] acuityInfo, Response[] arrivalInfo, double[] simulationResponses) {
+        public double lwbsCost(Response[] acuityInfo, Response[] arrivalInfo, double[] simulationResponses, ResponseInt daysToRun)
+        {
             double value = 0;
                 for (int i = 0; i < 5; i++) {
-                    value += 365 * acuityInfo[i].value / 100 * arrivalInfo[2].value * (simulationResponses[6]);
+                    value += 365 / daysToRun.value * acuityInfo[i].value / 100 * arrivalInfo[2].value * (simulationResponses[6]);
                 }
             return value;
         }
         //value at construction start
-        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, int yearsToCompletion, int yearsAhead) {
-            double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
+        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, int yearsToCompletion, int yearsAhead, ResponseInt daystoRun) {
+            double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
             return initialCost(costInfo,rooms) + annuityOfAnnualCost;
         }
     }

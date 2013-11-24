@@ -601,8 +601,8 @@ namespace HoptServer
 
             HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
             _initial = calc.initialCost(c.costInfo, c.rooms);
-            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo);
-            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead);
+            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo,c.daysToRun);
+            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun);
             _responses = calc.getUtilizationAndLWBS(c.rooms);
 
             System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
