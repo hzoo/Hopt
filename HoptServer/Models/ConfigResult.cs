@@ -27,7 +27,7 @@ namespace HoptServer
         public double initialCost;
         public double annualCost;
         public double totalCost;
-        public double totalVisits;
+        public int totalVisits;
         public double examroom_wt;
         public double trauma_wt;
         public double fasttrack_wt;

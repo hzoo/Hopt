@@ -69,10 +69,11 @@ namespace HoptServer
     }
     public class ChatHub : Hub
     {
+        Simio s = new Simio();
+
         public void RunConfig(Configuration c)
         {
-            Simio s = new Simio();
-            s.chooseModel();
+            s.chooseModel(c);
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
@@ -85,11 +86,10 @@ namespace HoptServer
     }
     public class OptHub : Hub
     {
-        
+        Simio s = new Simio();
         public void RunOpt(Configuration c)
         {
             System.Diagnostics.Debug.WriteLine("Run Opt");
-            Simio s = new Simio();
             s.chooseModel(c);
             s.LoadHospitalData(c);
             
@@ -113,7 +113,6 @@ namespace HoptServer
 
         public void RunConfig(Configuration c)
         {
-            Simio s = new Simio();
             s.chooseModel(c);
             System.Diagnostics.Debug.WriteLine("RunConfig");
             List<Response> r = s.StartExperiment(c);

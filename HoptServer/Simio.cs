@@ -208,7 +208,11 @@ namespace HoptServer
                 double initialCost = Convert.ToDouble(dr["InitialCost"]);
                 double annualCost = Convert.ToDouble(dr["AnnualCost"]);
                 double totalCost = Convert.ToDouble(dr["TotalCost"]);
-                ConfigResult cr = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, initialCost, annualCost, totalCost);
+                int totalVisits = Convert.ToInt32(dr["TotalVisits"]);
+                double examroom_wt = Convert.ToDouble(dr["ExamRoomWaitingTime"]);
+                double trauma_wt = Convert.ToDouble(dr["TraumaWaitingTime"]);
+                double fasttrack_wt = Convert.ToDouble(dr["FastTrackWaitingTime"]);
+                ConfigResult cr = new ConfigResult(examRoom, trauma, fastTrack, rapidAdmission, behavioral, observation, timeinsystem, avgwaitingtime, avgnumberinwaitingroom, traumau, examroomu, fastttracku, rapidadmissionu, behavioru, observationu, LWBS, initialCost, annualCost, totalCost,totalVisits,examroom_wt,trauma_wt,fasttrack_wt);
                 list.Add(cr);
             }
             return list;
@@ -550,6 +554,7 @@ namespace HoptServer
                     //responseValue.ToString() - Value
                     System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}", e.Scenario.Name, response.Name, responseValue.ToString());
 
+                    _cr = new ConfigResult();
                     if (response.Name == "AvgNumberinWaitingRoom") { _cr.avgnumberinwaitingroom = responseValue; }
                     if (response.Name == "AvgWaitingTime") { _cr.avgwaitingtime = responseValue; }
                     if (response.Name == "WaitingTimeForER") { _cr.examroom_wt = responseValue; }
@@ -563,7 +568,7 @@ namespace HoptServer
                     if (response.Name == "ObservationUtilization") { _cr.observationu = responseValue; }
                     if (response.Name == "TotalTimeOfStay") { _cr.timeinsystem = responseValue; }
                     if (response.Name == "LWBS") { _cr.LWBS = responseValue; }
-                    if (response.Name == "TotalVisits") { _cr.totalVisits = responseValue; }
+                    if (response.Name == "TotalVisits") { _cr.totalVisits = Convert.ToInt32(responseValue); }
                     //only if we want to send back individual responses
                     Response r = new Response(response.Name, responseValue);
                     currentResponses.Add(r);
