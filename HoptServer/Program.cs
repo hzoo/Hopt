@@ -71,7 +71,8 @@ namespace HoptServer
     {
         public void RunConfig(Configuration c)
         {
-            Simio s = new Simio(c);
+            Simio s = new Simio();
+            s.chooseModel();
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
         }
@@ -88,7 +89,8 @@ namespace HoptServer
         public void RunOpt(Configuration c)
         {
             System.Diagnostics.Debug.WriteLine("Run Opt");
-            Simio s = new Simio(c);
+            Simio s = new Simio();
+            s.chooseModel(c);
             s.LoadHospitalData(c);
             
             int iterations = 0;
@@ -111,7 +113,8 @@ namespace HoptServer
 
         public void RunConfig(Configuration c)
         {
-            Simio s = new Simio(c);
+            Simio s = new Simio();
+            s.chooseModel(c);
             System.Diagnostics.Debug.WriteLine("RunConfig");
             List<Response> r = s.StartExperiment(c);
             Clients.All.getResponses(r);
