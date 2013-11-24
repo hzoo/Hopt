@@ -481,7 +481,7 @@ namespace HoptServer
             //run simulation
             runSimulationAsync();
 
-            //insertResults(c, currentResponses);
+            insertResults(c, currentResponses);
             return currentResponses;
         }
 
