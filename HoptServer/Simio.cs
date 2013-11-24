@@ -455,8 +455,11 @@ namespace HoptServer
             addSimioEventListeners();
         }
 
-        public List<Response> RunOpt(Configuration c)
+        public List<ConfigResult> RunOpt(Configuration c)
         {
+            if (wasConfigRun(c))
+                return queryResults(c);
+            chooseModel(c);
             if (currentExperiment.IsBusy)
                 return null;
             currentExperiment.Reset();
@@ -488,7 +491,7 @@ namespace HoptServer
             runSimulationAsync();
 
             insertResults(c, currentResponses);
-            return currentResponses;
+            return queryResults(c);
         }
 
         public void runSimulationAsync()
