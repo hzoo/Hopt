@@ -162,8 +162,8 @@ angular.module( 'ngBoilerplate.config', [
     var value = 0;
     if ($scope.hoptService.responses[0]) {
       for (var i = 0; i < 5; i++) {
-        // console.log($scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
-       value += 365 * Number($scope.hospitalData.daysToRun) * $scope.hospitalData.acuityInfo[i].value / 100 * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
+        // console.log(Number($scope.hospitalData.daysToSimulate),$scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
+       value += 365 * Number($scope.hospitalData.daysToSimulate) * $scope.hospitalData.acuityInfo[i].value / 100 * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
       }
     } else {
       return "Calculated after running the simulation";
