@@ -162,8 +162,8 @@ angular.module( 'ngBoilerplate.config', [
     var value = 0;
     if ($scope.hoptService.responses[0]) {
       for (var i = 0; i < 5; i++) {
-        // console.log(Number($scope.hospitalData.daysToSimulate),$scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
-       value += 365 * Number($scope.hospitalData.daysToSimulate) * $scope.hospitalData.acuityInfo[i].value / 100 * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
+        console.log($scope.hospitalData.simulationInfo.daysToSimulate.value,$scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
+       value += 365 * $scope.hospitalData.simulationInfo.daysToSimulate.value * $scope.hospitalData.acuityInfo[i].value / 100 * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
       }
     } else {
       return "Calculated after running the simulation";
@@ -173,7 +173,7 @@ angular.module( 'ngBoilerplate.config', [
   //value at construction start
   $scope.cost.total = function(interestRate,growthRate,yearsToCompletion) {
     if ($scope.hoptService.responses[0]) {
-      // console.log($scope.cost.annual.total(),(interestRate-growthRate),Math.pow(1+interestRate/100, yearsToCompletion));
+      console.log($scope.cost.annual.total(),(interestRate-growthRate),Math.pow(1+interestRate/100, yearsToCompletion));
       var annuityOfAnnualCost = $scope.cost.annual.total() * ((1-Math.pow((1+ growthRate)/( 1+ interestRate), 10))/ ((interestRate-growthRate) * Math.pow(1+interestRate, yearsToCompletion)));
       return $scope.cost.initial.total() + annuityOfAnnualCost;
     } else {
