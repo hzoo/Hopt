@@ -31,7 +31,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 0,
       name: "Exam Room",
-      num: 37,
+      num: 64,
       originalNum: 37,
       included: true
     },
@@ -40,33 +40,33 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Trauma",
       num: 1,
       originalNum: 1,
-      included: true
+      included: false
     },
     {
       id: 2,
       name: "Fast Track",
-      num: 8,
+      num: 22,
       originalNum: 8,
       included: true
     },
     {
       id: 3,
       name: "Rapid Admission",
-      num: 1,
+      num: 9,
       originalNum: 1,
       included: true
     },
     {
       id: 4,
       name: "Behavioral",
-      num: 14,
+      num: 13,
       originalNum: 14,
       included: true
     },
     {
       id: 5,
       name: "Observation",
-      num: 14,
+      num: 27,
       originalNum: 14,
       included: true
     }
@@ -220,7 +220,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     { name: "Hospital Location", value: "" }];
 
   hospitalData.arrivalInfo = [
-    { name: "Annual Visits", value: 134924 },
+    { name: "Annual Visits", value: 218905 },
     { name: "% of Annual Visits for the Peak Month", value: 10 },
     { name: "LWBS Revenue", value: 3250 }];
 
