@@ -31,7 +31,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 0,
       name: "Exam Room",
-      num: 64,
+      num: 37,
       originalNum: 37,
       included: true
     },
@@ -45,28 +45,28 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 2,
       name: "Fast Track",
-      num: 22,
+      num: 28,
       originalNum: 8,
       included: true
     },
     {
       id: 3,
       name: "Rapid Admission",
-      num: 9,
+      num: 10,
       originalNum: 1,
       included: true
     },
     {
       id: 4,
       name: "Behavioral",
-      num: 13,
+      num: 14,
       originalNum: 14,
       included: true
     },
     {
       id: 5,
       name: "Observation",
-      num: 27,
+      num: 22,
       originalNum: 14,
       included: true
     }
@@ -139,7 +139,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     defaultAverageRoomTime[2] = 1.23; //this is actual total length of stay 5/6
     defaultAverageRoomTime[3] = 2.78; //this is actual total length of stay 16
     defaultAverageRoomTime[4] = 9.47; //this is actual total length of stay 24
-    defaultAverageRoomTime[5] = 5.6; //this is actual total length of stay 16
+    defaultAverageRoomTime[5] = 8; //this is actual total length of stay 16
 
     var defaultWage = [];
     defaultWage[0] = 62060; //nurse
@@ -222,7 +222,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
   hospitalData.arrivalInfo = [
     { name: "Annual Visits", value: 218905 },
     { name: "% of Annual Visits for the Peak Month", value: 10 },
-    { name: "LWBS Revenue", value: 3250 }];
+    { name: "LWBS Revenue", value: 500 }];
 
   hospitalData.acuityInfo = [
     { name: "Acuity 1 %", value: 0.55, revenue: 100 }, //revenue is fake 0.52
@@ -233,7 +233,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
 
   hospitalData.simulationInfo = {
     daysToSimulate: { name: "Days to Simulate", value: 1 },
-    numberOfReplications: { name: "# of Replications", value: 1 },
+    numberOfReplications: { name: "# of Replications", value: 5 },
     startupTime: { name: "Startup Time (hrs)", value: 0 },
     rateTable: { name: "Rate Table to run", value: "average" }};
 
