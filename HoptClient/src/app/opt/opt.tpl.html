@@ -94,7 +94,7 @@
   </form>
 
   <div class="bs-callout bs-callout-info col-lg-5">
-    <p ng-repeat-start="response in misc.responses"></p>
+    <p ng-repeat-start="response in misc.optResponses"></p>
       <h4 class="col-lg-12" ng-if="$index == 0">Waiting Time (hrs)</h4>
       <h4 class="col-lg-12" ng-if="$index == 5">Utilization (%)</h4>
       <h4 class="col-lg-12" ng-if="$index == 11">Misc</h4>
@@ -105,36 +105,16 @@
 </div>
 
 <div class="bs-callout bs-callout-info row">
-    <p>
-    </p>
      <h3 class="col-lg-6">Value at Start of Construction: </h3>
-      <h3 class="col-lg-6">{{fixBlank(cost.total(0.04,0.03,5),"$",0)}}</h3>
+    <h3 class="col-lg-6">{{fixBlank(hoptService.totalCost,"$",0)}}</h3>
     <p>
     </p>
       <h4 class="col-lg-6">Initial: </h4>
-      <h4 class="col-lg-6">{{fixBlank(cost.initial.total(),"$",0)}}</h4>
-    <p>
-    </p>
-      <div class="col-lg-6">Construction: </div>
-      <div class="col-lg-6">{{fixBlank(cost.initial.construction(),"$",0)}}</div>
-      <div class="col-lg-6">Equipment: </div>
-      <div class="col-lg-6">{{fixBlank(cost.initial.equipment(),"$",0)}}</div>
+      <h4 class="col-lg-6">{{fixBlank(hoptService.initialCost,"$",0)}}</h4>
     <p>
     </p>
       <h4 class="col-lg-6">Annual: </h4>
-      <h4 class="col-lg-6">{{fixBlank(cost.annual.total(),"$",0)}}</h4>
-    <p>
-    </p>
-      <div class="col-lg-6">Utility: </div>
-      <div class="col-lg-6">{{fixBlank(cost.annual.utility(),"$",0)}}</div>
-    <p>
-    </p>
-      <div class="col-lg-6">Staff: </div>
-      <div class="col-lg-6">{{fixBlank(cost.annual.staff(),"$",0)}}</div>
-    <p>
-    </p>
-      <div class="col-lg-6">LWBS: </div>
-      <div class="col-lg-6">{{fixBlank(cost.annual.lwbs(),"$",0)}}</div>
+      <h4 class="col-lg-6">{{fixBlank(hoptService.annualCost,"$",0)}}</h4>
   </div>
 </div>
 

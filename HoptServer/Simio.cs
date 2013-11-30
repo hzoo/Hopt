@@ -702,7 +702,9 @@ namespace HoptServer
             _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, c.daysToRun, utilResponses, _cr.LWBS);
             _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, _cr.LWBS);
             _responses = calc.getUtilizationAndLWBS(c.rooms);
-
+            _cr.initialCost = _initial;
+            _cr.annualCost = _annual;
+            _cr.totalCost = _total;
             //System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
             //System.Diagnostics.Debug.WriteLine("Variable Cost: " + _annual);
             //System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + _total);

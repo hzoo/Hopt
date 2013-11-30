@@ -36,11 +36,11 @@ angular.module( 'ngBoilerplate.opt', [
                   });
               });
               //Attaching a callback to handle client call
-              this.proxy.on('getResponses', function (message) {
+              this.proxy.on('getResponses', function (message,message2) {
                 // console.log(message);
                 // console.log(responseCallback);
                   $rootScope.$apply(function () {
-                      responseCallback(message);
+                      responseCallback(message,message2);
                   });
               });
 
@@ -197,47 +197,69 @@ angular.module( 'ngBoilerplate.opt', [
   function calculateMaxRoomConfig() {
     for (var i = 0; i < $scope.configuration.rooms.length; i++) {
       var annualVisits = $scope.hospitalData.arrivalInfo[0].value;
-      console.log(annualVisits);
       var annualVisitsPerRoom = 0;
-      if (i === 0) {
-        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
-      } else if (i === 1) {
-        annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value / 100;
-      } else if (i === 2) {
-        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
-      } else if (i === 3) {
+      if ($scope.configuration.rooms[1].included === true) {
+        if (i === 0) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
+        } else if (i === 1) {
+          annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value / 100;
+        } else if (i === 2) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
+        }
+      } else {
+        if (i === 0) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[0].value + $scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
+        } else if (i === 1) {
+          annualVisitsPerRoom = 0;
+        } else if (i === 2) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
+        }
+      }
+
+      if (i === 3) {
         annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15 + $scope.hospitalData.acuityInfo[3].value * 0.1 + $scope.hospitalData.acuityInfo[4].value * 0.1) / 100;
       } else if (i === 4) {
         annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[1].value * 0.1 + $scope.hospitalData.acuityInfo[2].value*0.05) / 100;
       } else if (i === 5) {
         annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15) / 100;
       }
-      console.log(annualVisitsPerRoom);
       var peakMonth = annualVisitsPerRoom * 0.1;
-      console.log(peakMonth);
       var avgDay = peakMonth / 30.5;
-      console.log(avgDay);
       var peakDay = avgDay + (2.33*Math.sqrt(avgDay));
-      console.log(peakDay);
       var peakShift;
       if (i == 2) {
         peakShift= peakDay;
       } else {
         peakShift = peakDay * 0.5;
       }
-      console.log(peakShift);
       var proceduresPerShiftPerRoom;
-      if (i == 2) {
+      if (i === 2) {
         proceduresPerShiftPerRoom= 14.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
-      } else {
+      } else if (i === 0 || i === 1) {
         proceduresPerShiftPerRoom = 8.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+      }  else if (i === 3 || i === 4 || i === 5) {
+        proceduresPerShiftPerRoom = 24.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
       }
-      console.log(proceduresPerShiftPerRoom);
-      var numRooms = peakShift / proceduresPerShiftPerRoom;
-      console.log(numRooms);
-      $scope.configuration.rooms[i].max = Math.ceil(numRooms);
-
-      console.log($scope.configuration.rooms[i].max);
+      var numRooms;
+      if (i === 3 || i === 4 || i === 5) {
+        numRooms= peakDay / proceduresPerShiftPerRoom;
+      } else {
+        numRooms = peakShift / proceduresPerShiftPerRoom;
+      }
+      $scope.configuration.rooms[i].num = Math.ceil(numRooms);
+      if ($scope.configuration.rooms[i].num < $scope.configuration.rooms[i].originalNum) {
+        $scope.configuration.rooms[i].num = $scope.configuration.rooms[i].originalNum;
+      } else {
+        // console.log(annualVisits);
+        // console.log(annualVisitsPerRoom);
+        // console.log(peakMonth);
+        // console.log(avgDay);
+        // console.log(peakDay);
+        // console.log(peakShift);
+        // console.log(proceduresPerShiftPerRoom);
+        // console.log(numRooms);
+        // console.log($scope.configuration.rooms[i].num);
+      }
     }
   }
   calculateMaxRoomConfig();
@@ -251,94 +273,29 @@ angular.module( 'ngBoilerplate.opt', [
   };
 
   $scope.misc.responses = $scope.hoptService.lastResponses;
+  $scope.misc.optResponses = $scope.hoptService.optResponses;
 
-  updateConfigResponses = function (data) {
-
-      if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].num = document.getElementById('room0').value; }
-      if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].num = document.getElementById('room1').value; }
-      if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].num = document.getElementById('room2').value; }
-      if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].num = document.getElementById('room3').value; }
-      if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].num = document.getElementById('room4').value; }
-      if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].num = document.getElementById('room5').value; }
-
-      if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value; }
-      if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value; }
-      if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value; }
-      if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].originalNum = document.getElementById('originalRoom3').value; }
-      if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].originalNum = document.getElementById('originalRoom4').value; }
-      if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].originalNum = document.getElementById('originalRoom5').value; }
-
-    //check if response or obj (response/config)
-    // console.log(data);
+  updateConfigResponses = function (response,response2) {
     $scope.misc.viewLoading = false;
-    var obj = {
-      AvgNumberinWaitingRoom: '',
-      AvgWaitingTime: '',
-      WaitingTimeForER: '',
-      WaitingTimeForTrauma: '',
-      WaitingTimeForFT: '',
-      ExamRoomUtilization: '',
-      TraumaUtilization: '',
-      FastTrackUtilization: '',
-      RapidAdmissionUnitUtilization: '',
-      BehavioralUtilization: '',
-      ObservationUtilization: '',
-      TotalTimeOfStay: '',
-      LWBS: '',
-      TotalVisits: ''
-    };
 
-    angular.forEach(data, function(value, key) {
-      if (value.name == 'LWBS' || value.name == 'TotalVisits') {
-        obj[value.name] = value.value;
-      } else {
-        obj[value.name] = $filter('number')(value.value, 2);
-      }
+    var configuration = response;
+    var configResponse = response2;
 
-      for (var j = 0; j < $scope.misc.responses.length; j++) {
-        if ($scope.misc.responses[j].name === value.name) {
-          if ($scope.misc.responses[j].value === '' || $scope.misc.responses[j].value === undefined) {
-            $scope.misc.responses[j].diff = '';
-          } else {
-            $scope.misc.responses[j].diff = value.value - $scope.misc.responses[j].value;
-          }
+    for (var i = 0; i < $scope.configuration.rooms.length; i++) {
+      $scope.configuration.rooms[i].optNum = configuration.rooms[i].num;
+    }
 
-          $scope.misc.responses[j].value = value.value;
+    angular.forEach(configResponse, function(value, key) {
+      for (var i = 0; i < $scope.misc.optResponses.length; i++) {
+        if ($scope.misc.optResponses[i].name == key) {
+          $scope.misc.optResponses[i].value = value;
         }
       }
     });
 
-    angular.forEach(obj, function(value, key) {
-        // console.log(key + ': ' + value + '.');
-      if (value === '') {
-        // console.log( + " is blank");
-        for (var j = 0; j < $scope.misc.responses.length; j++) {
-          if ($scope.misc.responses[j].name === key) {
-            $scope.misc.responses[j].diff = '';
-            $scope.misc.responses[j].value = '';
-          }
-        }
-      }
-    });
-
-    $scope.hoptService.responses.unshift(obj);
-
-    //run next optimization
-    // console.log('requesting next config');
-    // console.log($scope.runOpt);
-    // if ($scope.runOpt === true) {
-
-    //   roomIterator[0]++;
-    //   var nextRoomNum = Number($scope.configuration.rooms[0].originalNum) + roomIterator[0]*defaultStaffingRatios[0][0];
-    //   console.log($scope.configuration.rooms[0].originalNum,roomIterator[0],defaultStaffingRatios[0][0],nextRoomNum, $scope.hospitalData.constraintInfo.rooms[0].maximumNumberOfRooms);
-    //   if (nextRoomNum < $scope.hospitalData.constraintInfo.rooms[0].maximumNumberOfRooms) {
-    //     $scope.configuration.rooms[0].num = nextRoomNum;
-    //     document.getElementById('room0').value = $scope.configuration.rooms[0].num;
-    //     signalRSvc2.sendRequest2('ReturnNextConfig', $scope.config, $scope.cost.total(0.05,0.04,5));
-    //   } else {
-    //     $scope.runOpt = false;
-    //   }
-    // }
+    $scope.hoptService.initialCost = configResponse.initialCost;
+    $scope.hoptService.annualCost = configResponse.annualCost;
+    $scope.hoptService.totalCost = configResponse.totalCost;
 
   };
 
@@ -384,15 +341,6 @@ angular.module( 'ngBoilerplate.opt', [
    * @param {object} message Data to send
    */
   $scope.sendMessage = function (method, message) {
-
-
-      if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].num = document.getElementById('room0').value; }
-      if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].num = document.getElementById('room1').value; }
-      if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].num = document.getElementById('room2').value; }
-      if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].num = document.getElementById('room3').value; }
-      if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].num = document.getElementById('room4').value; }
-      if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].num = document.getElementById('room5').value; }
-
       if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value; }
       if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value; }
       if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value; }

@@ -18,6 +18,25 @@ ngBoilerplate.service('HoptService', function HoptService() {
       { displayName: "LWBS", name: "LWBS", value: '', diff: '' },
       { displayName: "Total Visits", name: "TotalVisits", value: '', diff: '' }
     ];
+  hoptService.optResponses = [
+     { displayName: "Avg.  # Waiting", name: 'avgnumberinwaitingroom', value: ''},
+     { displayName: "Avg. Waiting Time", name: 'avgwaitingtime', value: ''},
+     { displayName: "Avg. Waiting Exam Room", name: 'examroom_wt', value: ''},
+     { displayName: "Avg. Waiting Trauma", name: 'trauma_wt', value: ''},
+     { displayName: "Avg. Waiting Fast Track", name: 'fasttrack_wt', value: ''},
+     { displayName: "Exam Room", name: 'traumau', value: ''},
+     { displayName: "Trauma", name: 'examroomu', value: ''},
+     { displayName: "Fast Track", name: 'fasttracku', value: ''},
+     { displayName: "Rapid Admission", name: 'rapidadmissionu', value: ''},
+     { displayName: "Behavioral", name: 'behavioru', value: ''},
+     { displayName: "Observation", name: 'observationu', value: ''},
+     { displayName: "Time in System", name: 'timeinsystem', value: ''},
+     { displayName: "LWBS", name: 'LWBS', value: ''},
+     { displayName: "Total Visits", name: 'totalVisits', value: ''}
+    ];
+  hoptService.initialCost = '';
+  hoptService.annualCost = '';
+  hoptService.totalCost ='';
   return {
      getHoptService: function() {
       return hoptService;

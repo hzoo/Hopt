@@ -223,20 +223,22 @@ namespace HoptServer
             s.chooseModel(c);
             s.LoadHospitalData(c);
             ConfigResult cr = s.RunOptNew(c);
-            for (int j = 0; j < 2; j++)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (c.rooms[i].included == true)
-                    {
-                        FindOpt(i, ref c, ref cr);
-                    }
-                }
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                System.Diagnostics.Debug.WriteLine(c.rooms[i].num);
-            }
+            //for (int j = 0; j < 2; j++)
+            //{
+            //    for (int i = 0; i < 6; i++)
+            //    {
+            //        if (c.rooms[i].included == true)
+            //        {
+            //            FindOpt(i, ref c, ref cr);
+            //        }
+            //    }
+            //}
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(c.rooms[i].num);
+            //}
+
+            Clients.All.getResponses(c,cr);
 
             //Constraint[] cs = new Constraint[6];
             //for(int i = 0; i < 6; i++)
