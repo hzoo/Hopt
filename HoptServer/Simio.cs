@@ -418,7 +418,9 @@ namespace HoptServer
                     if (c.rooms[j].included == true)
                     {
                         currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
+                        string num = "";
+                        currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
                         start++;
                         break;
                     }
@@ -490,7 +492,9 @@ namespace HoptServer
                     if (c.rooms[j].included == true)
                     {
                         currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
+                        string num = "";
+                        currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
                         start++;
                         break;
                     }
@@ -551,7 +555,9 @@ namespace HoptServer
                     if (c.rooms[j].included == true)
                     {
                         currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
+                        string num = "";
+                        currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
                         start++;
                         break;
                     }

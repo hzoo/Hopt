@@ -194,6 +194,35 @@ angular.module( 'ngBoilerplate.opt', [
       rooms: $scope.configuration.rooms
   };
 
+  function calculateMaxRoomConfig() {
+    for (var i = 0; i < $scope.configuration.rooms.length; i++) {
+      var annualVisits = $scope.hospitalData.arrivalInfo[0].value;
+      var annualVisitsPerRoom = 0;
+      if (i === 0) {
+        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5);
+      } else if (i === 1) {
+        annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value;
+      } else if (i === 2) {
+        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value);
+      } else if (i === 3) {
+        annualVisitsPerRoom =  annualVisits * (1);
+      } else if (i === 4) {
+        annualVisitsPerRoom =  annualVisits * (1);
+      } else if (i === 5) {
+        annualVisitsPerRoom =  annualVisits * (1);
+      }
+      var peakMonth = annualVisitsPerRoom * 0.1;
+      var avgDay = peakMonth / 30.5;
+      var peakDay = avgDay + (2.33*Math.sqrt(avgDay));
+      var peakShift = peakDay * 0.5;
+      var proceduresPerShiftPerRoom = 8.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+      var numRooms = peakShift / proceduresPerShiftPerRoom;
+      $scope.configuration.rooms[i].max = Math.ceil(numRooms);
+      console.log($scope.configuration.rooms[i].max);
+    }
+  }
+  calculateMaxRoomConfig();
+
   $scope.gridOptions = {
     data: 'hoptService.responses',
     showGroupPanel: false,

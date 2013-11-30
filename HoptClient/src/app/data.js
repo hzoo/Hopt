@@ -33,6 +33,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Exam Room",
       num: 37,
       originalNum: 37,
+      max: 0,
       included: true
     },
     {
@@ -40,6 +41,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Trauma",
       num: 1,
       originalNum: 1,
+      max: 0,
       included: false
     },
     {
@@ -47,6 +49,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Fast Track",
       num: 28,
       originalNum: 8,
+      max: 0,
       included: true
     },
     {
@@ -54,6 +57,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Rapid Admission",
       num: 10,
       originalNum: 1,
+      max: 0,
       included: true
     },
     {
@@ -61,6 +65,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Behavioral",
       num: 14,
       originalNum: 14,
+      max: 0,
       included: true
     },
     {
@@ -68,6 +73,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Observation",
       num: 22,
       originalNum: 14,
+      max: 0,
       included: true
     }
   ];
@@ -186,6 +192,14 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     defaultMaxNumberofRooms[4] = 30;
     defaultMaxNumberofRooms[5] = 40;
 
+    var defaultWaitingTime = [];
+    defaultWaitingTime[0] = 0.5;
+    defaultWaitingTime[1] = 0.5;
+    defaultWaitingTime[2] = 0.5;
+    defaultWaitingTime[3] = 0.5;
+    defaultWaitingTime[4] = 0.5;
+    defaultWaitingTime[5] = 0.5;
+
   //categorize the types of hospital data
   hospitalDataTypes = [
     "clientInfo",
@@ -255,7 +269,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
   for (var k = 0; k < possibleRoomTypesNames.length; k++) {
     hospitalData.constraintInfo.rooms[k] = {
       name: possibleRoomTypesNames[k],
-      averageWaitTime: 0,
+      averageWaitTime: defaultWaitingTime[k],
       maximumNumberOfRooms: defaultMaxNumberofRooms[k]
     };
   }

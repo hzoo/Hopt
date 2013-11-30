@@ -194,7 +194,21 @@ namespace HoptServer
                     cr = s.RunOptNew(c);
 
                     System.Diagnostics.Debug.WriteLine("Cost: " + s.getTotalCost() + " " + oldTotalCost);
-                    if (s.getTotalCost() > oldTotalCost)
+                    Boolean waitingTime = false;
+                    if (c.rooms[0].included == true) {
+                        waitingTime = waitingTime || cr.examroom_wt > Convert.ToDouble(c.serviceInfo[0].averageRoomTime);
+                    }
+                    if (c.rooms[1].included == true)
+                    {
+                        waitingTime = waitingTime || cr.trauma_wt > Convert.ToDouble(c.serviceInfo[1].averageRoomTime);
+                    }
+                    if (c.rooms[2].included == true)
+                    {
+                        waitingTime = waitingTime || cr.fasttrack_wt > Convert.ToDouble(c.serviceInfo[2].averageRoomTime);
+                    }
+                    
+
+                    if (s.getTotalCost() > oldTotalCost || waitingTime == true)
                     {
                         costDecreases = false;
                         c.rooms[num].num = c.rooms[num].num + 1;

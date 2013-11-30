@@ -27,23 +27,23 @@
       </div>
 
     <label class="col-lg-3 col-centered"></label>
-    <label class="col-lg-4 col-centered">Existing</label>
+    <label class="col-lg-3 col-centered">Existing</label>
     <label class="col-lg-2 col-centered">Max</label>
-    <label class="col-lg-2 col-centered">Optimized</label>
+    <label class="col-lg-3 col-centered">Optimized</label>
     <div ng-repeat="room in configuration.rooms | filter: { included: true }" class="form-group">
       <!-- {{room}} -->
       <label class="col-lg-3 control-label">{{room.name}}</label>
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="input-group col-centered">
           <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
       <div class="col-lg-2">
         <div class="input-group col-centered">
-          <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input disabled type="text" class="form-control col-centered" value="{{room.max}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-4">
         <div class="input-group col-centered">
           <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
