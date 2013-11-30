@@ -205,11 +205,11 @@ angular.module( 'ngBoilerplate.opt', [
       } else if (i === 2) {
         annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value);
       } else if (i === 3) {
-        annualVisitsPerRoom =  annualVisits * (1);
+        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15 + $scope.hospitalData.acuityInfo[3].value * 0.1 + $scope.hospitalData.acuityInfo[4].value * 0.1);
       } else if (i === 4) {
-        annualVisitsPerRoom =  annualVisits * (1);
+        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[1].value * 0.1 + $scope.hospitalData.acuityInfo[2].value*0.05);
       } else if (i === 5) {
-        annualVisitsPerRoom =  annualVisits * (1);
+        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15);
       }
       var peakMonth = annualVisitsPerRoom * 0.1;
       var avgDay = peakMonth / 30.5;
