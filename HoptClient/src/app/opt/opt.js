@@ -206,11 +206,11 @@ angular.module( 'ngBoilerplate.opt', [
       } else if (i === 2) {
         annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
       } else if (i === 3) {
-        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15 + $scope.hospitalData.acuityInfo[3].value * 0.1 + $scope.hospitalData.acuityInfo[4].value * 0.1);
+        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15 + $scope.hospitalData.acuityInfo[3].value * 0.1 + $scope.hospitalData.acuityInfo[4].value * 0.1) / 100;
       } else if (i === 4) {
-        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[1].value * 0.1 + $scope.hospitalData.acuityInfo[2].value*0.05);
+        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[1].value * 0.1 + $scope.hospitalData.acuityInfo[2].value*0.05) / 100;
       } else if (i === 5) {
-        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15);
+        annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15) / 100;
       }
       console.log(annualVisitsPerRoom);
       var peakMonth = annualVisitsPerRoom * 0.1;
