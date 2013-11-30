@@ -289,7 +289,8 @@ angular.module( 'ngBoilerplate.config', [
 
     $scope.hoptService.responses.unshift(obj);
     $scope.misc.runButton = 'Run';
-
+    $scope.runFinished = true;
+    $scope.misc.runTime = (new Date().getTime() - $scope.misc.runTime) / 1000 + " sec";
     //signalRSvc.sendRequest(method, message);
 
   };
@@ -331,7 +332,8 @@ angular.module( 'ngBoilerplate.config', [
    * @param {object} message Data to send
    */
   $scope.sendMessage = function (method, message) {
-
+      $scope.misc.runTime = new Date().getTime();
+      $scope.runFinished = false;
 
       if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].num = document.getElementById('room0').value; }
       if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].num = document.getElementById('room1').value; }

@@ -104,6 +104,10 @@
   </div>
 </div>
 
+<div class="bs-callout bs-callout-danger row" ng-if="optFinished">
+  <h4>Optimization Finished! {{misc.runTime}}</h4>
+</div>
+
 <div class="bs-callout bs-callout-info row">
      <h3 class="col-lg-6">Value at Start of Construction: </h3>
     <h3 class="col-lg-6">{{fixBlank(hoptService.totalCost,"$",0)}}</h3>
