@@ -197,27 +197,46 @@ angular.module( 'ngBoilerplate.opt', [
   function calculateMaxRoomConfig() {
     for (var i = 0; i < $scope.configuration.rooms.length; i++) {
       var annualVisits = $scope.hospitalData.arrivalInfo[0].value;
+      console.log(annualVisits);
       var annualVisitsPerRoom = 0;
       if (i === 0) {
-        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5);
+        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
       } else if (i === 1) {
-        annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value;
+        annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value / 100;
       } else if (i === 2) {
-        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value);
+        annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
       } else if (i === 3) {
-        annualVisitsPerRoom =  annualVisits * (1);
+        annualVisitsPerRoom =  annualVisits * (1) / 100;
       } else if (i === 4) {
-        annualVisitsPerRoom =  annualVisits * (1);
+        annualVisitsPerRoom =  annualVisits * (1) / 100;
       } else if (i === 5) {
-        annualVisitsPerRoom =  annualVisits * (1);
+        annualVisitsPerRoom =  annualVisits * (1) / 100;
       }
+      console.log(annualVisitsPerRoom);
       var peakMonth = annualVisitsPerRoom * 0.1;
+      console.log(peakMonth);
       var avgDay = peakMonth / 30.5;
+      console.log(avgDay);
       var peakDay = avgDay + (2.33*Math.sqrt(avgDay));
-      var peakShift = peakDay * 0.5;
-      var proceduresPerShiftPerRoom = 8.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+      console.log(peakDay);
+      var peakShift;
+      if (i == 2) {
+        peakShift= peakDay;
+      } else {
+        peakShift = peakDay * 0.5;
+      }
+      console.log(peakShift);
+      var proceduresPerShiftPerRoom;
+      if (i == 2) {
+        proceduresPerShiftPerRoom= 14.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+      } else {
+        proceduresPerShiftPerRoom = 8.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+      }
+      console.log(proceduresPerShiftPerRoom);
       var numRooms = peakShift / proceduresPerShiftPerRoom;
+      console.log(numRooms);
       $scope.configuration.rooms[i].max = Math.ceil(numRooms);
+
       console.log($scope.configuration.rooms[i].max);
     }
   }

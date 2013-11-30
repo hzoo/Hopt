@@ -33,7 +33,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Exam Room",
       num: 37,
       originalNum: 37,
-      max: 0,
+      optNum: 0,
       included: true
     },
     {
@@ -41,7 +41,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Trauma",
       num: 1,
       originalNum: 1,
-      max: 0,
+      optNum: 0,
       included: false
     },
     {
@@ -49,7 +49,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Fast Track",
       num: 28,
       originalNum: 8,
-      max: 0,
+      optNum: 0,
       included: true
     },
     {
@@ -57,7 +57,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Rapid Admission",
       num: 10,
       originalNum: 1,
-      max: 0,
+      optNum: 0,
       included: true
     },
     {
@@ -65,7 +65,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Behavioral",
       num: 14,
       originalNum: 14,
-      max: 0,
+      optNum: 0,
       included: true
     },
     {
@@ -73,7 +73,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       name: "Observation",
       num: 22,
       originalNum: 14,
-      max: 0,
+      optNum: 0,
       included: true
     }
   ];
