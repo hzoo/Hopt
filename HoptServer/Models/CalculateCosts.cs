@@ -12,7 +12,10 @@ namespace HoptServer.Models
         public double constructionCost(CostInfo costInfo, RoomType[] rooms) {
             double value = 0;
             for (var i = 0; i < 6; i++) {
-                value += costInfo.capital[i].construction * (rooms[i].num - rooms[i].originalNum);
+                if (rooms[i].included == true)
+                {
+                    value += costInfo.capital[i].construction * (rooms[i].num - rooms[i].originalNum);
+                }
             }
             return value;
         }
@@ -20,7 +23,10 @@ namespace HoptServer.Models
         {
             double value = 0;
             for (var i = 0; i < 6; i++) {
-                value += costInfo.capital[i].equipment * (rooms[i].num - rooms[i].originalNum);
+                if (rooms[i].included == true)
+                {
+                    value += costInfo.capital[i].equipment * (rooms[i].num - rooms[i].originalNum);
+                }
             }
             return value;
         }
@@ -28,15 +34,19 @@ namespace HoptServer.Models
         {
             return constructionCost(costInfo, rooms) + equipmentCost(costInfo, rooms);
         }
-        public double annualCost(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, ResponseInt daysToRun)
+        public double annualCost(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, ResponseInt daysToRun, double[] simulationResponses, double lwbs)
         {
-            return utilityCost(costInfo, rooms) + staffCost(costInfo, rooms, getUtilizationAndLWBS(rooms)) + lwbsCost(acuityInfo, arrivalInfo, getUtilizationAndLWBS(rooms),daysToRun);
+            //System.Diagnostics.Debug.WriteLine(utilityCost(costInfo, rooms) + " " + staffCost(costInfo, rooms, simulationResponses) + " " + lwbsCost(acuityInfo, arrivalInfo, lwbs, daysToRun));
+            return utilityCost(costInfo, rooms) + staffCost(costInfo, rooms, simulationResponses) + lwbsCost(acuityInfo, arrivalInfo, lwbs, daysToRun); //getUtilizationAndLWBS(rooms)
         }
         public double utilityCost(CostInfo costInfo, RoomType[] rooms)
         {
             double value = 0;
             for (var i = 0; i < 6; i++) {
-                value += costInfo.utility.value * rooms[i].num * costInfo.capital[i].sqft;
+                if (rooms[i].included == true)
+                {
+                    value += costInfo.utility.value * rooms[i].num * costInfo.capital[i].sqft;
+                }
             }
             return value;
         }
@@ -59,11 +69,14 @@ namespace HoptServer.Models
                     if (i == 2 && j == 3) { ratio = 0; }
                     else if (i == 2 && j == 4) { ratio = 0; }
                     else if (i == 2 && j == 5) { ratio = 0; }
-                    else { ratio = 1/costInfo.labor[i].rooms[j].value; }
+                    else { ratio = 1.0/costInfo.labor[i].rooms[j].value; }
 
-                    // console.log(i,j,rooms[j].num,hospitalData.costInfo.labor[i].wage,utilization,ratio);
+                    //System.Diagnostics.Debug.WriteLine(i + " " + j + " " + rooms[j].num + " " + costInfo.labor[i].wage + " " + utilization + " " + ratio);
 
-                    value += rooms[j].num * costInfo.labor[i].wage * utilization * ratio;
+                    if (rooms[i].included == true)
+                    {
+                        value += rooms[j].num * costInfo.labor[i].wage * utilization * ratio;
+                    }
                 }
             }
             return value;
@@ -82,7 +95,7 @@ namespace HoptServer.Models
                 else
                     sql += rooms[i].name.Replace(" ", "") + " = " + rooms[i].num;
             }
-            //Console.Write(sql);
+            Console.Write(sql);
             SQLiteCommand cmd = new SQLiteCommand(sql, conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             while(dr.Read())
@@ -95,22 +108,23 @@ namespace HoptServer.Models
                 values[5] = Convert.ToDouble(dr["ObservationUtilization"]);
                 values[6] = Convert.ToDouble(dr["LWBS"]);
             }
+            System.Diagnostics.Debug.WriteLine(values);
             return values;
 
         }
         //TODO: revenue by acuity
         //TODO: lwbs (from Simio)
-        public double lwbsCost(Response[] acuityInfo, Response[] arrivalInfo, double[] simulationResponses, ResponseInt daysToRun)
+        public double lwbsCost(Response[] acuityInfo, Response[] arrivalInfo, double lwbs, ResponseInt daysToRun)
         {
             double value = 0;
                 for (int i = 0; i < 5; i++) {
-                    value += 365 / daysToRun.value * acuityInfo[i].value / 100 * arrivalInfo[2].value * (simulationResponses[6]);
+                    value += 365 / daysToRun.value * acuityInfo[i].value / 100 * arrivalInfo[2].value * (lwbs);
                 }
             return value;
         }
         //value at construction start
-        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, int yearsToCompletion, int yearsAhead, ResponseInt daystoRun) {
-            double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
+        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, int yearsToCompletion, int yearsAhead, ResponseInt daystoRun, double[] simulationResponses, double lwbs) {
+            double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun, simulationResponses, lwbs) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
             return initialCost(costInfo,rooms) + annuityOfAnnualCost;
         }
     }

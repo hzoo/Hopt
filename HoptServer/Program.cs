@@ -19,13 +19,22 @@ namespace HoptServer
             // for more information.
 
             //find open port
+            Boolean localhost = true;
             int port = 8001;
             Boolean openPortNotFound = true;
+            string url;
             while (openPortNotFound)
             {
                 try
                 {
-                    string url = "http://*:" + port.ToString();
+                    if (localhost)
+                    {
+                        url = "http://localhost:" + port.ToString();
+                    }
+                    else
+                    {
+                        url = "http://*:" + port.ToString();
+                    }
                     using (WebApp.Start<Startup>(url))
                     {
                         Console.WriteLine("Server running on {0}", url);

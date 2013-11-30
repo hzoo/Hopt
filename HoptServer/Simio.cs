@@ -332,7 +332,7 @@ namespace HoptServer
                 System.Diagnostics.Debug.WriteLine("RSF - average: {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
             //change RateTable.RateScaleFactor for peak day
-            else if (type == "peak")
+            else if (type == "peakMonthAverageDay")
             {
                 double peakFactor;
                 if (peakPercentageofYear >= 0 && peakPercentageofYear <= 1)
@@ -341,6 +341,22 @@ namespace HoptServer
                     peakFactor = 1.2; //default
                 //rate scale factor
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactor * annualArrivals / (365 * 1.0019)).ToString();
+                System.Diagnostics.Debug.WriteLine("Peak % of yr : {0,-10}", peakPercentageofYear);
+                System.Diagnostics.Debug.WriteLine("RSF - peak   : {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
+            }
+            else if (type == "peakMonthPeakDay")
+            {
+                double peakFactor;
+                if (peakPercentageofYear >= 0 && peakPercentageofYear <= 1)
+                    peakFactor = 12.0 * peakPercentageofYear / 100;
+                else
+                    peakFactor = 1.2; //default
+                System.Diagnostics.Debug.WriteLine("peak month: " + peakFactor);
+                double peakFactorDay;
+                peakFactorDay = (peakFactor * annualArrivals / (365 * 1.0019)) + 2.33 * Math.Sqrt(peakFactor * annualArrivals / (365 * 1.0019));
+                
+                //rate scale factor
+                currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (peakFactorDay).ToString();
                 System.Diagnostics.Debug.WriteLine("Peak % of yr : {0,-10}", peakPercentageofYear);
                 System.Diagnostics.Debug.WriteLine("RSF - peak   : {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
@@ -578,7 +594,7 @@ namespace HoptServer
                 }
             }
 
-            calculateCosts(_c);
+            calculateCosts(_c,_cr);
 
             //foreach (IScenarioResult result in e.Results)
             //{
@@ -592,17 +608,25 @@ namespace HoptServer
             System.Diagnostics.Debug.WriteLine("Scenario Ended");
         }
 
-        private void calculateCosts(Configuration c)
+        private void calculateCosts(Configuration c, ConfigResult cr)
         {
             double interestRate = 0.05;
             double growthRate = 0.04;
             int yearsToCompletion = 5;
             int yearsAhead = 10;
+            
+            double[] utilResponses = new double[6];
+            utilResponses[0] = _cr.examroomu;
+            utilResponses[1] = _cr.traumau;
+            utilResponses[2] = _cr.fasttracku;
+            utilResponses[3] = _cr.rapidadmissionu;
+            utilResponses[4] = _cr.behavioru;
+            utilResponses[5] = _cr.observationu;
 
             HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
             _initial = calc.initialCost(c.costInfo, c.rooms);
-            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo,c.daysToRun);
-            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun);
+            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, c.daysToRun, utilResponses, _cr.LWBS);
+            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, _cr.LWBS);
             _responses = calc.getUtilizationAndLWBS(c.rooms);
 
             System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
