@@ -160,7 +160,7 @@ namespace HoptServer
             }
         }
 
-        public Configuration FindOpt(int num, Configuration c, ConfigResult cr)
+        public void FindOpt(int num, ref Configuration c, ref ConfigResult cr)
         {
             //System.Diagnostics.Debug.WriteLine("Find Opt");
             //double utilization = getUtilizationForRoomType(name, cr);
@@ -201,7 +201,6 @@ namespace HoptServer
                     }
                 }
             }
-            return c;
         }
 
         public void RunOpt(Configuration c)
@@ -210,15 +209,16 @@ namespace HoptServer
             s.chooseModel(c);
             s.LoadHospitalData(c);
             ConfigResult cr = s.RunOptNew(c);
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    if (c.rooms[i].included == true)
-            //    {
-            //        c = FindOpt(i, c, cr);
-            //    }
-            //}
-            c = (Configuration) FindOpt(2, c, cr).Clone();
-            c = (Configuration) FindOpt(3, c, cr).Clone();
+            for (int j = 0; j < 2; j++)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (c.rooms[i].included == true)
+                    {
+                        FindOpt(i, ref c, ref cr);
+                    }
+                }
+            }
             for (int i = 0; i < 6; i++)
             {
                 System.Diagnostics.Debug.WriteLine(c.rooms[i].num);

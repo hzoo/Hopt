@@ -7,7 +7,7 @@
   </h1>
 <!-- {{config}} -->
   <div class="row">
-    <form class="form-horizontal col-lg-6" role="form">
+    <form class="form-horizontal col-lg-7" role="form">
 
       <div class="form-group">
         <div class="col-lg-12">
@@ -28,7 +28,8 @@
 
     <label class="col-lg-3 col-centered"></label>
     <label class="col-lg-4 col-centered">Existing</label>
-    <label class="col-lg-4 col-centered">New</label>
+    <label class="col-lg-2 col-centered">Max</label>
+    <label class="col-lg-2 col-centered">Optimized</label>
     <div ng-repeat="room in configuration.rooms | filter: { included: true }" class="form-group">
       <!-- {{room}} -->
       <label class="col-lg-3 control-label">{{room.name}}</label>
@@ -37,7 +38,12 @@
           <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-2">
+        <div class="input-group col-centered">
+          <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+        </div>
+      </div>
+      <div class="col-lg-2">
         <div class="input-group col-centered">
           <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
@@ -87,14 +93,13 @@
 
   </form>
 
-  <div class="bs-callout bs-callout-info col-lg-6">
+  <div class="bs-callout bs-callout-info col-lg-5">
     <p ng-repeat-start="response in misc.responses"></p>
       <h4 class="col-lg-12" ng-if="$index == 0">Waiting Time (hrs)</h4>
       <h4 class="col-lg-12" ng-if="$index == 5">Utilization (%)</h4>
       <h4 class="col-lg-12" ng-if="$index == 11">Misc</h4>
       <div class="col-lg-6" ng-bind-template="{{response.displayName}}"></div>
-      <div class="col-lg-3" ng-bind-template="{{fixBlank(response.value,'number',2)}}"></div>
-      <div class="number col-lg-3" ng-class="{increase: response.diff > 0, decrease: response.diff < 0}" ng-bind-template="{{ fixDiff(response.diff)}}"></div>
+      <div class="col-lg-6" ng-bind-template="{{fixBlank(response.value,'number',2)}}"></div>
     <p ng-repeat-end></p>
   </div>
 </div>
@@ -131,8 +136,6 @@
       <div class="col-lg-6">LWBS: </div>
       <div class="col-lg-6">{{fixBlank(cost.annual.lwbs(),"$",0)}}</div>
   </div>
-
-  <div class="gridStyle clear-fix" ng-grid="gridOptions"></div>
 </div>
 
 

@@ -699,7 +699,7 @@ namespace HoptServer
 
             //System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
             //System.Diagnostics.Debug.WriteLine("Variable Cost: " + _annual);
-            System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + _total);
+            //System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + _total);
 
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
             conn.Open();
