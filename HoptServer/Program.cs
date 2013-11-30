@@ -134,7 +134,7 @@ namespace HoptServer
             // If less than 50%, don't even both trying to add
 
             double utilization = getUtilizationForRoomType(name, cr);
-            System.Diagnostics.Debug.WriteLine(name + " " + utilization);
+            //System.Diagnostics.Debug.WriteLine(name + " " + utilization);
             if (utilization < 50)
             {
                 cs[num].lowerBound = c.rooms[num].num;
@@ -150,7 +150,7 @@ namespace HoptServer
                     c2.rooms[num].num = i;
                     cr2 = s.RunOpt(c2);
                     double utilization2 = getUtilizationForRoomType(name, cr2);
-                    System.Diagnostics.Debug.WriteLine(name + " " + utilization);
+                    //System.Diagnostics.Debug.WriteLine(name + " " + utilization);
                     if (utilization2 < 50)
                     {
                         cs[num].upperBound = i;
@@ -160,66 +160,101 @@ namespace HoptServer
             }
         }
 
+        public Configuration FindOpt(int num, Configuration c, ConfigResult cr)
+        {
+            //System.Diagnostics.Debug.WriteLine("Find Opt");
+            //double utilization = getUtilizationForRoomType(name, cr);
+            Boolean costDecreases = true;
+            while (costDecreases == true)
+            {
+                System.Diagnostics.Debug.WriteLine("New: " + c.rooms[num].num + " Old:" + c.rooms[num].originalNum);
+                if (c.rooms[num].num < c.rooms[num].originalNum)
+                {
+                    c.rooms[num].num = c.rooms[num].originalNum;
+                    costDecreases = false;
+                }
+                else
+                {
+                    double interestRate = 0.04;
+                    double growthRate = 0.03;
+                    int yearsToCompletion = 5;
+                    int yearsAhead = 10;
+                    double[] utilResponses = new double[6];
+                    utilResponses[0] = cr.examroomu;
+                    utilResponses[1] = cr.traumau;
+                    utilResponses[2] = cr.fasttracku;
+                    utilResponses[3] = cr.rapidadmissionu;
+                    utilResponses[4] = cr.behavioru;
+                    utilResponses[5] = cr.observationu;
+                    HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
+                    double oldTotalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
+
+                    c.rooms[num].num = c.rooms[num].num - 1;
+                    System.Diagnostics.Debug.WriteLine("Num rooms: " + c.rooms[num].num);
+                    cr = s.RunOptNew(c);
+
+                    System.Diagnostics.Debug.WriteLine("Cost: " + s.getTotalCost() + " " + oldTotalCost);
+                    if (s.getTotalCost() > oldTotalCost)
+                    {
+                        costDecreases = false;
+                        c.rooms[num].num = c.rooms[num].num + 1;
+                    }
+                }
+            }
+            return c;
+        }
+
         public void RunOpt(Configuration c)
         {
             System.Diagnostics.Debug.WriteLine("Run Opt");
             s.chooseModel(c);
             s.LoadHospitalData(c);
-            Constraint[] cs = new Constraint[6];
-            for(int i = 0; i < 6; i++)
-            {
-                cs[i] = new Constraint();
-            }
-
-            // Run given config to begin with
-            ConfigResult cr = s.RunOpt(c);
-            System.Diagnostics.Debug.WriteLine(cr.examroomu);
-            System.Diagnostics.Debug.WriteLine(cr.traumau);
-            System.Diagnostics.Debug.WriteLine(cr.fasttracku);
-            System.Diagnostics.Debug.WriteLine(cr.rapidadmissionu);
-            System.Diagnostics.Debug.WriteLine(cr.observationu);
-            System.Diagnostics.Debug.WriteLine(cr.behavioru);
-
-            // Check Utilization
-            Configuration c2 = new Configuration();
-            ConfigResult cr2 = new ConfigResult();
-
-            //cs[0].responseName = "ExamRoom";
-            //// If less than 50%, don't even both trying to add
-            //if (cr.examroomu < 50)
+            ConfigResult cr = s.RunOptNew(c);
+            //for (int i = 0; i < 6; i++)
             //{
-            //    cs[0].lowerBound = c.rooms[0].num;
-            //    cs[0].upperBound = c.rooms[0].num;
-            //}
-            //else
-            //{
-            //    cs[0].lowerBound = c.rooms[0].num;
-            //    // looping until util 50%
-            //    for (int i = c.rooms[0].num + 4; i < 1000; i += 4)
+            //    if (c.rooms[i].included == true)
             //    {
-            //        Configuration c2 = c;
-            //        c2.rooms[0].num = i;
-            //        ConfigResult cr2 = s.RunOpt(c2);
-            //        if (cr2.examroomu < 50)
-            //        {
-            //            cs[0].upperBound = i;
-            //            break;
-            //        }
+            //        c = FindOpt(i, c, cr);
             //    }
             //}
+            c = (Configuration) FindOpt(2, c, cr).Clone();
+            c = (Configuration) FindOpt(3, c, cr).Clone();
+            for (int i = 0; i < 6; i++)
+            {
+                System.Diagnostics.Debug.WriteLine(c.rooms[i].num);
+            }
 
-            findRoomConstraintsForRoomType(cs,0, "examroomu", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs,1, "traumau", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs,2, "fasttracku", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs,3, "rapidadmissionu", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs,4, "behavioru", c, cr, c2, cr2);
-            findRoomConstraintsForRoomType(cs,5, "observationu", c, cr, c2, cr2);
-            System.Diagnostics.Debug.WriteLine("ExamRoom: " + cs[0].lowerBound + "," + cs[0].upperBound);
-            System.Diagnostics.Debug.WriteLine("Trauma: " + cs[1].lowerBound + "," + cs[1].upperBound);
-            System.Diagnostics.Debug.WriteLine("FastTrack: " + cs[2].lowerBound + "," + cs[2].upperBound);
-            System.Diagnostics.Debug.WriteLine("Rapid Admission: " + cs[3].lowerBound + "," + cs[3].upperBound);
-            System.Diagnostics.Debug.WriteLine("Behvioral: " + cs[4].lowerBound + "," + cs[4].upperBound);
-            System.Diagnostics.Debug.WriteLine("Observation: " + cs[5].lowerBound + "," + cs[5].upperBound);
+            //Constraint[] cs = new Constraint[6];
+            //for(int i = 0; i < 6; i++)
+            //{
+            //    cs[i] = new Constraint();
+            //}
+
+            //// Run given config to begin with
+            //ConfigResult cr = s.RunOpt(c);
+            //System.Diagnostics.Debug.WriteLine(cr.examroomu);
+            //System.Diagnostics.Debug.WriteLine(cr.traumau);
+            //System.Diagnostics.Debug.WriteLine(cr.fasttracku);
+            //System.Diagnostics.Debug.WriteLine(cr.rapidadmissionu);
+            //System.Diagnostics.Debug.WriteLine(cr.observationu);
+            //System.Diagnostics.Debug.WriteLine(cr.behavioru);
+
+            //// Check Utilization
+            //Configuration c2 = new Configuration();
+            //ConfigResult cr2 = new ConfigResult();
+
+            //findRoomConstraintsForRoomType(cs,0, "examroomu", c, cr, c2, cr2);
+            //findRoomConstraintsForRoomType(cs,1, "traumau", c, cr, c2, cr2);
+            //findRoomConstraintsForRoomType(cs,2, "fasttracku", c, cr, c2, cr2);
+            //findRoomConstraintsForRoomType(cs,3, "rapidadmissionu", c, cr, c2, cr2);
+            //findRoomConstraintsForRoomType(cs,4, "behavioru", c, cr, c2, cr2);
+            //findRoomConstraintsForRoomType(cs,5, "observationu", c, cr, c2, cr2);
+            //System.Diagnostics.Debug.WriteLine("ExamRoom: " + cs[0].lowerBound + "," + cs[0].upperBound);
+            //System.Diagnostics.Debug.WriteLine("Trauma: " + cs[1].lowerBound + "," + cs[1].upperBound);
+            //System.Diagnostics.Debug.WriteLine("FastTrack: " + cs[2].lowerBound + "," + cs[2].upperBound);
+            //System.Diagnostics.Debug.WriteLine("Rapid Admission: " + cs[3].lowerBound + "," + cs[3].upperBound);
+            //System.Diagnostics.Debug.WriteLine("Behvioral: " + cs[4].lowerBound + "," + cs[4].upperBound);
+            //System.Diagnostics.Debug.WriteLine("Observation: " + cs[5].lowerBound + "," + cs[5].upperBound);
         }
 
         //    int iterations = 0;

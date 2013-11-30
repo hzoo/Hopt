@@ -34,12 +34,12 @@
       <label class="col-lg-3 control-label">{{room.name}}</label>
       <div class="col-lg-4">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{$index}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
       <div class="col-lg-4">
         <div class="input-group col-centered">
-          <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{$index}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input disabled type="text" class="form-control col-centered" value="{{room.num}}"id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@
     <p>
     </p>
      <h3 class="col-lg-6">Value at Start of Construction: </h3>
-      <h3 class="col-lg-6">{{fixBlank(cost.total(0.05,0.04,5),"$",0)}}</h3>
+      <h3 class="col-lg-6">{{fixBlank(cost.total(0.04,0.03,5),"$",0)}}</h3>
     <p>
     </p>
       <h4 class="col-lg-6">Initial: </h4>

@@ -95,7 +95,7 @@ namespace HoptServer.Models
                 else
                     sql += rooms[i].name.Replace(" ", "") + " = " + rooms[i].num;
             }
-            Console.Write(sql);
+            //Console.Write(sql);
             SQLiteCommand cmd = new SQLiteCommand(sql, conn);
             SQLiteDataReader dr = cmd.ExecuteReader();
             while(dr.Read())
@@ -108,7 +108,7 @@ namespace HoptServer.Models
                 values[5] = Convert.ToDouble(dr["ObservationUtilization"]);
                 values[6] = Convert.ToDouble(dr["LWBS"]);
             }
-            System.Diagnostics.Debug.WriteLine(values);
+            //System.Diagnostics.Debug.WriteLine(values);
             return values;
 
         }
@@ -124,6 +124,7 @@ namespace HoptServer.Models
         }
         //value at construction start
         public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, int yearsToCompletion, int yearsAhead, ResponseInt daystoRun, double[] simulationResponses, double lwbs) {
+            //Console.WriteLine(annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun, simulationResponses, lwbs) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion))));
             double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun, simulationResponses, lwbs) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
             return initialCost(costInfo,rooms) + annuityOfAnnualCost;
         }

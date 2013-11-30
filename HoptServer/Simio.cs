@@ -292,16 +292,6 @@ namespace HoptServer
         {
             currentModel.Tables[0].Rows[acuity - 1].Properties["Probability"].Value = (value / 100).ToString();
             System.Diagnostics.Debug.WriteLine("Acuity " + acuity + " = " + (value) + "%");
-            //currentModel.Tables[0].Rows[0].Properties["Probability"].Value = (c.acuityInfo[0].value / 100).ToString();
-            //currentModel.Tables[0].Rows[1].Properties["Probability"].Value = (c.acuityInfo[1].value / 100).ToString();
-            //currentModel.Tables[0].Rows[2].Properties["Probability"].Value = (c.acuityInfo[2].value / 100).ToString();
-            //currentModel.Tables[0].Rows[3].Properties["Probability"].Value = (c.acuityInfo[3].value / 100).ToString();
-            //currentModel.Tables[0].Rows[4].Properties["Probability"].Value = (c.acuityInfo[4].value / 100).ToString();
-            //System.Diagnostics.Debug.WriteLine("Acuity 1 = " + (c.acuityInfo[0].value) + "%");
-            //System.Diagnostics.Debug.WriteLine("Acuity 2 = " + (c.acuityInfo[1].value) + "%");
-            //System.Diagnostics.Debug.WriteLine("Acuity 3 = " + (c.acuityInfo[2].value) + "%");
-            //System.Diagnostics.Debug.WriteLine("Acuity 4 = " + (c.acuityInfo[3].value) + "%");
-            //System.Diagnostics.Debug.WriteLine("Acuity 5 = " + (c.acuityInfo[4].value) + "%");
         }
 
         public void setNumberOfReplicationsforScenario(int scenario, int numberOfReps)
@@ -432,6 +422,10 @@ namespace HoptServer
                         start++;
                         break;
                     }
+                    else
+                    {
+                        start++;
+                    }
                 }
             }
 
@@ -447,6 +441,8 @@ namespace HoptServer
 
         public void LoadHospitalData(Configuration c)
         {
+            currentExperiment.Reset();
+
             //save config as private
             _c = (Configuration)c.Clone();
 
@@ -479,16 +475,11 @@ namespace HoptServer
         {
           //  if (wasConfigRun(c))
           //      return queryResults(c);
-            chooseModel(c);
-            if (currentExperiment.IsBusy)
-                return null;
+
             currentExperiment.Reset();
 
             //save config as private
             _c = (Configuration) c.Clone();
-
-            //change hospital values (type, annualArrivals, %ofyear)
-            setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);
 
             //change control values (the actual configuration)
             var start = 0;
@@ -503,16 +494,101 @@ namespace HoptServer
                         start++;
                         break;
                     }
+                    else
+                    {
+                        start++;
+                    }
                 }
             }
-
+            
             addSimioEventListeners();
 
             //run simulation
-            runSimulationAsync();
+            //runSimulationAsync();
+            runSimulationSync();
 
             //insertResults(c, currentResponses);
             return _cr;
+        }
+
+        public ConfigResult RunOptNew(Configuration c)
+        {
+            if (currentExperiment.IsBusy)
+                return null;
+            currentExperiment.Reset();
+
+            //save config as private
+            _c = c;
+
+            //Specify run times
+            setWarmUpTimeInHours(c.startupTime.value);
+            setRunLengthInDays(c.daysToRun.value);
+
+            //set number of replications for the one scenario
+            setNumberOfReplicationsforScenario(0, c.numberOfReps.value);
+            removeAllButOneScenario();
+            //if multiple scenarios
+            //setNumberOfReplicationsforAllScenarios(c.numberOfReps.value);
+
+            //change hospital values (type, annualArrivals, %ofyear)
+            setArrivals(c.rateTable.value, Convert.ToInt32(c.arrivalInfo[0].value), c.arrivalInfo[1].value);
+
+            setServiceTimes(c);
+
+            setAcuityPercentages(1, c.acuityInfo[0].value);
+            setAcuityPercentages(2, c.acuityInfo[1].value);
+            setAcuityPercentages(3, c.acuityInfo[2].value);
+            setAcuityPercentages(4, c.acuityInfo[3].value);
+            setAcuityPercentages(5, c.acuityInfo[4].value);
+
+
+            //change control values (the actual configuration)
+            var start = 0;
+            for (int i = 0; i < currentExperiment.Controls.Count; i++)
+            {
+                for (int j = start; j < c.rooms.Length; j++)
+                {
+                    if (c.rooms[j].included == true)
+                    {
+                        currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, c.rooms[j].num);
+                        start++;
+                        break;
+                    }
+                    else
+                    {
+                        start++;
+                    }
+                }
+            }
+
+            //listeners (run completed, scenario, completed, etc)
+            addSimioEventListeners();
+
+            //run simulation
+            runSimulationSync();
+            return _cr;
+        }
+
+        public void runSimulationSync()
+        {
+            System.Diagnostics.Debug.WriteLine("Start Run");
+            try
+            {
+                currentExperiment.Run();
+                int i = 0;
+                do
+                {
+                    i++;
+                }
+                while (!(_completed));
+                System.Diagnostics.Debug.WriteLine("End Run");
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error || " + ex.Message);
+            }
         }
 
         public void runSimulationAsync()
@@ -546,7 +622,7 @@ namespace HoptServer
 
         void experiment_RunCompleted(object sender, RunCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Run Completed: " + e.TotalRunTime + "s");
+            //System.Diagnostics.Debug.WriteLine("Run Completed: " + e.TotalRunTime + "s");
         }
 
         void experiment_RunProgressChanged(object sender, RunProgressChangedEventArgs e)
@@ -556,7 +632,7 @@ namespace HoptServer
 
         void experiment_ReplicationEnded(object sender, ReplicationEndedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("#" + e.ReplicationNumber + " Replication Ended: " + e.ActualRuntimeInSeconds + "s");
+            //System.Diagnostics.Debug.WriteLine("#" + e.ReplicationNumber + " Replication Ended: " + e.ActualRuntimeInSeconds + "s");
         }
 
         void experiment_ScenarioEnded(object sender, ScenarioEndedEventArgs e)
@@ -572,7 +648,7 @@ namespace HoptServer
                     //e.Scenario.Name - 001
                     //response.Name - AvgTimeInSystem
                     //responseValue.ToString() - Value
-                    System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}", e.Scenario.Name, response.Name, responseValue.ToString());
+                    //System.Diagnostics.Debug.WriteLine("{0} {1,-40} {2,-4}", e.Scenario.Name, response.Name, responseValue.ToString());
 
                     if (response.Name == "AvgNumberinWaitingRoom") { _cr.avgnumberinwaitingroom = responseValue; }
                     if (response.Name == "AvgWaitingTime") { _cr.avgwaitingtime = responseValue; }
@@ -596,22 +672,14 @@ namespace HoptServer
 
             calculateCosts(_c,_cr);
 
-            //foreach (IScenarioResult result in e.Results)
-            //{
-            //    System.Diagnostics.Debug.WriteLine(result.DataItem + " " + result.DataSource + " " + result.ToString());
-
-            //    //only if we want to send back individual responses
-            //    //Response r = new Response(response.Name, responseValue);
-            //    //currentResponses.Add(r);
-            //}
             _completed = true;
-            System.Diagnostics.Debug.WriteLine("Scenario Ended");
+            //System.Diagnostics.Debug.WriteLine("Scenario Ended");
         }
 
         private void calculateCosts(Configuration c, ConfigResult cr)
         {
-            double interestRate = 0.05;
-            double growthRate = 0.04;
+            double interestRate = 0.04;
+            double growthRate = 0.03;
             int yearsToCompletion = 5;
             int yearsAhead = 10;
             
@@ -629,8 +697,8 @@ namespace HoptServer
             _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, _cr.LWBS);
             _responses = calc.getUtilizationAndLWBS(c.rooms);
 
-            System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
-            System.Diagnostics.Debug.WriteLine("Variable Cost: " + _annual);
+            //System.Diagnostics.Debug.WriteLine("Fixed Cost: " + _initial);
+            //System.Diagnostics.Debug.WriteLine("Variable Cost: " + _annual);
             System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + _total);
 
             SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
