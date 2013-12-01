@@ -1,4 +1,4 @@
-#Hopt#
+#[Hopt](http://eltacodeldiablo.github.io/gtsd13)#
 ======
 
 ## Steps to Build/Run ##
@@ -56,6 +56,11 @@ to run: open HoptClient\build\index.html or HoptClient\bin\index.html after runn
 		* [npm]
 		* [http-server]
  
+
+License
+--------
+MIT
+
 [Visual Studio 2013]: http://microsoft.com/visualstudio
 [Sublime Text]: http://sublimetext.com
 [ng-boilerplate]: http://joshdmiller.github.io/ng-boilerplate/
