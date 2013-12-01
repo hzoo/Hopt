@@ -29,9 +29,52 @@
       </header>
       <section>
         <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
 
-<p>Check out Hopt <a href="hopt.html">here</a>.</p>
+        <p>Check out Hopt <a href="hopt.html">here</a>. (need local server to run)</p>
+        <h1>Hopt</h1>
+        <p>Hopt is a design tool to optimization ED room requirements.</p>
+        <h3>Setup</h3>
+        <p>To run Hopt, first run the server, and then open the website.
+        1. To open the server: open <code>bin\Debug\HoptServer.exe</code>.
+        2. To open the website: open <code>bin\index.html</code> in Chrome or your up to date browser.</p>
+        <p><em>note: you need Simio on your computer for the server to run properly.</em></p>
+        <h3>Navigation</h3>
+        <p>The Hopt tool is a website with 4 pages: Home, Inputs, Config, and Opt.<br>These pages can be navigated using the toolbar on the top of the website.</p>
+        <ol>
+        <li>Home: Explains what the tool does.
+        <img src="http://i.imgur.com/Ai6BH8C.png" alt=""></li>
+        <li>Inputs: Specify inputs for a specific hospital.
+        <img src="http://i.imgur.com/yJBI3LD.png" alt=""></li>
+        <li>Config: Test alternative configurations.
+        <img src="http://i.imgur.com/EaEcMlh.png" alt=""></li>
+        <li>Opt: Find the lowest cost room configuration.
+        <img src="http://i.imgur.com/TcJpGs6.png" alt=""></li>
+        </ol>
+        <h3>Use</h3>
+        <h4>Change Inputs</h4>
+        <p>The first thing you can do is change the inputs on the &quot;Setup Inputs&quot; page.<br>You can change inputs related to the simulation, costs, or constraints.</p>
+        <p>Use the sidebar on the left to quickly move to a section. In the picture below, <code>Constraints</code> was clicked on, so the page scrolled up till the <code>Constraints</code> heading hits the top of the page.
+        <img src="http://i.imgur.com/8FSZVZw.png" alt=""><br>For example: if you wanted to change the Hospital Name to <code>Emory</code> and Hospital Location to <code>USA</code>..
+        <img src="http://i.imgur.com/SnFuRaf.png" alt=""><br>There are defaults for all the input fields in case there isn&#39;t data for the hospital you are working with.  </p>
+        <p><em>Note: the arrivals should be the annual arrivals in 10 years since we are calculating the total cost over a 10 year period.</em></p>
+        <p><em>We weren&#39;t able to implement storing all the input, config, and optimization data so you will have to retype the information again after you start the website again.It is advised you store this information in a seperate document.</em></p>
+        <h4>Run Optimization</h4>
+        <p>Next once all the inputs are filled in, you can go ahead and run to find the optimum room (minimum cost) configuration usings the inputs from the other page. Click on the last tab called <code>Search</code>.  <img src="http://i.imgur.com/9jkE0At.png" alt=""></p>
+        <p>Here you just have to specify the existing configuration of the hospital in the first column of input boxes.
+        <img src="http://i.imgur.com/r5on1BH.png" alt=""><br>The second column of input boxes is the maximum number of rooms for that room type based on the calculati
+        ons from the previously used excel model that overestimated rooms. This serves as a good boundary for our
+        optimization. Here you are free to change the max boundaries if needed.<br><img src="http://i.imgur.com/1HzRUhh.png" alt=""><br>Now just click <code>Run Opt</code>.  <img src="http://i.imgur.com/sDTGh8f.png" alt=""><br>After a few minutes, the results should come in with the recommended room configuration,
+        <img src="http://i.imgur.com/FKid93S.png" alt=""><br>performance measures,<br><img src="http://i.imgur.com/H0pNtMp.png" alt=""><br>and the cost of the room configuration. The final cost is calculated assuming 5 years of construction and a 10 year forecast.<br><img src="http://i.imgur.com/OzVi7To.png" alt=""></p>
+        <h4>Run Alternatives</h4>
+        <p>Now maybe you want to try a different room configuration. Maybe the hospital has a suggestion. You can run a specific configuration and see the results. Click on the tab called <code>Run a Configuration</code>.  <img src="" alt=""></p>
+        <p>This page has a few special/advanced options you probably won&#39;t need to change.
+        You can change the amount of time the simulation is run, the number of times it is run, and the startup time of the simulation.
+        <img src="http://i.imgur.com/BLZD71E.png" alt=""><br>You can also run the simulation over an average day (annual visits / 365)<br>or a peak month and average day (where the peak is x% of the year)<br>or a peak month and a peak day (avg day + 2.33 * Math.sqrt(avg day) )<br><img src="http://i.imgur.com/f3hnrnK.png" alt="">  </p>
+        <p>So pretending you want to try using 100 of each room type, the input boxes under &quot;New&quot; would look like this:
+        <img src="http://i.imgur.com/B4w9yTJ.png" alt=""><br>After you click &quot;Run&quot;, wait a moment and some similar results will show up.<br>The costs are broken down a bit more.  </p>
+        <p>The responses have a 2nd column. What this does is give you the difference in responses between the first configuration you run and the second configuration. So given that we ran the old configuration and the new one where each room type has 100 rooms, the first column has low responses for everything because there are too many rooms. The 2nd column shows you the difference between the old and the new. In this case all the room utilizations went down because we added a lot of rooms. Red text means the value went down, and green text means the value went up.
+        <img src="http://i.imgur.com/AP3IumU.png" alt=""><br>At the bottom, there is also a table that records all the last configurations you have run so far. It isn&#39;t the most useful since it is rather cluttered.<br><img src="http://i.imgur.com/D6oHXhT.png" alt="">  </p>
 
      </section>
       <footer>
@@ -40,6 +83,6 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
+
   </body>
 </html>

@@ -31,11 +31,10 @@
     <script type="text/javascript" src="assets/Designr-0.0.1.js"></script>
 
     <!-- signalR -->
-    <!-- // <script src="http://localhost:8001/signalr/hubs"></script> -->
-    <script>document.write('<script src="http://'
-    + (location.host || 'localhost').split(':')[0]
-    + ':8001/signalr/hubs"></'
-    + 'script>')</script>
+    <script>
+    document.write('<scr'+'ipt src="http://edtoolserver.ngrok.com/signalr/hubs">'+'</scr' + 'ipt>');
+    document.write('<script src="http://'+ (location.host || 'localhost').split(':')[0]+ ':8001/signalr/hubs"></'+ 'script>');
+    </script>
 
   </head>
 
@@ -76,18 +75,18 @@
                   Run a Configuration
                 </a>
               </li>
-              <li class="disabled">
-                <a>
+              <li ui-sref="opt" ng-class="{ active: $state.includes('opt') }">
+                <a href="#/opt">
                   <i class="icon-repeat"></i>
-                  Optimization (disabled)
+                  Search
                 </a>
               </li>
-              <li class="disabled">
+<!--               <li class="disabled">
                 <a>
                   <i class="icon-repeat"></i>
                   Tradeoffs (disabled)
                 </a>
-              </li>
+              </li> -->
             </ul>
         </div>
         </div> <!-- navbar -->
