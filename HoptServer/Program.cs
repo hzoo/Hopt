@@ -212,10 +212,12 @@ namespace HoptServer
                     {
                         costDecreases = false;
                         c.rooms[num].num = c.rooms[num].num + 1;
+                        double totalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
+                        System.Diagnostics.Debug.WriteLine("Cost: " + totalCost);
                     }
                 }
             }
-            cr = s.RunOptNew(c);
+            //cr = s.RunOptNew(c);
         }
 
         public void RunOpt(Configuration c)
@@ -234,7 +236,7 @@ namespace HoptServer
                     }
                 }
             }
-
+            cr = s.RunOptNew(c);
             for (int i = 0; i < 6; i++)
             {
                 System.Diagnostics.Debug.WriteLine(c.rooms[i].num);

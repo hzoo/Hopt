@@ -315,7 +315,7 @@ angular.module( 'ngBoilerplate.opt', [
     $scope.hoptService.annualCost = configResponse.annualCost;
     $scope.hoptService.totalCost = configResponse.totalCost;
     $scope.optFinished = true;
-    $scope.misc.runTime = (new Date().getTime() - $scope.misc.runTime) * 1000 + " sec";
+    $scope.misc.runTime = (new Date().getTime() - $scope.misc.runTime) / 1000 + " sec";
   };
 
   $scope.stopOpt = function() {
