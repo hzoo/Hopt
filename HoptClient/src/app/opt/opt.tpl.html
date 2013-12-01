@@ -40,7 +40,7 @@
       </div>
       <div class="col-lg-2">
         <div class="input-group col-centered">
-          <input disabled type="text" class="form-control col-centered" value="{{room.num}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input type="text" class="form-control col-centered" value="{{room.num}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
         </div>
       </div>
       <div class="col-lg-4">
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<div class="bs-callout bs-callout-danger row" ng-if="optFinished">
+<div class="bs-callout bs-callout-danger row" ng-if="optFinished == true">
   <h4>Optimization Finished! {{misc.runTime}}</h4>
 </div>
 

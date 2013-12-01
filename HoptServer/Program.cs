@@ -215,6 +215,7 @@ namespace HoptServer
                     }
                 }
             }
+            cr = s.RunOptNew(c);
         }
 
         public void RunOpt(Configuration c)
@@ -233,6 +234,7 @@ namespace HoptServer
                     }
                 }
             }
+
             for (int i = 0; i < 6; i++)
             {
                 System.Diagnostics.Debug.WriteLine(c.rooms[i].num);

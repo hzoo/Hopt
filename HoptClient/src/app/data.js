@@ -37,6 +37,20 @@ ngBoilerplate.service('HoptService', function HoptService() {
   hoptService.initialCost = '';
   hoptService.annualCost = '';
   hoptService.totalCost ='';
+  hoptService.cost = {
+    total: '',
+    initial: {
+      total: '',
+      construction: '',
+      equipment: ''
+    },
+    annual: {
+      total: '',
+      utility: '',
+      staff: '',
+      lwbs: ''
+    }
+  };
   return {
      getHoptService: function() {
       return hoptService;

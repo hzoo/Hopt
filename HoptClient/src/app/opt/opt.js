@@ -198,19 +198,35 @@ angular.module( 'ngBoilerplate.opt', [
     for (var i = 0; i < $scope.configuration.rooms.length; i++) {
       var annualVisits = $scope.hospitalData.arrivalInfo[0].value;
       var annualVisitsPerRoom = 0;
-      if ($scope.configuration.rooms[1].included === true) {
-        if (i === 0) {
-          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
-        } else if (i === 1) {
-          annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value / 100;
-        } else if (i === 2) {
-          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
-        }
-      } else {
+       if ($scope.configuration.rooms[1].included === false) {
         if (i === 0) {
           annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[0].value + $scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
         } else if (i === 1) {
           annualVisitsPerRoom = 0;
+        } else if (i === 2) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
+        }
+      else if ($scope.configuration.rooms[2].included === false) {
+        if (i === 0) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
+        } else if (i === 1) {
+          annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value / 100;
+        } else if (i === 2) {
+          annualVisitsPerRoom = 0;
+        }
+      } else if ($scope.configuration.rooms[1].included === false && $scope.configuration.rooms[2].included === false) {
+        if (i === 0) {
+          annualVisitsPerRoom = annualVisits;
+        } else if (i === 1) {
+          annualVisitsPerRoom = 0;
+        } else if (i === 2) {
+          annualVisitsPerRoom = 0;
+        }
+      } else
+        if (i === 0) {
+          annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
+        } else if (i === 1) {
+          annualVisitsPerRoom = annualVisits * $scope.hospitalData.acuityInfo[0].value / 100;
         } else if (i === 2) {
           annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
         }
@@ -223,6 +239,7 @@ angular.module( 'ngBoilerplate.opt', [
       } else if (i === 5) {
         annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15) / 100;
       }
+
       var peakMonth = annualVisitsPerRoom * 0.1;
       var avgDay = peakMonth / 30.5;
       var peakDay = avgDay + (2.33*Math.sqrt(avgDay));
@@ -274,6 +291,7 @@ angular.module( 'ngBoilerplate.opt', [
 
   $scope.misc.responses = $scope.hoptService.lastResponses;
   $scope.misc.optResponses = $scope.hoptService.optResponses;
+  $scope.optFinished = false;
 
   updateConfigResponses = function (response,response2) {
     $scope.misc.viewLoading = false;
@@ -296,7 +314,8 @@ angular.module( 'ngBoilerplate.opt', [
     $scope.hoptService.initialCost = configResponse.initialCost;
     $scope.hoptService.annualCost = configResponse.annualCost;
     $scope.hoptService.totalCost = configResponse.totalCost;
-
+    $scope.optFinished = true;
+    $scope.misc.runTime = (new Date().getTime() - $scope.misc.runTime) * 1000 + " sec";
   };
 
   $scope.stopOpt = function() {
@@ -341,6 +360,8 @@ angular.module( 'ngBoilerplate.opt', [
    * @param {object} message Data to send
    */
   $scope.sendMessage = function (method, message) {
+    $scope.misc.runTime = new Date().getTime();
+
       if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value; }
       if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value; }
       if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value; }
@@ -350,7 +371,8 @@ angular.module( 'ngBoilerplate.opt', [
 
 
     // roomIterator = [0,0,0,0,0,0];
-    // $scope.runOpt = true;
+    $scope.runOpt = true;
+    $scope.optFinished = false;
 
     $scope.misc.viewLoading = true;
     submitClicked = true;

@@ -31,21 +31,22 @@ namespace HoptServer
         public void chooseModel(Configuration c)
         {
             //initialize
-            for (int i = 0; i < c.rooms.Length; i++)
+
+            if (c.rooms[1].included == false) //Trauma
             {
-                if (c.rooms[i].name == "Trauma")
-                {
-                    if (c.rooms[i].included == false)// || (c.rooms[i].included == true && c.rooms[i].num == 0))
-                    {
-                        SetProject("ED-v23-NoTrauma.spfx", "Model", "Experiment1"); //v23
-                        break;
-                    }
-                    else
-                    {
-                        SetProject("ED-v23.spfx", "Model", "Experiment1"); //v23
-                        break;
-                    }
-                }
+                SetProject("ED-NoTrauma.spfx", "Model", "Experiment1"); //v23
+            }
+            else if (c.rooms[2].included == false) //Fast Track
+            {
+                SetProject("ED-NoFastTrack.spfx", "Model", "Experiment1"); //v23
+            }
+            else if (c.rooms[1].included == false && c.rooms[2].included == false)//Fast Track and Trauma
+            {
+                SetProject("ED.spfx", "Model", "Experiment1"); //v23
+            }
+            else // all primary rooms are included
+            { 
+                SetProject("ED-All.spfx", "Model", "Experiment1"); //v23
             }
         }
 
