@@ -63,11 +63,11 @@
       <input class="col-centered" type="radio" ng-model="hospitalData.simulationInfo.rateTable.value" value="average"> Run avg. days <br/>
         <input class="col-centered" type="radio" ng-model="hospitalData.simulationInfo.rateTable.value" value="peak"> Run peak days<br/>
       </div> -->
-          <div class="col-lg-offset-6 col-lg-2">
+         <!--  <div class="col-lg-offset-6 col-lg-2">
             <button ng-if="runOpt === true" type="submit" class="btn btn-primary" ng-click="stopOpt()" >Stop Opt</button>
             <button disabled ng-if="runOpt === false" type="submit" class="btn btn-primary" ng-click="stopOpt()" >Stopped</button>
-          </div>
-      <div class="col-lg-4">
+          </div> -->
+      <div class="col-lg-offset-8 col-lg-4">
         <button disabled ng-if="runOpt === true" type="submit" class="btn btn-primary col-lg-12" ng-click="sendMessage('RunOpt',config)" >Running...</button>
         <button ng-if="runOpt === false" type="submit" class="btn btn-primary col-lg-12" ng-click="sendMessage('RunOpt',config)" >Run Opt</button>
         <!-- <div ng-class="{spinner: misc.viewLoading}"></div> -->
