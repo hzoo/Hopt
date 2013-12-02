@@ -34,19 +34,19 @@ namespace HoptServer
 
             if (c.rooms[1].included == false) //Trauma
             {
-                SetProject("ED-NoTrauma.spfx", "Model", "Experiment1"); //v23
+                SetProject("FinalSimioED-NoTrauma.spfx", "Model", "Experiment1"); //v23
             }
             else if (c.rooms[2].included == false) //Fast Track
             {
-                SetProject("ED-NoFastTrack.spfx", "Model", "Experiment1"); //v23
+                SetProject("FinalSimioED-NoFastTrack.spfx", "Model", "Experiment1"); //v23
             }
             else if (c.rooms[1].included == false && c.rooms[2].included == false)//Fast Track and Trauma
             {
-                SetProject("ED.spfx", "Model", "Experiment1"); //v23
+                SetProject("FinalSimioED-ER.spfx", "Model", "Experiment1"); //v23
             }
             else // all primary rooms are included
             { 
-                SetProject("ED-All.spfx", "Model", "Experiment1"); //v23
+                SetProject("FinalSimioED-All.spfx", "Model", "Experiment1"); //v23
             }
         }
 
