@@ -168,7 +168,7 @@ namespace HoptServer
             while (costDecreases == true)
             {
                 System.Diagnostics.Debug.WriteLine("New: " + c.rooms[num].num + " Old:" + c.rooms[num].originalNum);
-                if (c.rooms[num].num < c.rooms[num].originalNum)
+                if (c.rooms[num].num <= c.rooms[num].originalNum)
                 {
                     c.rooms[num].num = c.rooms[num].originalNum;
                     costDecreases = false;

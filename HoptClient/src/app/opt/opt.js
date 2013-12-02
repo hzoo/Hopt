@@ -198,7 +198,7 @@ angular.module( 'ngBoilerplate.opt', [
     for (var i = 0; i < $scope.configuration.rooms.length; i++) {
       var annualVisits = $scope.hospitalData.arrivalInfo[0].value;
       var annualVisitsPerRoom = 0;
-       if ($scope.configuration.rooms[1].included === false) {
+       if ($scope.configuration.rooms[1].included === false && $scope.configuration.rooms[2].included === true) {
         if (i === 0) {
           annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[0].value + $scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
         } else if (i === 1) {
@@ -206,7 +206,8 @@ angular.module( 'ngBoilerplate.opt', [
         } else if (i === 2) {
           annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[2].value * 0.5 + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
         }
-      else if ($scope.configuration.rooms[2].included === false) {
+      }
+      else if ($scope.configuration.rooms[1].included === true && $scope.configuration.rooms[2].included === false) {
         if (i === 0) {
           annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value + $scope.hospitalData.acuityInfo[3].value + $scope.hospitalData.acuityInfo[4].value) / 100;
         } else if (i === 1) {
@@ -222,7 +223,7 @@ angular.module( 'ngBoilerplate.opt', [
         } else if (i === 2) {
           annualVisitsPerRoom = 0;
         }
-      } else
+      } else {
         if (i === 0) {
           annualVisitsPerRoom = annualVisits * ($scope.hospitalData.acuityInfo[1].value + $scope.hospitalData.acuityInfo[2].value * 0.5) / 100;
         } else if (i === 1) {
@@ -239,6 +240,8 @@ angular.module( 'ngBoilerplate.opt', [
       } else if (i === 5) {
         annualVisitsPerRoom =  annualVisits * ($scope.hospitalData.acuityInfo[0].value * 0.45 + $scope.hospitalData.acuityInfo[1].value * 0.25 + $scope.hospitalData.acuityInfo[2].value * 0.15) / 100;
       }
+
+      console.log(annualVisits, i,annualVisitsPerRoom);
 
       var peakMonth = annualVisitsPerRoom * 0.1;
       var avgDay = peakMonth / 30.5;
@@ -361,14 +364,6 @@ angular.module( 'ngBoilerplate.opt', [
    */
   $scope.sendMessage = function (method, message) {
     $scope.misc.runTime = new Date().getTime();
-
-      if ($scope.configuration.rooms[0].included) { $scope.configuration.rooms[0].originalNum = document.getElementById('originalRoom0').value; }
-      if ($scope.configuration.rooms[1].included) { $scope.configuration.rooms[1].originalNum = document.getElementById('originalRoom1').value; }
-      if ($scope.configuration.rooms[2].included) { $scope.configuration.rooms[2].originalNum = document.getElementById('originalRoom2').value; }
-      if ($scope.configuration.rooms[3].included) { $scope.configuration.rooms[3].originalNum = document.getElementById('originalRoom3').value; }
-      if ($scope.configuration.rooms[4].included) { $scope.configuration.rooms[4].originalNum = document.getElementById('originalRoom4').value; }
-      if ($scope.configuration.rooms[5].included) { $scope.configuration.rooms[5].originalNum = document.getElementById('originalRoom5').value; }
-
 
     // roomIterator = [0,0,0,0,0,0];
     $scope.runOpt = true;

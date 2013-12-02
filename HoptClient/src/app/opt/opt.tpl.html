@@ -35,17 +35,17 @@
       <label class="col-lg-3 control-label">{{room.name}}</label>
       <div class="col-lg-3">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" value="{{room.originalNum}}"id="originalRoom{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input type="text" class="form-control col-centered" placeholder="{{room.originalNum}}" ng-model="room.originalNum"/>
         </div>
       </div>
       <div class="col-lg-2">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" value="{{room.num}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input type="text" class="form-control col-centered" placeholder="{{room.num}}" ng-model="room.num"/>
         </div>
       </div>
       <div class="col-lg-4">
         <div class="input-group col-centered">
-          <input disabled type="text" class="form-control col-centered" value="{{room.optNum}}"id="room{{room.id}}"/> <!--  placeholder="{{room.num}}" ng-model="room.num" -->
+          <input disabled type="text" class="form-control col-centered" ng-model="room.optNum"/>
         </div>
       </div>
     </div>
