@@ -160,7 +160,7 @@ namespace HoptServer
             }
         }
 
-        public void FindOpt(int num, ref Configuration c, ref ConfigResult cr)
+        public void FindOpt(int num, ref Configuration c, ref ConfigResult cr, ref Boolean canIterate)
         {
             //System.Diagnostics.Debug.WriteLine("Find Opt");
             //double utilization = getUtilizationForRoomType(name, cr);
@@ -206,7 +206,6 @@ namespace HoptServer
                     {
                         waitingTime = waitingTime || cr.fasttrack_wt > Convert.ToDouble(c.serviceInfo[2].averageRoomTime);
                     }
-                    
 
                     if (s.getTotalCost() > oldTotalCost || waitingTime == true)
                     {
@@ -214,6 +213,10 @@ namespace HoptServer
                         c.rooms[num].num = c.rooms[num].num + 1;
                         double totalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
                         System.Diagnostics.Debug.WriteLine("Cost: " + totalCost);
+                    }
+                    else
+                    {
+                        canIterate = true;
                     }
                 }
             }
@@ -226,16 +229,21 @@ namespace HoptServer
             s.chooseModel(c);
             s.LoadHospitalData(c);
             ConfigResult cr = s.RunOptNew(c);
-            for (int j = 0; j < 2; j++)
-            {
+            Boolean canIterate = true;
+            int counter = 0;
+            //while (canIterate == true) {
+                canIterate = false;
+            for (int j = 0; j < 2; j++) {
                 for (int i = 0; i < 6; i++)
                 {
                     if (c.rooms[i].included == true)
                     {
-                        FindOpt(i, ref c, ref cr);
+                        FindOpt(i, ref c, ref cr, ref canIterate);
                     }
                 }
+                counter++;
             }
+            System.Diagnostics.Debug.WriteLine("Number of iterations: " + counter);
             cr = s.RunOptNew(c);
             for (int i = 0; i < 6; i++)
             {
