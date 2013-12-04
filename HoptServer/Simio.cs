@@ -429,11 +429,18 @@ namespace HoptServer
                 if (currentExperiment.Controls[i].Name == "LWBSCondition")
                 {
                     currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
+                    string num = "";
+                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                    System.Diagnostics.Debug.WriteLine("LWBSCondition: " + num);
                 }
-                else if (currentExperiment.Controls[i].Name == "TriageTime")
-                {
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[4].value.ToString());
-                }else {
+                //else if (currentExperiment.Controls[i].Name == "TriageTime")
+                //{
+                //    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[4].value.ToString());
+                //    string num = "";
+                //    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                //    System.Diagnostics.Debug.WriteLine("TriageTime: " + num);
+                //}
+                else {
                     for (int j = start; j < c.rooms.Length; j++)
                     {
                         if (c.rooms[j].included == true)
