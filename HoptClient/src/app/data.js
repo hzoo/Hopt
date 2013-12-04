@@ -270,7 +270,8 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     { name: "Annual Visits", value: 134924 },
     { name: "% of Annual Visits for the Peak Month", value: 10 },
     { name: "LWBS Revenue", value: 934 },
-    { name: "Amount of hours for a patient waiting to LWBS", value: 1 }];
+    { name: "Amount of hours for a patient waiting to LWBS", value: 1 },
+    { name: "Triage/registration time in minutes", value: 0 }];
 
   hospitalData.acuityInfo = [
     { name: "Acuity 1 %", value: 0.55, revenue: 100 }, //revenue is fake 0.52
@@ -281,7 +282,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
 
   hospitalData.simulationInfo = {
     daysToSimulate: { name: "Days to Simulate", value: 1 },
-    numberOfReplications: { name: "# of Replications", value: 5 },
+    numberOfReplications: { name: "# of Replications", value: 200 },
     startupTime: { name: "Startup Time (hrs)", value: 0 },
     rateTable: { name: "Rate Table to run", value: "average" }};
 
