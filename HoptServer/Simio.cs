@@ -414,20 +414,25 @@ namespace HoptServer
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
-                for (int j = start; j < c.rooms.Length; j++)
+                if (currentExperiment.Controls[i].Name == "LWBSCondition")
                 {
-                    if (c.rooms[j].included == true)
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
+                } else {
+                    for (int j = start; j < c.rooms.Length; j++)
                     {
-                        currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                        string num = "";
-                        currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
-                        start++;
-                        break;
-                    }
-                    else
-                    {
-                        start++;
+                        if (c.rooms[j].included == true)
+                        {
+                            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                            string num = "";
+                            currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
+                            start++;
+                            break;
+                        }
+                        else
+                        {
+                            start++;
+                        }
                     }
                 }
             }
@@ -488,20 +493,27 @@ namespace HoptServer
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
-                for (int j = start; j < c.rooms.Length; j++)
+                if (currentExperiment.Controls[i].Name == "LWBSCondition")
                 {
-                    if (c.rooms[j].included == true)
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
+                }
+                else
+                {
+                    for (int j = start; j < c.rooms.Length; j++)
                     {
-                        currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                        string num = "";
-                        currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
-                        start++;
-                        break;
-                    }
-                    else
-                    {
-                        start++;
+                        if (c.rooms[j].included == true)
+                        {
+                            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                            string num = "";
+                            currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
+                            start++;
+                            break;
+                        }
+                        else
+                        {
+                            start++;
+                        }
                     }
                 }
             }
@@ -551,20 +563,27 @@ namespace HoptServer
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
-                for (int j = start; j < c.rooms.Length; j++)
+                if (currentExperiment.Controls[i].Name == "LWBSCondition")
                 {
-                    if (c.rooms[j].included == true)
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
+                }
+                else
+                {
+                    for (int j = start; j < c.rooms.Length; j++)
                     {
-                        currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                        string num = "";
-                        currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                        System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
-                        start++;
-                        break;
-                    }
-                    else
-                    {
-                        start++;
+                        if (c.rooms[j].included == true)
+                        {
+                            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                            string num = "";
+                            currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
+                            start++;
+                            break;
+                        }
+                        else
+                        {
+                            start++;
+                        }
                     }
                 }
             }

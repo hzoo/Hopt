@@ -269,7 +269,8 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
   hospitalData.arrivalInfo = [
     { name: "Annual Visits", value: 134924 },
     { name: "% of Annual Visits for the Peak Month", value: 10 },
-    { name: "LWBS Revenue", value: 934 }];
+    { name: "LWBS Revenue", value: 934 },
+    { name: "Amount of hours for a patient waiting to LWBS", value: 1 }];
 
   hospitalData.acuityInfo = [
     { name: "Acuity 1 %", value: 0.55, revenue: 100 }, //revenue is fake 0.52
