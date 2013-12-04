@@ -127,38 +127,38 @@ namespace HoptServer
             return utilization;
         }
 
-        public void findRoomConstraintsForRoomType(Constraint[] cs, int num, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
-        {
-            // Check Utilization
-            cs[num].responseName = name;
-            // If less than 50%, don't even both trying to add
+        //public void findRoomConstraintsForRoomType(Constraint[] cs, int num, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
+        //{
+        //    // Check Utilization
+        //    cs[num].responseName = name;
+        //    // If less than 50%, don't even both trying to add
 
-            double utilization = getUtilizationForRoomType(name, cr);
-            //System.Diagnostics.Debug.WriteLine(name + " " + utilization);
-            if (utilization < 50)
-            {
-                cs[num].lowerBound = c.rooms[num].num;
-                cs[num].upperBound = c.rooms[num].num;
-            }
-            else
-            {
-                cs[num].lowerBound = c.rooms[num].num;
-                // looping until util 50%
-                for (int i = c.rooms[num].num + 4; i < 1000; i += 4)
-                {
-                    c2 = (Configuration) c.Clone();
-                    c2.rooms[num].num = i;
-                    cr2 = s.RunOpt(c2);
-                    double utilization2 = getUtilizationForRoomType(name, cr2);
-                    //System.Diagnostics.Debug.WriteLine(name + " " + utilization);
-                    if (utilization2 < 50)
-                    {
-                        cs[num].upperBound = i;
-                        break;
-                    }
-                }
-            }
-        }
+        //    double utilization = getUtilizationForRoomType(name, cr);
+        //    //System.Diagnostics.Debug.WriteLine(name + " " + utilization);
+        //    if (utilization < 50)
+        //    {
+        //        cs[num].lowerBound = c.rooms[num].num;
+        //        cs[num].upperBound = c.rooms[num].num;
+        //    }
+        //    else
+        //    {
+        //        cs[num].lowerBound = c.rooms[num].num;
+        //        // looping until util 50%
+        //        for (int i = c.rooms[num].num + 4; i < 1000; i += 4)
+        //        {
+        //            c2 = (Configuration) c.Clone();
+        //            c2.rooms[num].num = i;
+        //            cr2 = s.RunOpt(c2);
+        //            double utilization2 = getUtilizationForRoomType(name, cr2);
+        //            //System.Diagnostics.Debug.WriteLine(name + " " + utilization);
+        //            if (utilization2 < 50)
+        //            {
+        //                cs[num].upperBound = i;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         public void FindOpt(int num, ref Configuration c, ref ConfigResult cr, ref Boolean canIterate)
         {

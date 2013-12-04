@@ -409,15 +409,31 @@ namespace HoptServer
             setAcuityPercentages(4, c.acuityInfo[3].value);
             setAcuityPercentages(5, c.acuityInfo[4].value);
 
-            
             //change control values (the actual configuration)
+            changeControlValues(c);
+
+            //listeners (run completed, scenario, completed, etc)
+            addSimioEventListeners();
+
+            //run simulation
+            runSimulationAsync();
+
+            //insertResults(c, currentResponses);
+            return currentResponses;
+        }
+
+        public void changeControlValues(Configuration c) {
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
                 if (currentExperiment.Controls[i].Name == "LWBSCondition")
                 {
                     currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
-                } else {
+                }
+                else if (currentExperiment.Controls[i].Name == "TriageTime")
+                {
+                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[4].value.ToString());
+                }else {
                     for (int j = start; j < c.rooms.Length; j++)
                     {
                         if (c.rooms[j].included == true)
@@ -436,15 +452,6 @@ namespace HoptServer
                     }
                 }
             }
-
-            //listeners (run completed, scenario, completed, etc)
-            addSimioEventListeners();
-
-            //run simulation
-            runSimulationAsync();
-
-            //insertResults(c, currentResponses);
-            return currentResponses;
         }
 
         public void LoadHospitalData(Configuration c)
@@ -479,54 +486,54 @@ namespace HoptServer
             addSimioEventListeners();
         }
 
-        public ConfigResult RunOpt(Configuration c)
-        {
-          //  if (wasConfigRun(c))
-          //      return queryResults(c);
+        //public ConfigResult RunOpt(Configuration c)
+        //{
+        //  //  if (wasConfigRun(c))
+        //  //      return queryResults(c);
 
-            currentExperiment.Reset();
+        //    currentExperiment.Reset();
 
-            //save config as private
-            _c = (Configuration) c.Clone();
+        //    //save config as private
+        //    _c = (Configuration) c.Clone();
 
-            //change control values (the actual configuration)
-            var start = 0;
-            for (int i = 0; i < currentExperiment.Controls.Count; i++)
-            {
-                if (currentExperiment.Controls[i].Name == "LWBSCondition")
-                {
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
-                }
-                else
-                {
-                    for (int j = start; j < c.rooms.Length; j++)
-                    {
-                        if (c.rooms[j].included == true)
-                        {
-                            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                            string num = "";
-                            currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
-                            start++;
-                            break;
-                        }
-                        else
-                        {
-                            start++;
-                        }
-                    }
-                }
-            }
+        //    //change control values (the actual configuration)
+        //    var start = 0;
+        //    for (int i = 0; i < currentExperiment.Controls.Count; i++)
+        //    {
+        //        if (currentExperiment.Controls[i].Name == "LWBSCondition")
+        //        {
+        //            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
+        //        }
+        //        else
+        //        {
+        //            for (int j = start; j < c.rooms.Length; j++)
+        //            {
+        //                if (c.rooms[j].included == true)
+        //                {
+        //                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+        //                    string num = "";
+        //                    currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
+        //                    System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
+        //                    start++;
+        //                    break;
+        //                }
+        //                else
+        //                {
+        //                    start++;
+        //                }
+        //            }
+        //        }
+        //    }
             
-            addSimioEventListeners();
+        //    addSimioEventListeners();
 
-            //run simulation
-            //runSimulationAsync();
-            runSimulationSync();
+        //    //run simulation
+        //    //runSimulationAsync();
+        //    runSimulationSync();
 
-            //insertResults(c, currentResponses);
-            return _cr;
-        }
+        //    //insertResults(c, currentResponses);
+        //    return _cr;
+        //}
 
         public ConfigResult RunOptNew(Configuration c)
         {
@@ -560,33 +567,7 @@ namespace HoptServer
 
 
             //change control values (the actual configuration)
-            var start = 0;
-            for (int i = 0; i < currentExperiment.Controls.Count; i++)
-            {
-                if (currentExperiment.Controls[i].Name == "LWBSCondition")
-                {
-                    currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.arrivalInfo[3].value.ToString());
-                }
-                else
-                {
-                    for (int j = start; j < c.rooms.Length; j++)
-                    {
-                        if (c.rooms[j].included == true)
-                        {
-                            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
-                            string num = "";
-                            currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
-                            start++;
-                            break;
-                        }
-                        else
-                        {
-                            start++;
-                        }
-                    }
-                }
-            }
+            changeControlValues(c);
 
             //listeners (run completed, scenario, completed, etc)
             addSimioEventListeners();
