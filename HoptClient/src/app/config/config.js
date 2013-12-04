@@ -244,7 +244,7 @@ angular.module( 'ngBoilerplate.config', [
       if (value.name == 'LWBS' || value.name == 'TotalVisits' || value.name == 'ExamRoomUtilization' || value.name == 'TraumaUtilization' || value.name == 'FastTrackUtilization' || value.name == 'RapidAdmissionUnitUtilization' || value.name == 'BehavioralUtilization' || value.name == 'ObservationUtilization') {
         obj[value.name] = value.value;
       } else {
-        obj[value.name] = $filter('number')(value.value, 2);
+        obj[value.name] = $filter('number')(value.value, 4);
       }
 
       for (var j = 0; j < $scope.misc.responses.length; j++) {
@@ -306,7 +306,7 @@ angular.module( 'ngBoilerplate.config', [
     if (value === '' || value === '0' || value === "0.000" || value === "-0.000") {
       return '--';
     } else {
-      return $filter('number')(value, 3);
+      return $filter('number')(value, 4);
     }
   };
 
