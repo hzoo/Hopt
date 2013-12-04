@@ -319,6 +319,7 @@ namespace HoptServer
             //1.0019 is the sum of the base rate table (the base rate table is all in percents, and it adds up to a little more than 100%)
             if (type == "average")
             {
+                currentModel.
                 currentModel.Facility.IntelligentObjects[0].Properties[29].Value = (annualArrivals / (365 * 1.0019)).ToString();
                 System.Diagnostics.Debug.WriteLine("RSF - average: {0,-20}", currentModel.Facility.IntelligentObjects[0].Properties[29].Value);
             }
