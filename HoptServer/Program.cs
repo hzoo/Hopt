@@ -244,7 +244,8 @@ namespace HoptServer
                 counter++;
             }
             System.Diagnostics.Debug.WriteLine("Number of iterations: " + counter);
-            cr = s.RunOptNew(c);
+            //cr = s.RunOptNew(c);
+
             for (int i = 0; i < 6; i++)
             {
                 System.Diagnostics.Debug.WriteLine(c.rooms[i].num);

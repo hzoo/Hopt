@@ -340,7 +340,7 @@ angular.module( 'ngBoilerplate.opt', [
     if (value === '' || value === '0' || value === "0.000" || value === "-0.000") {
       return '--';
     } else {
-      return $filter('number')(value, 3);
+      return $filter('number')(value, 4);
     }
   };
 

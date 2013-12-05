@@ -196,7 +196,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     var defaultEquipmentCost = [];
     defaultEquipmentCost[0] = 43437;
     defaultEquipmentCost[1] = 103030;
-    defaultEquipmentCost[2] = 34749.6; //80% of Exam Room
+    defaultEquipmentCost[2] = 347450;//9.6; //80% of Exam Room
     defaultEquipmentCost[3] = 43437; //same as Exam Room
     defaultEquipmentCost[4] = 47780; //110% of Exam Room
     defaultEquipmentCost[5] = 43437;//same as Exam Room
