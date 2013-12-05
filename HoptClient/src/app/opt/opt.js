@@ -266,7 +266,7 @@ angular.module( 'ngBoilerplate.opt', [
       } else {
         numRooms = peakShift / proceduresPerShiftPerRoom;
       }
-      $scope.configuration.rooms[i].num = Math.ceil(numRooms)+1; //increase max
+      $scope.configuration.rooms[i].num = Math.ceil(numRooms);//+1; //increase max
       if ($scope.configuration.rooms[i].num < $scope.configuration.rooms[i].originalNum) {
         $scope.configuration.rooms[i].num = $scope.configuration.rooms[i].originalNum;
       } else {
