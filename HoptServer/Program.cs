@@ -164,6 +164,7 @@ namespace HoptServer
         {
             //System.Diagnostics.Debug.WriteLine("Find Opt");
             //double utilization = getUtilizationForRoomType(name, cr);
+            ConfigResult cr2;
             Boolean costDecreases = true;
             while (costDecreases == true)
             {
@@ -188,7 +189,7 @@ namespace HoptServer
                     utilResponses[5] = cr.observationu;
                     HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
                     double oldTotalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
-
+                    cr2 = (ConfigResult)cr.Clone();
                     c.rooms[num].num = c.rooms[num].num - 1;
                     System.Diagnostics.Debug.WriteLine("Num rooms: " + c.rooms[num].num);
                     cr = s.RunOptNew(c);
@@ -211,7 +212,7 @@ namespace HoptServer
                     {
                         costDecreases = false;
                         c.rooms[num].num = c.rooms[num].num + 1;
-                        cr = s.RunOptNew(c);
+                        cr = (ConfigResult)cr2.Clone();
                         //double totalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
                         //System.Diagnostics.Debug.WriteLine("Cost: " + totalCost);
                     }

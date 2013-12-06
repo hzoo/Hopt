@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HoptServer
 {
-    public class ConfigResult
+    public class ConfigResult: ICloneable
     {
         public int examRoom;
         public int trauma;
@@ -62,6 +62,11 @@ namespace HoptServer
             examroom_wt = erwt;
             trauma_wt = twt;
             fasttrack_wt = ftwt;
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     
     }
