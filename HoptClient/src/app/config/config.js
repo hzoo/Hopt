@@ -278,7 +278,11 @@ angular.module( 'ngBoilerplate.config', [
     $scope.misc.runButton = 'Run';
     $scope.runFinished = true;
 
-    $scope.cost.total = cost.total(0.04,0.03,2,8);
+    $scope.cost.total = cost.total($scope.hospitalData.costInfo.other[0].value,
+      $scope.hospitalData.costInfo.other[1].value,
+      $scope.hospitalData.costInfo.other[2].value,
+      $scope.hospitalData.costInfo.other[3].value);
+    //0.04,0.03,2,8);
     $scope.cost.initial.total = cost.initial.total();
     $scope.cost.initial.construction = cost.initial.construction();
     $scope.cost.initial.equipment = cost.initial.equipment();

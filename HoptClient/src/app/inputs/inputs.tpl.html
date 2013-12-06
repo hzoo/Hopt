@@ -294,6 +294,22 @@
           </tr>
         </table>
 
+          <h4>Other</h4>
+          <div class="bs-callout bs-callout-info">
+              <p>The value at construction cost is affected by a few inputs. Here the discount rate (decimal), growth rate (decimal), the number of years for the hospital to be constructed, and the number of years for the hospital to be in operation after construction can be changed. </p>
+        </div>
+
+        <form class="form-horizontal" role="form">
+          <div ng-repeat="type in hospitalData.costInfo.other" class="form-group">
+            <label class="col-lg-2 control-label">{{type.name}}</label>
+            <div class="col-lg-2">
+              <div class="input-group">
+                <input type="text" class="form-control col-centered" ng-model="type.value" placeholder="" />
+              </div>
+            </div>
+        </div>
+      </form>
+
       </div>
     </div>
     <div ng-if="$index == 6">

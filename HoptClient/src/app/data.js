@@ -64,7 +64,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 0,
       name: "Exam Room",
-      num: 37,
+      num: 0,
       originalNum: 37,
       optNum: 0,
       included: true
@@ -72,7 +72,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 1,
       name: "Trauma",
-      num: 1,
+      num: 0,
       originalNum: 1,
       optNum: 0,
       included: false
@@ -80,7 +80,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 2,
       name: "Fast Track",
-      num: 27,
+      num: 0,
       originalNum: 8,
       optNum: 0,
       included: true
@@ -88,7 +88,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 3,
       name: "Rapid Admission",
-      num: 10,
+      num: 0,
       originalNum: 1,
       optNum: 0,
       included: true
@@ -96,7 +96,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 4,
       name: "Behavioral",
-      num: 14,
+      num: 0,
       originalNum: 14,
       optNum: 0,
       included: true
@@ -104,7 +104,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 5,
       name: "Observation",
-      num: 23,
+      num: 0,
       originalNum: 14,
       optNum: 0,
       included: true
@@ -315,10 +315,10 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     labor: [],
     utility: { name: "Average Cost of Utility / Square Feet", value: defaultUtilityCost },
     other: [
-      { name: "interestRate", value: 0.04 },
-      { name: "growthRate", value:  0.03 },
-      { name: "yearsToCompletion", value: 2 },
-      { name: "yearsToForecast", value: 8 }
+      { name: "Discount rate", value: 0.04 },
+      { name: "Growth rate", value:  0.03 },
+      { name: "Years to completion", value: 2 },
+      { name: "Years to forecast", value: 8 }
     ]
   };
 
