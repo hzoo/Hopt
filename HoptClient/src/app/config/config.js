@@ -178,10 +178,10 @@ angular.module( 'ngBoilerplate.config', [
     return value;
   };
   //value at construction start
-  cost.total = function(interestRate,growthRate,yearsToCompletion) {
+  cost.total = function(interestRate,growthRate,yearsToCompletion,yearsToForecast) {
     if ($scope.hoptService.responses[0]) {
       // console.log($scope.cost.annual.total(),(interestRate-growthRate),Math.pow(1+interestRate/100, yearsToCompletion));
-      var annuityOfAnnualCost = cost.annual.total() * ((1-Math.pow((1+ growthRate)/( 1+ interestRate), 10))/ ((interestRate-growthRate) * Math.pow(1+interestRate, yearsToCompletion)));
+      var annuityOfAnnualCost = cost.annual.total() * ((1-Math.pow((1+ growthRate)/( 1+ interestRate), yearsToForecast))/ ((interestRate-growthRate) * Math.pow(1+interestRate, yearsToCompletion)));
       return cost.initial.total() + annuityOfAnnualCost;
     } else {
       return "Calculated after running the simulation";
@@ -278,7 +278,7 @@ angular.module( 'ngBoilerplate.config', [
     $scope.misc.runButton = 'Run';
     $scope.runFinished = true;
 
-    $scope.cost.total = cost.total(0.04,0.03,5);
+    $scope.cost.total = cost.total(0.04,0.03,2,8);
     $scope.cost.initial.total = cost.initial.total();
     $scope.cost.initial.construction = cost.initial.construction();
     $scope.cost.initial.equipment = cost.initial.equipment();

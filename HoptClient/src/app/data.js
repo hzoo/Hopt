@@ -80,7 +80,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 2,
       name: "Fast Track",
-      num: 28,
+      num: 27,
       originalNum: 8,
       optNum: 0,
       included: true
@@ -104,7 +104,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 5,
       name: "Observation",
-      num: 22,
+      num: 23,
       originalNum: 14,
       optNum: 0,
       included: true
@@ -282,7 +282,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
 
   hospitalData.simulationInfo = {
     daysToSimulate: { name: "Days to Simulate", value: 1 },
-    numberOfReplications: { name: "# of Replications", value: 200 },
+    numberOfReplications: { name: "# of Replications", value: 500 },
     startupTime: { name: "Startup Time (hrs)", value: 0 },
     rateTable: { name: "Rate Table to run", value: "average" }};
 
@@ -313,7 +313,13 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
   hospitalData["costInfo"] = {
     capital : [],
     labor: [],
-    utility: { name: "Average Cost of Utility / Square Feet", value: defaultUtilityCost }
+    utility: { name: "Average Cost of Utility / Square Feet", value: defaultUtilityCost },
+    other: [
+      { name: "interestRate", value: 0.04 },
+      { name: "growthRate", value:  0.03 },
+      { name: "yearsToCompletion", value: 2 },
+      { name: "yearsToForecast", value: 8 }
+    ]
   };
 
   //add costs for each type of room
