@@ -10,5 +10,6 @@ namespace HoptServer.Models
         public CapitalCost[] capital { get; set; }
         public LaborCost[] labor { get; set; }
         public Response utility { get; set; }
+        public Response[] other { get; set; }
     }
 }

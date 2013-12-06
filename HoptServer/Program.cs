@@ -175,10 +175,16 @@ namespace HoptServer
                 }
                 else
                 {
+                    //double interestRate = c.costInfo.other[0].value;//0.04;
+                    //double growthRate = c.costInfo.other[1].value;//0.03;
+                    //double yearsToCompletion = c.costInfo.other[2].value;//2;
+                    //double yearsAhead = c.costInfo.other[3].value;//8;
+
                     double interestRate = 0.04;
                     double growthRate = 0.03;
-                    int yearsToCompletion = 5;
-                    int yearsAhead = 10;
+                    double yearsToCompletion = 2;
+                    double yearsAhead = 8;
+
                     double[] utilResponses = new double[6];
                     utilResponses[0] = cr.examroomu;
                     utilResponses[1] = cr.traumau;

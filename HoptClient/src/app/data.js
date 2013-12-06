@@ -313,7 +313,13 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
   hospitalData["costInfo"] = {
     capital : [],
     labor: [],
-    utility: { name: "Average Cost of Utility / Square Feet", value: defaultUtilityCost }
+    utility: { name: "Average Cost of Utility / Square Feet", value: defaultUtilityCost },
+    other: [
+      { name: "interestRate", value: 0.04 },
+      { name: "growthRate", value:  0.03 },
+      { name: "yearsToCompletion", value: 2 },
+      { name: "yearsToForecast", value: 8 }
+    ]
   };
 
   //add costs for each type of room
