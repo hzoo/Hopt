@@ -150,7 +150,7 @@ angular.module( 'ngBoilerplate.config', [
           if (i === 2 && j === 3) { ratio = 0; }
           else if (i === 2 && j === 4) { ratio = 0; }
           else if (i === 2 && j === 5) { ratio = 0; }
-          else { ratio = 1/$scope.hospitalData.costInfo.labor[i].rooms[j].value; }
+          else { ratio = 1.0/$scope.hospitalData.costInfo.labor[i].rooms[j].value; }
 
           // console.log(i,j,$scope.configuration.rooms[j].num,$scope.hospitalData.costInfo.labor[i].wage,utilization,ratio);
 
@@ -169,13 +169,12 @@ angular.module( 'ngBoilerplate.config', [
   cost.annual.lwbs = function() {
     var value = 0;
     if ($scope.hoptService.responses[0]) {
-      for (var i = 0; i < 5; i++) {
-        // console.log($scope.hospitalData.simulationInfo.daysToSimulate.value,$scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
-       value += 365 / $scope.hospitalData.simulationInfo.daysToSimulate.value * $scope.hospitalData.acuityInfo[i].value / 100 * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
-      }
+       console.log($scope.hospitalData.simulationInfo.daysToSimulate.value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
+       value += 365 / $scope.hospitalData.simulationInfo.daysToSimulate.value * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
     } else {
       return "Calculated after running the simulation";
     }
+    console.log('lwbs: ',value);
     return value;
   };
   //value at construction start

@@ -117,9 +117,7 @@ namespace HoptServer.Models
         public double lwbsCost(Response[] acuityInfo, Response[] arrivalInfo, double lwbs, ResponseInt daysToRun)
         {
             double value = 0;
-                for (int i = 0; i < 5; i++) {
-                    value += 365 / daysToRun.value * acuityInfo[i].value / 100 * arrivalInfo[2].value * (lwbs);
-                }
+            value += 365 / daysToRun.value * arrivalInfo[2].value * lwbs;
             return value;
         }
         //value at construction start
