@@ -136,8 +136,8 @@
               </div>
             </td>
             <td data-title="'Included in Design?'">
-              <input ng-if="type.name=='Exam Room'" type="checkbox" ng-model="configuration.rooms[$index].included" disabled/>
-              <input ng-if="type.name!='Exam Room'" type="checkbox" ng-model="configuration.rooms[$index].included"/>
+              <input ng-if="type.name=='Exam Room' || type.name=='Rapid Admission' || type.name=='Behavioral' || type.name=='Observation'" type="checkbox" ng-model="configuration.rooms[$index].included" disabled/>
+              <input ng-if="type.name=='Trauma' || type.name=='Fast Track'" type="checkbox" ng-model="configuration.rooms[$index].included"/>
             </td>
         </tr>
         </table>
@@ -159,12 +159,12 @@
                 <span class="col-centered input-group-addon">hours</span>
               </div>
             </td>
-            <td data-title="'Maximum # of Rooms'" class="col-xs-1">
+            <!-- <td data-title="'Maximum # of Rooms'" class="col-xs-1">
               <div class="input-group col-centered">
                 <input class="col-centered" type="text" ng-model="type.maximumNumberOfRooms"/>
                 <span class="col-centered input-group-addon">rooms</span>
               </div>
-            </td>
+            </td> -->
         </tr>
         </table>
       </div>
