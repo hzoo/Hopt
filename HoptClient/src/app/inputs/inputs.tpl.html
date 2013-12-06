@@ -55,7 +55,7 @@
       <div class="bs-callout bs-callout-info">
             <h4>Arrivals</h4>
             <p>Arrivals are modeled using a 24-hr rate table.</p>
-            <p>Each hour in a day has a set number of arrivals that will occur in that time interval according to an exponential distribution. </p>
+            <p>Each hour in a day has a set number of arrivals that will occur in that time interval according to a poisson process. </p>
             <p>There is a predetermined base # of arrivals for each hour that is scaled by the annual number of visits inputted.</p>
             <p>The number of arrivals from 12 AM - 1 AM could be: <code>baseArrivalForThatHour*annualVisits/(365*baseArrivalsInADay)</code></p>
             <p>The number of arrivals from 12 AM - 1 AM could be: <code ng-bind-template="56*{{hospitalData.arrivalInfo[0].value}}/(365*1402) = {{56 * (hospitalData.arrivalInfo[0].value) / ( 365*1402 ) | number:0}}"></code></p>
@@ -110,10 +110,11 @@
             <h4>Hospital Assumptions</h4>
             <p>The Exam Room room type is always included.</p>
             <p>If an primary room isn't included, patients go to an Exam Room instead.</p>
-            <p>If an secondary room isn't included, patients stay in the primary room they were in for treatment.*</p>
+            <p>If an secondary room isn't included, patients should stay in the primary room they were in for treatment. At this moment the model isn't able to remove secondary rooms and move these patients into the Exam Room correctly.*</p>
             <h4>Service Times</h4>
             <p>Pick between using difference service time distributions (using hours)</p>
             <p>Triangular: <code>Random.Triangular(minimum, mode, maximum)</code>. Example: Random.Triangular(1,2,3)</p>
+            <p>Exponential: <code>Random.Exponential(mean)</code>. Example: Random.Exponential(1) where 1 represents 1 hour between arrivals.</p>
             <p>Constant service time: <code>value</code>. Example: 1</p>
             <div class="btn-group">
                       <button type="button" class="btn btn-default btn-xs" ng-click="changeServiceTimes('tri')">Triangular</button>
@@ -146,6 +147,10 @@
     <div ng-if="$index == 4">
 
       <div class="bs-example">
+        <div class="bs-callout bs-callout-info">
+              <p>Here you can set the constraints on the average waiting time for a room type in the search heuristic. If a room configuration results in more than the amount specified, that will change the result and increase the number of rooms required.</p>
+        </div>
+
         <table ng-table class="table table-hover">
         <tr ng-repeat="type in hospitalData.constraintInfo.rooms">
             <td data-title="'Room Type'" class="col-xs-1">
