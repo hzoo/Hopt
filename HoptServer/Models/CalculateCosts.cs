@@ -73,7 +73,7 @@ namespace HoptServer.Models
 
                     //System.Diagnostics.Debug.WriteLine(i + " " + j + " " + rooms[j].num + " " + costInfo.labor[i].wage + " " + utilization + " " + ratio);
 
-                    if (rooms[i].included == true)
+                    if (rooms[j].included == true)
                     {
                         value += rooms[j].num * costInfo.labor[i].wage * utilization * ratio;
                     }

@@ -154,7 +154,7 @@ angular.module( 'ngBoilerplate.config', [
 
           // console.log(i,j,$scope.configuration.rooms[j].num,$scope.hospitalData.costInfo.labor[i].wage,utilization,ratio);
 
-          if ($scope.configuration.rooms[i].included) {
+          if ($scope.configuration.rooms[j].included) {
             value += $scope.configuration.rooms[j].num * $scope.hospitalData.costInfo.labor[i].wage * utilization * ratio;
           }
         }
