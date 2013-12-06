@@ -250,13 +250,21 @@ angular.module( 'ngBoilerplate.opt', [
       } else {
         peakShift = peakDay * 0.5;
       }
+	  if($scope.hospitalData.serviceInfo[i].averageRoomTime.indexOf("Exponential") != -1)
+	  {
+		var avgRoomTime = $scope.hospitalData.serviceInfo[i].averageRoomTime.substring(19,$scope.hospitalData.serviceInfo[i].averageRoomTime.length-1);
+	  }
+	  else 
+	 {	
+		var avgRoomTime = $scope.hospitalData.serviceInfo[i].averageRoomTime;
+	 }
       var proceduresPerShiftPerRoom;
       if (i === 2) {
-        proceduresPerShiftPerRoom= 14.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+        proceduresPerShiftPerRoom= 14.0 / Number(avgRoomTime);
       } else if (i === 0 || i === 1) {
-        proceduresPerShiftPerRoom = 8.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+        proceduresPerShiftPerRoom = 8.0 / Number(avgRoomTime);
       }  else if (i === 3 || i === 4 || i === 5) {
-        proceduresPerShiftPerRoom = 24.0 / Number($scope.hospitalData.serviceInfo[i].averageRoomTime);
+        proceduresPerShiftPerRoom = 24.0 / Number(avgRoomTime);
       }
       var numRooms;
       if (i === 3 || i === 4 || i === 5) {
