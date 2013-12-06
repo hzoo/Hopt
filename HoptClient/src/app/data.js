@@ -80,7 +80,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 2,
       name: "Fast Track",
-      num: 28,
+      num: 27,
       originalNum: 8,
       optNum: 0,
       included: true
@@ -104,7 +104,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
     {
       id: 5,
       name: "Observation",
-      num: 22,
+      num: 23,
       originalNum: 14,
       optNum: 0,
       included: true
