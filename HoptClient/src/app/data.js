@@ -282,7 +282,7 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
 
   hospitalData.simulationInfo = {
     daysToSimulate: { name: "Days to Simulate", value: 1 },
-    numberOfReplications: { name: "# of Replications", value: 200 },
+    numberOfReplications: { name: "# of Replications", value: 500 },
     startupTime: { name: "Startup Time (hrs)", value: 0 },
     rateTable: { name: "Rate Table to run", value: "average" }};
 
