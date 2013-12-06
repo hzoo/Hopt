@@ -173,12 +173,12 @@ ngBoilerplate.service('HospitalData', function HospitalData() {
     var defaultUtilityCost = 4; //$4/sq ft
 
     var defaultAverageRoomTime = [];
-    defaultAverageRoomTime[0] = 1.82; //this is actual total length of stay 6
-    defaultAverageRoomTime[1] = 2; //this is actual total length of stay 3
-    defaultAverageRoomTime[2] = 1.23; //this is actual total length of stay 5/6
-    defaultAverageRoomTime[3] = 2.78; //this is actual total length of stay 16
-    defaultAverageRoomTime[4] = 9.47; //this is actual total length of stay 24
-    defaultAverageRoomTime[5] = 8; //this is actual total length of stay 16
+    defaultAverageRoomTime[0] = "1.82"; //this is actual total length of stay 6
+    defaultAverageRoomTime[1] = "2"; //this is actual total length of stay 3
+    defaultAverageRoomTime[2] = "1.23"; //this is actual total length of stay 5/6
+    defaultAverageRoomTime[3] = "2.78"; //this is actual total length of stay 16
+    defaultAverageRoomTime[4] = "9.47"; //this is actual total length of stay 24
+    defaultAverageRoomTime[5] = "8"; //this is actual total length of stay 16
 
     var defaultWage = [];
     defaultWage[0] = 62060; //nurse

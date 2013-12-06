@@ -250,15 +250,17 @@ angular.module( 'ngBoilerplate.opt', [
       } else {
         peakShift = peakDay * 0.5;
       }
-	  if ($scope.hospitalData.serviceInfo[i].averageRoomTime.indexOf("Exponential") != -1)
-	  {
-		var avgRoomTime = $scope.hospitalData.serviceInfo[i].averageRoomTime.substring(19,$scope.hospitalData.serviceInfo[i].averageRoomTime.length-1);
-	  }
-	  else 
-	  {	
-		var avgRoomTime = $scope.hospitalData.serviceInfo[i].averageRoomTime;
-	  }
-	 console.log(avgRoomTime);
+
+      var avgRoomTime;
+      if ($scope.hospitalData.serviceInfo[i].averageRoomTime.indexOf("Exponential") != -1)
+      {
+         avgRoomTime = $scope.hospitalData.serviceInfo[i].averageRoomTime.substring(19,$scope.hospitalData.serviceInfo[i].averageRoomTime.length-1);
+      }
+      else
+      {
+        avgRoomTime = $scope.hospitalData.serviceInfo[i].averageRoomTime;
+      }
+	console.log(avgRoomTime);
       var proceduresPerShiftPerRoom;
       if (i === 2) {
         proceduresPerShiftPerRoom= 14.0 / Number(avgRoomTime);
