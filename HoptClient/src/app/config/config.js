@@ -239,7 +239,6 @@ angular.module( 'ngBoilerplate.config', [
     };
 
     angular.forEach(data, function(value, key) {
-
       if (value.name == 'LWBS' || value.name == 'TotalVisits' || value.name == 'ExamRoomUtilization' || value.name == 'TraumaUtilization' || value.name == 'FastTrackUtilization' || value.name == 'RapidAdmissionUnitUtilization' || value.name == 'BehavioralUtilization' || value.name == 'ObservationUtilization') {
         obj[value.name] = value.value;
       } else {
@@ -252,13 +251,25 @@ angular.module( 'ngBoilerplate.config', [
             $scope.misc.responses[j].diff = '';
           } else {
             $scope.misc.responses[j].diff = value.value - $scope.misc.responses[j].value;
-
           }
-
           $scope.misc.responses[j].value = value.value;
         }
       }
     });
+
+    //compute % LWBS
+    //hardcoded
+    var last = $scope.misc.responses.length-1;
+    if ($scope.misc.responses[last].value === '' || $scope.misc.responses[last].value === undefined) {
+      $scope.misc.responses[last].diff = '';
+    } else {
+      $scope.misc.responses[last].diff =
+      Number($scope.misc.responses[last-2].value)/
+      Number($scope.misc.responses[last-1].value) - $scope.misc.responses[last].value;
+    }
+    $scope.misc.responses[last].value =
+    Number($scope.misc.responses[last-2].value)/
+    Number($scope.misc.responses[last-1].value);
 
     angular.forEach(obj, function(value, key) {
         // console.log(key + ': ' + value + '.');
@@ -301,15 +312,17 @@ angular.module( 'ngBoilerplate.config', [
       if (value == "Calculated after running the simulation") { return value; }
       else if (filter == "$") { return $filter('currency')(value, '$'); }
       else if (filter == "number") { return $filter('number')(value, num); }
+      else if (filter == "%") { return $filter('number')(value*100, num)+"%"; }
       else { return value; }
     }
   };
 
-  $scope.fixDiff = function(value) {
+  $scope.fixDiff = function(value,filter) {
     if (value === '' || value === '0' || value === "0.000" || value === "-0.000") {
       return '--';
     } else {
-      return $filter('number')(value, 4);
+      if (filter == 'number') {return $filter('number')(value, 4); }
+      else if (filter == '%') {return $filter('number')(value*100, 4)+'%'; }
     }
   };
 

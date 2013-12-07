@@ -98,7 +98,8 @@
       <h4 class="col-lg-12" ng-if="$index == 5">Utilization (%)</h4>
       <h4 class="col-lg-12" ng-if="$index == 11">Misc</h4>
       <div class="col-lg-6" ng-bind-template="{{response.displayName}}"></div>
-      <div class="col-lg-6" ng-bind-template="{{fixBlank(response.value,'number',4)}}"></div>
+      <div class="col-lg-6" ng-if="!$last" ng-bind-template="{{fixBlank(response.value,'number',4)}}"></div>
+      <div class="col-lg-6" ng-if="$last" ng-bind-template="{{fixBlank(response.value,'%',4)}}"></div>
     <p ng-repeat-end></p>
   </div>
 </div>

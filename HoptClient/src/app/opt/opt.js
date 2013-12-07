@@ -225,6 +225,20 @@ angular.module( 'ngBoilerplate.opt', [
       }
     });
 
+    //compute % LWBS
+    //hardcoded
+    var last = $scope.misc.optResponses.length-1;
+    if ($scope.misc.optResponses[last].value === '' || $scope.misc.optResponses[last].value === undefined) {
+      $scope.misc.optResponses[last].diff = '';
+    } else {
+      $scope.misc.optResponses[last].diff =
+      Number($scope.misc.optResponses[last-2].value)/
+      Number($scope.misc.optResponses[last-1].value) - $scope.misc.optResponses[last].value;
+    }
+    $scope.misc.optResponses[last].value =
+    Number($scope.misc.optResponses[last-2].value)/
+    Number($scope.misc.optResponses[last-1].value);
+
     $scope.hoptService.initialCost = configResponse.initialCost;
     $scope.hoptService.annualCost = configResponse.annualCost;
     $scope.hoptService.totalCost = configResponse.totalCost;
@@ -243,6 +257,7 @@ angular.module( 'ngBoilerplate.opt', [
       if (value == "Calculated after running the simulation") { return value; }
       else if (filter == "$") { return $filter('currency')(value, '$'); }
       else if (filter == "number") { return $filter('number')(value, num); }
+      else if (filter == "%") { return $filter('number')(value*100, num)+"%"; }
       else { return value; }
     }
   };
@@ -251,7 +266,8 @@ angular.module( 'ngBoilerplate.opt', [
     if (value === '' || value === '0' || value === "0.000" || value === "-0.000") {
       return '--';
     } else {
-      return $filter('number')(value, 4);
+      if (filter == 'number') {return $filter('number')(value, 4); }
+      else if (filter == '%') {return $filter('number')(value*100, 4)+'%'; }
     }
   };
 
