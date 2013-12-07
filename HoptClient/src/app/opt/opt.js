@@ -76,104 +76,6 @@ angular.module( 'ngBoilerplate.opt', [
   $scope.hospitalData = HospitalData.hospitalData;
   $scope.hoptService = HoptService.getHoptService();
   $scope.configuration = Configuration.getConfiguration();
-  $scope.cost = {
-    initial: {},
-    annual: {}
-  };
-
-  $scope.cost.initial.construction = function() {
-    var value = 0;
-    for (var i = 0; i < 6; i++) {
-      // console.log($scope.hospitalData.costInfo.capital[i].construction,$scope.configuration.rooms[i].num);
-      value += $scope.hospitalData.costInfo.capital[i].construction * ($scope.configuration.rooms[i].num);// - $scope.configuration.rooms[i].originalNum);
-    }
-    return value;
-  };
-  $scope.cost.initial.equipment = function() {
-    var value = 0;
-    for (var i = 0; i < 6; i++) {
-      // console.log($scope.hospitalData.costInfo.capital[i].equipment,$scope.configuration.rooms[i].num);
-      value += $scope.hospitalData.costInfo.capital[i].equipment * ($scope.configuration.rooms[i].num);// - $scope.configuration.rooms[i].originalNum);
-    }
-    return value;
-  };
-  $scope.cost.initial.total = function() {
-    return $scope.cost.initial.construction() + $scope.cost.initial.equipment();
-  };
-  $scope.cost.annual.total = function() {
-    if ($scope.hoptService.responses[0]) {
-      // console.log($scope.cost.annual.utility(),$scope.cost.annual.staff(),$scope.cost.annual.lwbs());
-      return $scope.cost.annual.utility() + $scope.cost.annual.staff() + $scope.cost.annual.lwbs();
-    } else {
-      return "Calculated after running the simulation";
-    }
-  };
-  $scope.cost.annual.utility = function() {
-    var value = 0;
-    if ($scope.hoptService.responses[0]) {
-      for (var i = 0; i < 6; i++) {
-        // console.log(i,$scope.hospitalData.costInfo.utility.value,$scope.configuration.rooms[i].num,$scope.hospitalData.costInfo.capital[i].sqft);
-        value += $scope.hospitalData.costInfo.utility.value * $scope.configuration.rooms[i].num * $scope.hospitalData.costInfo.capital[i].sqft;
-      }
-    } else {
-      return "Calculated after running the simulation";
-    }
-    return value;
-  };
-  //TODO: utilization - (from Simio)
-  $scope.cost.annual.staff = function() {
-    var value = 0;
-    if ($scope.hoptService.responses[0]) {
-      for (var i = 0; i < 3; i++) {
-        for (var j = 0; j < 6; j++) {
-          var utilization, ratio = 0;
-          if (j === 0) { utilization = $scope.hoptService.responses[0].ExamRoomUtilization/100; }
-          else if (j === 1) { utilization = $scope.hoptService.responses[0].TraumaUtilization/100; }
-          else if (j === 2) { utilization = $scope.hoptService.responses[0].FastTrackUtilization/100; }
-          else if (j === 3) { utilization = $scope.hoptService.responses[0].RapidAdmissionUnitUtilization/100; }
-          else if (j === 4) { utilization = $scope.hoptService.responses[0].BehavioralUtilization/100; }
-          else if (j === 5) { utilization = $scope.hoptService.responses[0].ObservationUtilization/100; }
-
-          if (i === 2 && j === 3) { ratio = 0; }
-          else if (i === 2 && j === 4) { ratio = 0; }
-          else if (i === 2 && j === 5) { ratio = 0; }
-          else { ratio = 1/$scope.hospitalData.costInfo.labor[i].rooms[j].value; }
-
-          // console.log(i,j,$scope.configuration.rooms[j].num,$scope.hospitalData.costInfo.labor[i].wage,utilization,ratio);
-
-          value += $scope.configuration.rooms[j].num * $scope.hospitalData.costInfo.labor[i].wage *
-          // $scope.hospitalData.serviceInfo[j].utilization / $scope.hospitalData.costInfo.labor[i].rooms[j].value;
-          utilization * ratio;
-        }
-      }
-    } else {
-      value = "Calculated after running the simulation";
-    }
-    return value;
-  };
-  //TODO: revenue by acuity
-  //TODO: lwbs (from Simio)
-  $scope.cost.annual.lwbs = function() {
-    var value = 0;
-    if ($scope.hoptService.responses[0]) {
-        // console.log($scope.hospitalData.simulationInfo.daysToSimulate.value,$scope.hospitalData.acuityInfo[i].value,$scope.hospitalData.arrivalInfo[2].value,Number($scope.hoptService.responses[0].LWBS));
-       value += 365 * $scope.hospitalData.simulationInfo.daysToSimulate.value * $scope.hospitalData.arrivalInfo[2].value * Number($scope.hoptService.responses[0].LWBS);
-    } else {
-      return "Calculated after running the simulation";
-    }
-    return value;
-  };
-  //value at construction start
-  $scope.cost.total = function(interestRate,growthRate,yearsToCompletion) {
-    if ($scope.hoptService.responses[0]) {
-      // console.log($scope.cost.annual.total(),(interestRate-growthRate),Math.pow(1+interestRate/100, yearsToCompletion));
-      var annuityOfAnnualCost = $scope.cost.annual.total() * ((1-Math.pow((1+ growthRate)/( 1+ interestRate), 10))/ ((interestRate-growthRate) * Math.pow(1+interestRate, yearsToCompletion)));
-      return $scope.cost.initial.total() + annuityOfAnnualCost;
-    } else {
-      return "Calculated after running the simulation";
-    }
-
-  };
 
   $scope.misc = {};
   $scope.misc.viewLoading = false;
@@ -275,9 +177,9 @@ angular.module( 'ngBoilerplate.opt', [
       } else {
         numRooms = peakShift / proceduresPerShiftPerRoom;
       }
-      $scope.configuration.rooms[i].num = Math.ceil(numRooms);//+1; //increase max
-      if ($scope.configuration.rooms[i].num < $scope.configuration.rooms[i].originalNum) {
-        $scope.configuration.rooms[i].num = $scope.configuration.rooms[i].originalNum;
+      $scope.configuration.rooms[i].maxNum = Math.ceil(numRooms);//+1; //increase max
+      if ($scope.configuration.rooms[i].maxNum < $scope.configuration.rooms[i].originalNum) {
+        $scope.configuration.rooms[i].maxNum = $scope.configuration.rooms[i].originalNum;
       } else {
         // console.log(annualVisits);
         // console.log(annualVisitsPerRoom);
@@ -287,7 +189,7 @@ angular.module( 'ngBoilerplate.opt', [
         // console.log(peakShift);
         // console.log(proceduresPerShiftPerRoom);
         // console.log(numRooms);
-        // console.log($scope.configuration.rooms[i].num);
+        // console.log($scope.configuration.rooms[i].maxNum);
       }
     }
   }

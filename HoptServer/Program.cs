@@ -84,7 +84,7 @@ namespace HoptServer
         public void RunConfig(Configuration c)
         {
             s.chooseModel(c);
-            List<Response> r = s.StartExperiment(c);
+            List<Response> r = s.StartExperiment(c,"num");
             Clients.All.getResponses(r);
         }
 
@@ -98,34 +98,34 @@ namespace HoptServer
     {
         Simio s = new Simio();
 
-        public double getUtilizationForRoomType(string name, ConfigResult cr) {
-            double utilization = 0.0;
-            if (name == "examroomu")
-            {
-                utilization = cr.examroomu;
-            }
-            else if (name == "traumau")
-            {
-                utilization = cr.traumau;
-            }
-            else if (name == "fasttracku")
-            {
-                utilization = cr.fasttracku;
-            }
-            else if (name == "rapidadmissionu")
-            {
-                utilization = cr.rapidadmissionu;
-            }
-            else if (name == "observationu")
-            {
-                utilization = cr.observationu;
-            }
-            else if (name == "behavioru")
-            {
-                utilization = cr.behavioru;
-            }
-            return utilization;
-        }
+        //public double getUtilizationForRoomType(string name, ConfigResult cr) {
+        //    double utilization = 0.0;
+        //    if (name == "examroomu")
+        //    {
+        //        utilization = cr.examroomu;
+        //    }
+        //    else if (name == "traumau")
+        //    {
+        //        utilization = cr.traumau;
+        //    }
+        //    else if (name == "fasttracku")
+        //    {
+        //        utilization = cr.fasttracku;
+        //    }
+        //    else if (name == "rapidadmissionu")
+        //    {
+        //        utilization = cr.rapidadmissionu;
+        //    }
+        //    else if (name == "observationu")
+        //    {
+        //        utilization = cr.observationu;
+        //    }
+        //    else if (name == "behavioru")
+        //    {
+        //        utilization = cr.behavioru;
+        //    }
+        //    return utilization;
+        //}
 
         //public void findRoomConstraintsForRoomType(Constraint[] cs, int num, string name, Configuration c, ConfigResult cr, Configuration c2, ConfigResult cr2)
         //{
@@ -162,8 +162,6 @@ namespace HoptServer
 
         public void FindOpt(int num, ref Configuration c, ref ConfigResult cr, ref Boolean canIterate)
         {
-            //System.Diagnostics.Debug.WriteLine("Find Opt");
-            //double utilization = getUtilizationForRoomType(name, cr);
             ConfigResult cr2;
             Boolean costDecreases = true;
             while (costDecreases == true)
@@ -193,29 +191,27 @@ namespace HoptServer
                     cr2 = (ConfigResult)cr.Clone();
                     c.rooms[num].num = c.rooms[num].num - 1;
                     System.Diagnostics.Debug.WriteLine("Num rooms: " + c.rooms[num].num);
-                    cr = s.RunOptNew(c);
+                    cr = s.RunOptNew(c,"opt");
 
                     System.Diagnostics.Debug.WriteLine("Cost: " + s.getTotalCost() + " " + oldTotalCost);
                     Boolean waitingTime = false;
-                    if (c.rooms[0].included == true) {
-                        waitingTime = waitingTime || cr.examroom_wt > Convert.ToDouble(c.serviceInfo[0].averageRoomTime);
-                    }
-                    if (c.rooms[1].included == true)
-                    {
-                        waitingTime = waitingTime || cr.trauma_wt > Convert.ToDouble(c.serviceInfo[1].averageRoomTime);
-                    }
-                    if (c.rooms[2].included == true)
-                    {
-                        waitingTime = waitingTime || cr.fasttrack_wt > Convert.ToDouble(c.serviceInfo[2].averageRoomTime);
-                    }
+                    //if (c.rooms[0].included == true) {
+                    //    waitingTime = waitingTime || cr.examroom_wt > Convert.ToDouble(c.serviceInfo[0].averageRoomTime);
+                    //}
+                    //if (c.rooms[1].included == true)
+                    //{
+                    //    waitingTime = waitingTime || cr.trauma_wt > Convert.ToDouble(c.serviceInfo[1].averageRoomTime);
+                    //}
+                    //if (c.rooms[2].included == true)
+                    //{
+                    //    waitingTime = waitingTime || cr.fasttrack_wt > Convert.ToDouble(c.serviceInfo[2].averageRoomTime);
+                    //}
 
                     if (s.getTotalCost() > oldTotalCost || waitingTime == true)
                     {
                         costDecreases = false;
                         c.rooms[num].num = c.rooms[num].num + 1;
-                        cr = (ConfigResult)cr2.Clone();
-                        //double totalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
-                        //System.Diagnostics.Debug.WriteLine("Cost: " + totalCost);
+                        cr = (ConfigResult) cr2.Clone();
                     }
                     else
                     {
@@ -230,7 +226,13 @@ namespace HoptServer
             System.Diagnostics.Debug.WriteLine("Run Opt");
             s.chooseModel(c);
             s.LoadHospitalData(c);
-            ConfigResult cr = s.RunOptNew(c);
+
+            for (int a = 0; a < c.rooms.Length; a++)
+            {
+                c.rooms[a].optNum = c.rooms[a].maxNum;
+            }
+
+            ConfigResult cr = s.RunOptNew(c,"opt");
             Boolean canIterate = true;
             int counter = 0;
             //while (canIterate == true) {
@@ -246,7 +248,6 @@ namespace HoptServer
                 counter++;
             }
             System.Diagnostics.Debug.WriteLine("Number of iterations: " + counter);
-            //cr = s.RunOptNew(c);
 
             for (int i = 0; i < 6; i++)
             {
@@ -287,54 +288,5 @@ namespace HoptServer
             //System.Diagnostics.Debug.WriteLine("Behvioral: " + cs[4].lowerBound + "," + cs[4].upperBound);
             //System.Diagnostics.Debug.WriteLine("Observation: " + cs[5].lowerBound + "," + cs[5].upperBound);
         }
-
-        //    int iterations = 0;
-        //    while (iterations < 3)
-        //    {
-        //        ConfigResult cr = s.RunOpt(c);
-        //        //check waiting time (primary (exam, fast track, trauma) - secondary (rapid admission, observation, behavioral)
-
-        //        //check utilization
-        //        if (cr.examroomu > 80) // need to find the right index by hardcode in simio or using a for loop
-        //        {
-        //            c.rooms[0].num = c.rooms[0].num + 1;
-        //        }
-
-        //        iterations++;
-        //    }
-
-        //    //Clients.All.getResponses(r);
-        //}
-
-        public void RunConfig(Configuration c)
-        {
-            s.chooseModel(c);
-            System.Diagnostics.Debug.WriteLine("RunConfig");
-            List<Response> r = s.StartExperiment(c);
-            Clients.All.getResponses(r);
-        }
-
-        //public void ReturnNextConfig(Configuration c, Double previousCost)
-        //{
-        //    System.Diagnostics.Debug.WriteLine("ReturnNextConfig");
-        //    List<Response> r = s.StartExperiment(c);
-        //    Clients.All.getResponses(r);
-        //}
     }
-    //public class SimioOptHub : Hub
-    //{
-    //    private readonly SimioOpt _simio;
-
-    //    //public SimioOptHub() : this(SimioOpt.Instance) { }
-
-    //    public SimioOptHub(SimioOpt simio)
-    //    {
-    //        _simio = simio;
-    //    }
-
-    //    //public IEnumerable<Stock> GetAllStocks()
-    //    //{
-    //    //    return _simio.GetAllStocks();
-    //    //}
-    //}
 }

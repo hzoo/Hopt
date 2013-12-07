@@ -35,12 +35,12 @@
       <label class="col-lg-3 control-label">{{room.name}}</label>
       <div class="col-lg-3">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" placeholder="{{room.originalNum}}" ng-model="room.originalNum"/>
+          <input type="text" class="form-control col-centered" ng-model="room.originalNum"/>
         </div>
       </div>
       <div class="col-lg-2">
         <div class="input-group col-centered">
-          <input type="text" class="form-control col-centered" placeholder="{{room.num}}" ng-model="room.num"/>
+          <input type="text" class="form-control col-centered" ng-model="room.maxNum"/>
         </div>
       </div>
       <div class="col-lg-4">
@@ -106,7 +106,7 @@
 </div>
 
 <div class="bs-callout bs-callout-info row">
-     <h3 class="col-lg-6">Value at Start of Construction: </h3>
+     <h3 class="col-lg-6">Lifecycle Cost: </h3>
     <h3 class="col-lg-6">{{fixBlank(hoptService.totalCost,"$",0)}}</h3>
     <p>
     </p>
@@ -118,10 +118,3 @@
       <h4 class="col-lg-6">{{fixBlank(hoptService.annualCost,"$",0)}}</h4>
   </div>
 </div>
-
-
-<!-- <div class="container" ng-controller="SignalRAngularCtrl">
-    <input ng-model="message"/>
-    <input type="button" name="GreetAll" value="Greet All" ng-click="greetAll(message)" />
-    <span>{{text}}</span>
-</div> -->

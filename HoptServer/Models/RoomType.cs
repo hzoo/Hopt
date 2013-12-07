@@ -12,6 +12,7 @@ namespace HoptServer
         public int num { get; set; }
         public int originalNum { get; set; }
         public int optNum { get; set; }
+        public int maxNum { get; set; }
         public Boolean included { get; set; }
     }
 }

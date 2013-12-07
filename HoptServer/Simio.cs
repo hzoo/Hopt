@@ -380,7 +380,7 @@ namespace HoptServer
             return (rowCount == 1);
         }
 
-        public List<Response> StartExperiment(Configuration c)
+        public List<Response> StartExperiment(Configuration c, string type)
         {
             if (currentExperiment.IsBusy)
                 return null;
@@ -411,7 +411,7 @@ namespace HoptServer
             setAcuityPercentages(5, c.acuityInfo[4].value);
 
             //change control values (the actual configuration)
-            changeControlValues(c);
+            changeControlValues(c,type);
 
             //listeners (run completed, scenario, completed, etc)
             addSimioEventListeners();
@@ -423,7 +423,7 @@ namespace HoptServer
             return currentResponses;
         }
 
-        public void changeControlValues(Configuration c) {
+        public void changeControlValues(Configuration c, string type) {
             var start = 0;
             for (int i = 0; i < currentExperiment.Controls.Count; i++)
             {
@@ -446,10 +446,16 @@ namespace HoptServer
                     {
                         if (c.rooms[j].included == true)
                         {
-                            currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                            if (type == "num")
+                            {
+                                currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].num.ToString());
+                            } else if (type == "opt")
+                            {
+                                currentExperiment.Scenarios[0].SetControlValue(currentExperiment.Controls[i], c.rooms[j].optNum.ToString());
+                            }
                             string num = "";
                             currentExperiment.Scenarios[0].GetControlValue(currentExperiment.Controls[i], ref num);
-                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms {2}", c.rooms[j].name, c.rooms[j].num, num);
+                            System.Diagnostics.Debug.WriteLine("{0,-20}: {1,-2} rooms", c.rooms[j].name, num);
                             start++;
                             break;
                         }
@@ -543,7 +549,7 @@ namespace HoptServer
         //    return _cr;
         //}
 
-        public ConfigResult RunOptNew(Configuration c)
+        public ConfigResult RunOptNew(Configuration c, string type)
         {
             if (currentExperiment.IsBusy)
                 return null;
@@ -575,7 +581,7 @@ namespace HoptServer
 
 
             //change control values (the actual configuration)
-            changeControlValues(c);
+            changeControlValues(c,type);
 
             //listeners (run completed, scenario, completed, etc)
             addSimioEventListeners();

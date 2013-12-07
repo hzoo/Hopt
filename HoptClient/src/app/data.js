@@ -67,6 +67,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       num: 0,
       originalNum: 37,
       optNum: 0,
+      maxNum: 0,
       included: true
     },
     {
@@ -75,6 +76,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       num: 0,
       originalNum: 1,
       optNum: 0,
+      maxNum: 0,
       included: false
     },
     {
@@ -83,6 +85,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       num: 0,
       originalNum: 8,
       optNum: 0,
+      maxNum: 0,
       included: true
     },
     {
@@ -91,6 +94,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       num: 0,
       originalNum: 1,
       optNum: 0,
+      maxNum: 0,
       included: true
     },
     {
@@ -99,6 +103,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       num: 0,
       originalNum: 14,
       optNum: 0,
+      maxNum: 0,
       included: true
     },
     {
@@ -107,6 +112,7 @@ ngBoilerplate.service('Configuration', function Configuration() {
       num: 0,
       originalNum: 14,
       optNum: 0,
+      maxNum: 0,
       included: true
     }
   ];
