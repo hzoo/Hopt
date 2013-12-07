@@ -717,7 +717,7 @@ namespace HoptServer
 
             HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
             _initial = calc.initialCost(c.costInfo, c.rooms, type);
-            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, c.daysToRun, utilResponses, _cr.LWBS);
+            _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, c.daysToRun, utilResponses, _cr.LWBS, type);
             _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, _cr.LWBS, type);
             _responses = calc.getUtilizationAndLWBS(c.rooms);
             _cr.initialCost = _initial;

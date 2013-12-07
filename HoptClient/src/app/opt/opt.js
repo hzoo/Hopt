@@ -214,7 +214,7 @@ angular.module( 'ngBoilerplate.opt', [
     var configResponse = response2;
 
     for (var i = 0; i < $scope.configuration.rooms.length; i++) {
-      $scope.configuration.rooms[i].optNum = configuration.rooms[i].num;
+      $scope.configuration.rooms[i].optNum = configuration.rooms[i].optNum;
     }
 
     angular.forEach(configResponse, function(value, key) {
