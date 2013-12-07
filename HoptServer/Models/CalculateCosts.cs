@@ -9,30 +9,44 @@ namespace HoptServer.Models
 {
     public class CalculateCosts
     {
-        public double constructionCost(CostInfo costInfo, RoomType[] rooms) {
+        public double constructionCost(CostInfo costInfo, RoomType[] rooms, string type) {
             double value = 0;
             for (var i = 0; i < 6; i++) {
                 if (rooms[i].included == true)
                 {
-                    value += costInfo.capital[i].construction * (rooms[i].num - rooms[i].originalNum);
+                    if (type == "num")
+                    {
+                        value += costInfo.capital[i].construction * (rooms[i].num - rooms[i].originalNum);
+                    }
+                    else if (type == "opt")
+                    {
+                        value += costInfo.capital[i].construction * (rooms[i].optNum - rooms[i].originalNum);
+                    }
                 }
             }
             return value;
         }
-        public double equipmentCost(CostInfo costInfo, RoomType[] rooms)
+        public double equipmentCost(CostInfo costInfo, RoomType[] rooms, string type)
         {
             double value = 0;
             for (var i = 0; i < 6; i++) {
                 if (rooms[i].included == true)
                 {
-                    value += costInfo.capital[i].equipment * (rooms[i].num - rooms[i].originalNum);
+                    if (type == "num")
+                    {
+                        value += costInfo.capital[i].equipment * (rooms[i].num - rooms[i].originalNum);
+                    }
+                    else if (type == "opt")
+                    {
+                        value += costInfo.capital[i].equipment * (rooms[i].optNum - rooms[i].originalNum);
+                    }
                 }
             }
             return value;
         }
-        public double initialCost(CostInfo costInfo, RoomType[] rooms)
+        public double initialCost(CostInfo costInfo, RoomType[] rooms, string type)
         {
-            return constructionCost(costInfo, rooms) + equipmentCost(costInfo, rooms);
+            return constructionCost(costInfo, rooms, type) + equipmentCost(costInfo, rooms, type);
         }
         public double annualCost(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, ResponseInt daysToRun, double[] simulationResponses, double lwbs)
         {
@@ -121,10 +135,11 @@ namespace HoptServer.Models
             return value;
         }
         //value at construction start
-        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, double yearsToCompletion, double yearsAhead, ResponseInt daystoRun, double[] simulationResponses, double lwbs) {
+        public double costAtConstructionStart(CostInfo costInfo, RoomType[] rooms, Response[] acuityInfo, Response[] arrivalInfo, double interestRate, double growthRate, double yearsToCompletion, double yearsAhead, ResponseInt daystoRun, double[] simulationResponses, double lwbs, string type)
+        {
             //Console.WriteLine(annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun, simulationResponses, lwbs) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion))));
             double annuityOfAnnualCost = annualCost(costInfo, rooms, acuityInfo, arrivalInfo, daystoRun, simulationResponses, lwbs) * ((1 - Math.Pow((1 + growthRate) / (1 + interestRate), yearsAhead)) / ((interestRate - growthRate) * Math.Pow(1 + interestRate, yearsToCompletion)));
-            return initialCost(costInfo,rooms) + annuityOfAnnualCost;
+            return initialCost(costInfo,rooms, type) + annuityOfAnnualCost;
         }
     }
 }

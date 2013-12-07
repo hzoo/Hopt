@@ -166,10 +166,10 @@ namespace HoptServer
             Boolean costDecreases = true;
             while (costDecreases == true)
             {
-                System.Diagnostics.Debug.WriteLine("New: " + c.rooms[num].num + " Old:" + c.rooms[num].originalNum);
-                if (c.rooms[num].num <= c.rooms[num].originalNum)
+                System.Diagnostics.Debug.WriteLine("New: " + c.rooms[num].optNum + " Old:" + c.rooms[num].originalNum);
+                if (c.rooms[num].optNum <= c.rooms[num].originalNum)
                 {
-                    c.rooms[num].num = c.rooms[num].originalNum;
+                    c.rooms[num].optNum = c.rooms[num].originalNum;
                     costDecreases = false;
                 }
                 else
@@ -187,10 +187,11 @@ namespace HoptServer
                     utilResponses[4] = cr.behavioru;
                     utilResponses[5] = cr.observationu;
                     HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
-                    double oldTotalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS);
+                    string type = "opt";
+                    double oldTotalCost = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, cr.LWBS, type);
                     cr2 = (ConfigResult)cr.Clone();
-                    c.rooms[num].num = c.rooms[num].num - 1;
-                    System.Diagnostics.Debug.WriteLine("Num rooms: " + c.rooms[num].num);
+                    c.rooms[num].optNum = c.rooms[num].optNum - 1;
+                    System.Diagnostics.Debug.WriteLine("Num rooms: " + c.rooms[num].optNum);
                     cr = s.RunOptNew(c,"opt");
 
                     System.Diagnostics.Debug.WriteLine("Cost: " + s.getTotalCost() + " " + oldTotalCost);
@@ -210,7 +211,7 @@ namespace HoptServer
                     if (s.getTotalCost() > oldTotalCost || waitingTime == true)
                     {
                         costDecreases = false;
-                        c.rooms[num].num = c.rooms[num].num + 1;
+                        c.rooms[num].optNum = c.rooms[num].optNum + 1;
                         cr = (ConfigResult) cr2.Clone();
                     }
                     else
@@ -251,7 +252,7 @@ namespace HoptServer
 
             for (int i = 0; i < 6; i++)
             {
-                System.Diagnostics.Debug.WriteLine(c.rooms[i].num);
+                System.Diagnostics.Debug.WriteLine(c.rooms[i].optNum);
             }
 
             Clients.All.getResponses(c,cr);

@@ -22,6 +22,7 @@ namespace HoptServer
         double[] _responses;
         List<Response> currentResponses = new List<Response>();
         ConfigResult _cr;
+        string _type;
 
         public Simio()
         {
@@ -411,7 +412,8 @@ namespace HoptServer
             setAcuityPercentages(5, c.acuityInfo[4].value);
 
             //change control values (the actual configuration)
-            changeControlValues(c,type);
+            _type = type; 
+            changeControlValues(c, type);
 
             //listeners (run completed, scenario, completed, etc)
             addSimioEventListeners();
@@ -581,7 +583,8 @@ namespace HoptServer
 
 
             //change control values (the actual configuration)
-            changeControlValues(c,type);
+            _type = type;
+            changeControlValues(c, type);
 
             //listeners (run completed, scenario, completed, etc)
             addSimioEventListeners();
@@ -691,13 +694,13 @@ namespace HoptServer
                 }
             }
 
-            calculateCosts(_c,_cr);
+            calculateCosts(_c,_cr, _type);
 
             _completed = true;
             //System.Diagnostics.Debug.WriteLine("Scenario Ended");
         }
 
-        private void calculateCosts(Configuration c, ConfigResult cr)
+        private void calculateCosts(Configuration c, ConfigResult cr, string type)
         {
             double interestRate = c.costInfo.other[0].value;
             double growthRate = c.costInfo.other[1].value;
@@ -713,9 +716,9 @@ namespace HoptServer
             utilResponses[5] = _cr.observationu;
 
             HoptServer.Models.CalculateCosts calc = new HoptServer.Models.CalculateCosts();
-            _initial = calc.initialCost(c.costInfo, c.rooms);
+            _initial = calc.initialCost(c.costInfo, c.rooms, type);
             _annual = calc.annualCost(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, c.daysToRun, utilResponses, _cr.LWBS);
-            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, _cr.LWBS);
+            _total = calc.costAtConstructionStart(c.costInfo, c.rooms, c.acuityInfo, c.arrivalInfo, interestRate, growthRate, yearsToCompletion, yearsAhead, c.daysToRun, utilResponses, _cr.LWBS, type);
             _responses = calc.getUtilizationAndLWBS(c.rooms);
             _cr.initialCost = _initial;
             _cr.annualCost = _annual;
@@ -724,19 +727,19 @@ namespace HoptServer
             //System.Diagnostics.Debug.WriteLine("Variable Cost: " + _annual);
             //System.Diagnostics.Debug.WriteLine("Total Cost in 10 yrs: " + _total);
 
-            SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
-            conn.Open();
-            string sql = "Update Results set InitialCost = " + _initial + ", AnnualCost = " + _annual + ", TotalCost = " + _total;
-            sql += " where ";
-            for (int i = 0; i < c.rooms.Length; i++)
-            {
-                if (i < 5)
-                    sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num + " and ";
-                else
-                    sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num;
-            }
-            SQLiteCommand command = new SQLiteCommand(sql, conn);
-            command.ExecuteNonQuery();
+            //SQLiteConnection conn = new SQLiteConnection("Data Source = configs.db");
+            //conn.Open();
+            //string sql = "Update Results set InitialCost = " + _initial + ", AnnualCost = " + _annual + ", TotalCost = " + _total;
+            //sql += " where ";
+            //for (int i = 0; i < c.rooms.Length; i++)
+            //{
+            //    if (i < 5)
+            //        sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num + " and ";
+            //    else
+            //        sql += c.rooms[i].name.Replace(" ", "") + " = " + c.rooms[i].num;
+            //}
+            //SQLiteCommand command = new SQLiteCommand(sql, conn);
+            //command.ExecuteNonQuery();
         }
 
         public void SetProject(string project, string model, string experiment)
