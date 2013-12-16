@@ -1,7 +1,7 @@
 Hopt
 ====
 
-Hopt is a design tool to optimization ED room requirements.
+Hopt is a design tool to optimize ED room requirements.
 
 ### Setup ###
 To run Hopt, first run the server, and then open the website.
