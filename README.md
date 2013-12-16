@@ -1,10 +1,12 @@
 #[Hopt](http://eltacodeldiablo.github.io/gtsd13)#
 ======
 
+Emergency Department Design tool created for GT ISYE Senior Design.
+
 ## Steps to Build/Run ##
 
 ### Server
-- *Server will not run without Simio installed.*
+- *Server will not run without (Simio)[http://www.simio.com] installed.*
 - To just run: Open HoptServer\bin\Debug\HoptServer.exe 
 - To develop: Install Visual Studio, install .NET Framework 4.5
 
