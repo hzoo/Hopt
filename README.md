@@ -1,7 +1,19 @@
-#[Hopt](http://eltacodeldiablo.github.io/gtsd13)#
+#[Hopt](http://eltacodeldiablo.github.io/hopt)#
 ======
 
 Emergency Department Design tool created for GT ISYE Senior Design.
+
+The Hopt tool is a website with 4 pages: Home, Inputs, Config, and Opt.  
+These pages can be navigated using the toolbar on the top of the website.
+
+Home: Explains what the tool does.
+![](http://i.imgur.com/Ai6BH8C.png)
+Inputs: Specify inputs for a specific hospital.
+![](http://i.imgur.com/yJBI3LD.png)
+Config: Test alternative configurations.
+![](http://i.imgur.com/EaEcMlh.png)
+Opt: Find the lowest cost room configuration.
+![](http://i.imgur.com/TcJpGs6.png)
 
 ## Steps to Build/Run ##
 
