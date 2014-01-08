@@ -1,4 +1,4 @@
-#[Hopt](http://eltacodeldiablo.github.io/hopt)#
+[Hopt](http://eltacodeldiablo.github.io/hopt)
 ======
 
 Emergency Department Design tool created for GT ISYE Senior Design.
