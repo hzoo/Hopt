@@ -1,4 +1,4 @@
-[Hopt](http://eltacodeldiablo.github.io/hopt)
+[Hopt](http://hzoo.github.io/hopt)
 ======
 
 Emergency Department Design tool created for GT ISYE Senior Design.
@@ -26,7 +26,7 @@ Opt: Find the lowest cost room configuration.
 Install [Node.js](http://nodejs.org/) and then:
 
 ```sh
-$ git clone git://github.com/eltacodeldiablo/gtsd13
+$ git clone git://github.com/hzoo/Hopt
 $ cd hopt
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
